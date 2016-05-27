@@ -1,6 +1,5 @@
 package com.thoughtworks.sbtBestPractice
 
-import org.eclipse.jgit.api.CreateBranchCommand.SetupUpstreamMode
 import org.eclipse.jgit.api.Git
 import org.eclipse.jgit.lib.ConfigConstants._
 import org.eclipse.jgit.lib.Constants._
