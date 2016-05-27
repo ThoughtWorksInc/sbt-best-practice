@@ -14,6 +14,8 @@ import resource.managed
   */
 object TravisGitConfig extends AutoPlugin {
 
+  override def requires = TravisEnvironmentVariables
+
   object autoImport {
 
     sealed trait GitCredential
@@ -29,21 +31,26 @@ object TravisGitConfig extends AutoPlugin {
   }
 
   import autoImport._
+  import TravisEnvironmentVariables.autoImport._
+
+  private val RemoteName = "origin"
 
   override def projectSettings = Seq(
     travisGitConfig := {
       for (git <- managed(Git.open(baseDirectory.value))) {
-        val travisBranch = "master" // sys.env("TRAVIS_BRANCH")
+        val branch = travisBranch.value
+        val slug = travisRepoSlug.value
+        
         val remoteSetUrl = git.remoteSetUrl();
         {
           import remoteSetUrl._
-          setName("origin")
+          setName(RemoteName)
           setPush(true)
           githubCredential.value match {
             case PersonalAccessToken(key) =>
-              setUri(new URIish(s"https://$key@github.com/$travisBranch.git"))
+              setUri(new URIish(s"https://$key@github.com/$slug.git"))
             case SshKey(privateKeyFile) =>
-              setUri(new URIish(s"ssh://git@github.com:$travisBranch.git"))
+              setUri(new URIish(s"ssh://git@github.com:$slug.git"))
           }
         }
         remoteSetUrl.call()
@@ -51,12 +58,15 @@ object TravisGitConfig extends AutoPlugin {
         git.branchCreate().
           setForce(true).
           setUpstreamMode(SetupUpstreamMode.TRACK).
-          setName(travisBranch).
-          setStartPoint(s"origin/$travisBranch")
+          setStartPoint(raw"""$RemoteName/$branch""").
+          setName(branch).
+          call()
 
         git.checkout().
-          setName(travisBranch).
+          setName(branch).
+          setUpstreamMode(SetupUpstreamMode.TRACK).
           call()
+
       }
     }
   )
