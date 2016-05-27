@@ -68,10 +68,10 @@ object GitInformation extends AutoPlugin {
           git.close()
         }
       } else {
-        None
+        scmInfo.value
       }
     },
-    developers := {
+    developers ++= {
       if (isGitDir.value) {
         val git = Git.open(baseDirectory.value)
         try {
