@@ -2,6 +2,8 @@ package com.thoughtworks.sbtBestPractice
 
 import org.eclipse.jgit.api.CreateBranchCommand.SetupUpstreamMode
 import org.eclipse.jgit.api.Git
+import org.eclipse.jgit.lib.ConfigConstants._
+import org.eclipse.jgit.lib.Constants._
 import sbt._
 import sbt.Keys._
 import org.eclipse.jgit.transport.URIish
@@ -37,34 +39,36 @@ object TravisGitConfig extends AutoPlugin {
 
   override def projectSettings = Seq(
     travisGitConfig := {
+      val branch = travisBranch.value
+      val slug = travisRepoSlug.value
       for (git <- managed(Git.open(baseDirectory.value))) {
-        val branch = travisBranch.value
-        val slug = travisRepoSlug.value
-        
-        val remoteSetUrl = git.remoteSetUrl();
         {
-          import remoteSetUrl._
-          setName(RemoteName)
-          setPush(true)
+          val command = git.remoteSetUrl()
+          command.setName(RemoteName)
+          command.setPush(true)
           githubCredential.value match {
             case PersonalAccessToken(key) =>
-              setUri(new URIish(s"https://$key@github.com/$slug.git"))
+              command.setUri(new URIish(s"https://$key@github.com/$slug.git"))
             case SshKey(privateKeyFile) =>
-              setUri(new URIish(s"ssh://git@github.com:$slug.git"))
+              command.setUri(new URIish(s"ssh://git@github.com:$slug.git"))
           }
+          command.call()
         }
-        remoteSetUrl.call()
 
         git.branchCreate().
           setForce(true).
-          setUpstreamMode(SetupUpstreamMode.TRACK).
-          setStartPoint(raw"""$RemoteName/$branch""").
           setName(branch).
           call()
 
+        {
+          val config = git.getRepository.getConfig
+          config.setString(CONFIG_BRANCH_SECTION, branch, CONFIG_KEY_REMOTE, RemoteName)
+          config.setString(CONFIG_BRANCH_SECTION, branch, CONFIG_KEY_MERGE, raw"""$R_HEADS$branch""")
+          config.save()
+        }
+
         git.checkout().
           setName(branch).
-          setUpstreamMode(SetupUpstreamMode.TRACK).
           call()
 
       }
