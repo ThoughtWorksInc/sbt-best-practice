@@ -27,6 +27,26 @@ object GitInformation extends AutoPlugin {
     isGitDir := {
       (new RepositoryBuilder).findGitDir(baseDirectory.value).getGitDir != null
     },
+    homepage := {
+      if (isGitDir.value) {
+        val git = Git.open(baseDirectory.value)
+        try {
+          val remoteName = git.getRepository.getConfig.getString(CONFIG_BRANCH_SECTION, git.getRepository.getBranch, CONFIG_KEY_REMOTE)
+          val Some(remote) = git.remoteList().call().asScala.find(_.getName == remoteName)
+          val url = remote.getURIs.asScala.head
+          Some(new URL("https", url.getHost, url.getPath match {
+            case abstractPath if abstractPath.startsWith("/") =>
+              abstractPath
+            case relativePath =>
+              raw"""/$relativePath"""
+          }))
+        } finally {
+          git.close()
+        }
+      } else {
+        homepage.value
+      }
+    },
     scmInfo := {
       if (isGitDir.value) {
         val git = Git.open(baseDirectory.value)
