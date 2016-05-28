@@ -1,1 +1,1 @@
-enablePlugins(com.thoughtworks.sbtBestPractice.travis.TravisEnvironmentVariables)
+enablePlugins(TravisEnvironmentVariables)
