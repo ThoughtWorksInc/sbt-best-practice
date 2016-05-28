@@ -2,10 +2,6 @@ sbtPlugin in ThisBuild := true
 
 organization in ThisBuild := "com.thoughtworks.sbt-best-practice"
 
-unmanagedSourceDirectories in Compile += baseDirectory.value / "project" / "src" / "main" / "scala"
-
-unmanagedSourceDirectories in Compile += baseDirectory.value / "project" / "project" / "src" / "main" / "scala"
-
 addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "0.5.0")
 
 addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.3")
