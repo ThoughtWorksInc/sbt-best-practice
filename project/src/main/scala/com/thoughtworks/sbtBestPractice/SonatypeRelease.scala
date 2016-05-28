@@ -14,9 +14,9 @@ object SonatypeRelease extends AutoPlugin {
   override def requires = Sonatype && ReleasePlugin
 
   override def projectSettings = Seq(
-    releaseProcess := {
-      releaseProcess.value.patch(releaseProcess.value.indexOf(pushChanges), Seq[ReleaseStep](releaseStepCommand(Sonatype.SonatypeCommand.sonatypeRelease)), 0)
-    }
+//    releaseProcess := {
+//      releaseProcess.value.patch(releaseProcess.value.indexOf(pushChanges), Seq[ReleaseStep](releaseStepCommand(Sonatype.SonatypeCommand.sonatypeRelease)), 0)
+//    }
   )
 
 }
