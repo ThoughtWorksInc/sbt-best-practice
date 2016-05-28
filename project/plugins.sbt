@@ -8,6 +8,8 @@ libraryDependencies += "org.eclipse.jgit" % "org.eclipse.jgit" % "4.3.0.20160407
 
 libraryDependencies += "com.jsuereth" %% "scala-arm" % "1.4"
 
+libraryDependencies += "com.lihaoyi" %% "sourcecode" % "0.1.1"
+
 unmanagedSourceDirectories in Compile ++= {
   sys.env.get("SECRET_GIT") match {
     case None => Seq.empty
