@@ -12,7 +12,7 @@ object TravisInformation extends AutoPlugin {
 
   override def trigger = allRequirements
 
-  override def projectSettings = Seq(
+  override def buildSettings = Seq(
     homepage := Some(new URL("https", "github.com", raw"""/${TravisEnvironmentVariables.travisRepoSlug.value}""")),
     scmInfo := Some(ScmInfo(
       new URL("https", "github.com", raw"""/${TravisEnvironmentVariables.travisRepoSlug.value}"""),

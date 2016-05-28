@@ -4,6 +4,10 @@ addSbtPlugin("com.thoughtworks.sbt-best-practice" % "sbt-best-practice" % "0.1.4
 
 libraryDependencies += "com.lihaoyi" %% "sourcecode" % "0.1.1"
 
+unmanagedSourceDirectories in Compile += baseDirectory.value.getParentFile / "git" / "src" / "main" / "scala"
+
+unmanagedSourceDirectories in Compile += baseDirectory.value.getParentFile / "travis" / "src" / "main" / "scala"
+
 unmanagedSourceDirectories in Compile ++= {
   sys.env.get("SECRET_GIT") match {
     case None => Seq.empty
