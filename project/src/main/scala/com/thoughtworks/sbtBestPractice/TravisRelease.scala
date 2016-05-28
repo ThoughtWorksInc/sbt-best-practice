@@ -21,16 +21,21 @@ object TravisRelease extends AutoPlugin {
       ReleaseStep(releaseStepTask(travisGitConfig)) +: releaseProcess.value
     },
     releaseVcs := {
-      githubCredential.value match {
-        case SshKey(privateKeyFile) =>
-          Some(new Git(baseDirectory.value) {
-            override def cmd(args: Any*) = {
+      Some(new Git(baseDirectory.value) {
+
+        override def currentHash = TravisEnvironmentVariables.travisCommit.value
+
+        override def currentBranch = TravisEnvironmentVariables.travisBranch.value
+
+        override def cmd(args: Any*) = {
+          githubCredential.value match {
+            case SshKey(privateKeyFile) =>
               Process(executableName(commandName) +: args.map(_.toString), baseDir, "GIT_SSH_COMMAND" -> raw"""ssh -i "${privateKeyFile.getAbsolutePath}" """)
-            }
-          })
-        case PersonalAccessToken(key) =>
-          releaseVcs.value
-      }
+            case PersonalAccessToken(key) =>
+              super.cmd(args: _*)
+          }
+        }
+      })
     }
   )
 
