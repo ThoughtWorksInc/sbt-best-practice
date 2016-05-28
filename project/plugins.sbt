@@ -1,6 +1,6 @@
 import org.eclipse.jgit.api.Git
 
-addSbtPlugin("com.thoughtworks.sbt-best-practice" % "sbt-best-practice" % "0.1.2")
+addSbtPlugin("com.thoughtworks.sbt-best-practice" % "sbt-best-practice" % "0.1.4")
 
 libraryDependencies += "com.lihaoyi" %% "sourcecode" % "0.1.1"
 
