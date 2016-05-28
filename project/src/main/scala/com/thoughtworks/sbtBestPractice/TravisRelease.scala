@@ -8,9 +8,8 @@ import org.eclipse.jgit.transport.URIish
 import resource._
 import sbt._
 import sbt.Keys._
-import sbtrelease.{Git, ReleasePlugin, Vcs}
+import sbtrelease.{Git, ReleasePlugin}
 import sbtrelease.ReleasePlugin.autoImport._
-import sbtrelease.ReleaseStateTransformations._
 
 
 object TravisRelease extends AutoPlugin {
