@@ -44,8 +44,8 @@ object TravisRelease extends AutoPlugin {
               githubCredential.value match {
                 case _: SshKey =>
                   raw"""git@github.com:$slug.git"""
-                case _: PersonalAccessToken =>
-                  raw"""https://github.com/$slug.git"""
+                case PersonalAccessToken(key) =>
+                  raw"""https://$key@github.com/$slug.git"""
               }
           }
         }
