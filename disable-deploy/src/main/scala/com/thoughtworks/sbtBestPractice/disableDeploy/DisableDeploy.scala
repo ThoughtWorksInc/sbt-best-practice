@@ -1,11 +1,13 @@
-package com.thoughtworks.sbtBestPractice
+package com.thoughtworks.sbtBestPractice.disableDeploy
 
-import resource._
-import sbt._
 import sbt.Keys._
+import sbt._
 import sbtrelease.ReleasePlugin
+import sbtrelease.ReleasePlugin._
+import sbtrelease.ReleaseStateTransformations._
 import sbtrelease.ReleasePlugin.autoImport._
-
+import com.thoughtworks.sbtBestPractice.git.GitInformation
+import resource._
 
 object DisableDeploy extends AutoPlugin {
 
@@ -29,7 +31,6 @@ object DisableDeploy extends AutoPlugin {
     },
 
     releaseProcess := {
-      import ReleaseTransformations._
       releaseProcess.value.patch(releaseProcess.value.indexOf(commitReleaseVersion), Seq[ReleaseStep](releaseStepTask(disableDeploy)), 0)
     }
 

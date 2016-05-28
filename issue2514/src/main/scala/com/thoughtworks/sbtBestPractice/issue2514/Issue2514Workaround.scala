@@ -1,4 +1,4 @@
-package com.thoughtworks.sbtBestPractice
+package com.thoughtworks.sbtBestPractice.issue2514
 
 import sbt._
 import sbt.internals._

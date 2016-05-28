@@ -1,7 +1,7 @@
-package com.thoughtworks.sbtBestPractice
+package com.thoughtworks.sbtBestPractice.detectLicense
 
-import sbt._
 import sbt.Keys._
+import sbt._
 
 /**
   * Determine if this project is licensed under Apache License 2.0

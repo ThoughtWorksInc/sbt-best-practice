@@ -1,7 +1,7 @@
-package com.thoughtworks.sbtBestPractice
+package com.thoughtworks.sbtBestPractice.travis
 
-import sbt._
 import sbt.Keys._
+import sbt._
 
 /**
   * Fill project informations from Travis environment variables

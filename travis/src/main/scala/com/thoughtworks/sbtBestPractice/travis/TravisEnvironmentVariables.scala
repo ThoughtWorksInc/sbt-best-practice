@@ -1,11 +1,6 @@
-package com.thoughtworks.sbtBestPractice
+package com.thoughtworks.sbtBestPractice.travis
 
-import org.eclipse.jgit.api.CreateBranchCommand.SetupUpstreamMode
-import org.eclipse.jgit.api.Git
 import sbt._
-import sbt.Keys._
-import org.eclipse.jgit.transport.URIish
-import resource.managed
 
 /**
   * Configure git from Travis environment variables

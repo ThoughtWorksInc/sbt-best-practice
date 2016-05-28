@@ -1,5 +1,6 @@
-package com.thoughtworks.sbtBestPractice
+package com.thoughtworks.sbtBestPractice.detectLicense
 
+import com.thoughtworks.sbtBestPractice.git.GitInformation
 import sbt._
 
 object LicenseFile extends AutoPlugin {

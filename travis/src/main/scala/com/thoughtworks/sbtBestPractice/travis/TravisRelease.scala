@@ -1,4 +1,4 @@
-package com.thoughtworks.sbtBestPractice
+package com.thoughtworks.sbtBestPractice.travis
 
 import java.io.File
 
@@ -7,10 +7,10 @@ import org.eclipse.jgit.lib.Constants._
 import org.eclipse.jgit.transport.URIish
 import resource._
 import sbt._
+import com.thoughtworks.sbtBestPractice.git.GitInformation
 import sbt.Keys._
 import sbtrelease.{Git, ReleasePlugin}
 import sbtrelease.ReleasePlugin.autoImport._
-
 
 object TravisRelease extends AutoPlugin {
 

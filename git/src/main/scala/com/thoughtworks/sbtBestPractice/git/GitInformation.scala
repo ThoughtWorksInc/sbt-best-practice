@@ -1,15 +1,13 @@
-package com.thoughtworks.sbtBestPractice
+package com.thoughtworks.sbtBestPractice.git
 
 import org.eclipse.jgit.api.Git
-import org.eclipse.jgit.lib.ConfigConstants._
 import org.eclipse.jgit.lib.RepositoryBuilder
-import sbt._
 import sbt.Keys._
-
+import sbt._
 import scala.collection.JavaConverters._
 
 /**
-  * Fill project informations from git log
+  * Detect GIT directories from git log
   */
 object GitInformation extends AutoPlugin {
 
@@ -31,16 +29,21 @@ object GitInformation extends AutoPlugin {
     gitDir := Option(gitRepositoryBuilder.value.getGitDir),
     developers ++= {
       if (gitDir.value.isDefined) {
-        val git = Git.wrap(gitRepositoryBuilder.value.build)
+        val repository = gitRepositoryBuilder.value.build
         try {
-          (for {
-            commit <- git.log().call().asScala
-          } yield {
-            val author = commit.getAuthorIdent
-            Developer("", author.getName, author.getEmailAddress, new java.net.URL("mailto", null, author.getEmailAddress))
-          }).toSet.toList
+          val git = Git.wrap(repository)
+          try {
+            (for {
+              commit <- git.log().call().asScala
+            } yield {
+              val author = commit.getAuthorIdent
+              Developer("", author.getName, author.getEmailAddress, new java.net.URL("mailto", null, author.getEmailAddress))
+            }).toSet.toList
+          } finally {
+            git.close()
+          }
         } finally {
-          git.close()
+          repository.close()
         }
       } else {
         Nil

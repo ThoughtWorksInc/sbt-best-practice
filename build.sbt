@@ -2,12 +2,16 @@ sbtPlugin in ThisBuild := true
 
 organization in ThisBuild := "com.thoughtworks.sbt-best-practice"
 
-addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "0.5.0")
+lazy val `detect-license` = project dependsOn git
 
-addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.3")
+lazy val travis = project dependsOn git
 
-addSbtPlugin("com.jsuereth" % "sbt-pgp" % "1.0.0")
+lazy val sonatype = project
 
-libraryDependencies += "org.eclipse.jgit" % "org.eclipse.jgit" % "4.3.0.201604071810-r"
+lazy val issue2514 = project
 
-libraryDependencies += "com.jsuereth" %% "scala-arm" % "1.4"
+lazy val git = project
+
+lazy val `disable-deploy` = project dependsOn git
+
+dependsOn(`detect-license`, travis, sonatype, issue2514, git, `disable-deploy`)
