@@ -23,7 +23,8 @@ object DisableDeploy extends AutoPlugin {
       val toFile = baseDirectory.value / "deploy.sbt.disabled"
       IO.move(fromFile, toFile)
       for (repository <- managed(GitInformation.gitRepositoryBuilder.value.build()); git <- managed(org.eclipse.jgit.api.Git.wrap(repository))) {
-        git.add().addFilepattern(fromFile.toString).addFilepattern(toFile.toString).call()
+        git.add().addFilepattern(toFile.relativeTo(repository.getWorkTree).get.toString).call()
+        git.rm().addFilepattern(fromFile.relativeTo(repository.getWorkTree).get.toString).call()
       }
     },
 
