@@ -36,6 +36,6 @@ object TravisEnvironmentVariables extends AutoPlugin {
     }
   }
 
-  override def trigger = allRequirements
+  override def trigger = noTrigger
 
 }

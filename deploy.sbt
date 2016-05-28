@@ -1,1 +1,1 @@
-enablePlugins(GitInformation, TravisGitConfig)
+enablePlugins(TravisEnvironmentVariables, GitInformation)
