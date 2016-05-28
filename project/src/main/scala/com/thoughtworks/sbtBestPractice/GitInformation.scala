@@ -15,21 +15,19 @@ object GitInformation extends AutoPlugin {
 
   override def trigger = allRequirements
 
-  object autoImport {
+  val gitDir = SettingKey[Option[File]]("git-dir", ".git directory for current project")
 
-    val isGitDir = SettingKey[Boolean]("is-git-dir", "Determine if current project directory is a git work copy")
+  val gitWorkTree = SettingKey[Option[File]]("git-work-tree", "Root work tree of current project")
 
-  }
-
-  import autoImport._
+  val gitRepositoryBuilder = SettingKey[RepositoryBuilder]("git-repository-builder", "")
 
   override def projectSettings = Seq(
-    isGitDir := {
-      (new RepositoryBuilder).findGitDir(baseDirectory.value).getGitDir != null
-    },
+    gitRepositoryBuilder := (new RepositoryBuilder).findGitDir(baseDirectory.value),
+    gitWorkTree := Option(gitRepositoryBuilder.value.getWorkTree),
+    gitDir := Option(gitRepositoryBuilder.value.getGitDir),
     homepage := {
-      if (isGitDir.value) {
-        val git = Git.open(baseDirectory.value)
+      if (gitDir.value.isDefined ) {
+        val git = Git.wrap(gitRepositoryBuilder.value.build)
         try {
           val remoteName = git.getRepository.getConfig.getString(CONFIG_BRANCH_SECTION, git.getRepository.getBranch, CONFIG_KEY_REMOTE)
           val Some(remote) = git.remoteList().call().asScala.find(_.getName == remoteName)
@@ -48,8 +46,8 @@ object GitInformation extends AutoPlugin {
       }
     },
     scmInfo := {
-      if (isGitDir.value) {
-        val git = Git.open(baseDirectory.value)
+      if (gitDir.value.isDefined ) {
+        val git = Git.wrap(gitRepositoryBuilder.value.build)
         try {
           val remoteName = git.getRepository.getConfig.getString(CONFIG_BRANCH_SECTION, git.getRepository.getBranch, CONFIG_KEY_REMOTE)
           val Some(remote) = git.remoteList().call().asScala.find(_.getName == remoteName)
@@ -72,8 +70,8 @@ object GitInformation extends AutoPlugin {
       }
     },
     developers ++= {
-      if (isGitDir.value) {
-        val git = Git.open(baseDirectory.value)
+      if (gitDir.value.isDefined ) {
+        val git = Git.wrap(gitRepositoryBuilder.value.build)
         try {
           (for {
             commit <- git.log().call().asScala

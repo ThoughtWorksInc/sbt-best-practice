@@ -32,7 +32,7 @@ object TravisGitConfig extends AutoPlugin {
   }
 
   import autoImport._
-  import TravisEnvironmentVariables.autoImport._
+  import TravisEnvironmentVariables._
 
   private val RemoteName = "origin"
 
