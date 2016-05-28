@@ -23,11 +23,19 @@ object TravisRelease extends AutoPlugin {
     releaseVcs := {
       Some(new Git(baseDirectory.value) {
 
-        override def hasUpstream =
+        override def isBehindRemote = {
+          TravisEnvironmentVariables.travisRepoSlug.?.value match {
+            case None => super.isBehindRemote
+            case Some(_) => false
+          }
+        }
+
+        override def hasUpstream = {
           TravisEnvironmentVariables.travisRepoSlug.?.value match {
             case None => super.hasUpstream
             case Some(_) => true
           }
+        }
 
         override def trackingRemote = {
           TravisEnvironmentVariables.travisRepoSlug.?.value match {
