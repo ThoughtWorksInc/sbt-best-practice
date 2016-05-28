@@ -1,21 +1,13 @@
-import org.eclipse.jgit.api.Git
-
 addSbtPlugin("com.thoughtworks.sbt-best-practice" % "sbt-best-practice" % "0.1.5")
 
 libraryDependencies += "com.lihaoyi" %% "sourcecode" % "0.1.1"
 
-unmanagedSourceDirectories in Compile ++= {
-  sys.env.get("SECRET_GIT") match {
-    case None => Seq.empty
-    case Some(uri) =>
-      val secretDirectory = com.twitter.common.io.FileUtils.createTempDir
-      Git.cloneRepository().
-        setURI(uri).
-        setDirectory(secretDirectory).
-        call().
-        close()
-      Seq(secretDirectory)
-  }
-}
+libraryDependencies += "org.eclipse.jgit" % "org.eclipse.jgit" % "4.3.0.201604071810-r"
 
-//dependsOn(sys.env.get("SECRET_GIT").toSeq.map { secretGit => classpathDependency(RootProject(uri(secretGit))) }: _*)
+libraryDependencies += "com.twitter.common" % "io" % "0.0.67"
+
+resolvers += "Twitter Repository" at "http://maven.twttr.com"
+
+unmanagedSourceDirectories in Compile += baseDirectory.value.getParentFile / "remote-sbt-file" / "src" / "main" / "scala"
+
+unmanagedSourceDirectories in Compile += baseDirectory.value.getParentFile / "issue2514" / "src" / "main" / "scala"
