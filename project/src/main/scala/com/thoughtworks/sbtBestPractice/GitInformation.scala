@@ -13,7 +13,7 @@ import scala.collection.JavaConverters._
   */
 object GitInformation extends AutoPlugin {
 
-  override def trigger = allRequirements
+  override def trigger = noTrigger
 
   val gitDir = SettingKey[Option[File]]("git-dir", ".git directory for current project")
 
