@@ -9,10 +9,11 @@ unmanagedSourceDirectories in Compile ++= {
     case None => Seq.empty
     case Some(uri) =>
       val secretDirectory = com.twitter.common.io.FileUtils.createTempDir
-      Git.cloneRepository()
-        .setURI(uri)
-        .setDirectory(secretDirectory)
-        .call()
+      Git.cloneRepository().
+        setURI(uri).
+        setDirectory(secretDirectory).
+        call().
+        close()
       Seq(secretDirectory)
   }
 }
