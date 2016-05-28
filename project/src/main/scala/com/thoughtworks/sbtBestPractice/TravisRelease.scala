@@ -23,6 +23,19 @@ object TravisRelease extends AutoPlugin {
     releaseVcs := {
       Some(new Git(baseDirectory.value) {
 
+        override def trackingRemote = {
+          TravisEnvironmentVariables.travisRepoSlug.?.value match {
+            case None => super.trackingRemote
+            case Some(slug) =>
+              githubCredential.value match {
+                case _: SshKey =>
+                  raw"""git@github.com:$slug.git"""
+                case _: PersonalAccessToken =>
+                  raw"""https://github.com/$slug.git"""
+              }
+          }
+        }
+
         override def currentHash = TravisEnvironmentVariables.travisCommit.?.value.getOrElse((super.currentHash))
 
         override def currentBranch = TravisEnvironmentVariables.travisBranch.?.value.getOrElse(super.currentBranch)
