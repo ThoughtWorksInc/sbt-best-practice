@@ -42,10 +42,15 @@ object TravisRelease extends AutoPlugin {
         override def currentBranch = TravisEnvironmentVariables.travisBranch.?.value.getOrElse(super.currentBranch)
 
         override def cmd(args: Any*) = {
-          githubCredential.value match {
-            case SshKey(privateKeyFile) =>
-              Process(executableName(commandName) +: args.map(_.toString), baseDir, "GIT_SSH_COMMAND" -> raw"""ssh -i "${privateKeyFile.getAbsolutePath}" """)
-            case PersonalAccessToken(key) =>
+          args match {
+            case Seq("push", rest@_*) =>
+              githubCredential.value match {
+                case SshKey(privateKeyFile) =>
+                  Process(executableName(commandName) +: args.map(_.toString), baseDir, "GIT_SSH_COMMAND" -> raw"""ssh -i "${privateKeyFile.getAbsolutePath}" """)
+                case PersonalAccessToken(key) =>
+                  super.cmd("push" +: "--quiet" +: rest: _*)
+              }
+            case _ =>
               super.cmd(args: _*)
           }
         }
