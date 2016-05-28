@@ -23,9 +23,9 @@ object TravisRelease extends AutoPlugin {
     releaseVcs := {
       Some(new Git(baseDirectory.value) {
 
-        override def currentHash = TravisEnvironmentVariables.travisCommit.value
+        override def currentHash = TravisEnvironmentVariables.travisCommit.?.value.getOrElse((super.currentHash))
 
-        override def currentBranch = TravisEnvironmentVariables.travisBranch.value
+        override def currentBranch = TravisEnvironmentVariables.travisBranch.?.value.getOrElse(super.currentBranch)
 
         override def cmd(args: Any*) = {
           githubCredential.value match {
