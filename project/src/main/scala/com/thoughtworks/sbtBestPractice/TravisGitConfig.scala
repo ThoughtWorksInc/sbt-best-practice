@@ -35,44 +35,44 @@ object TravisGitConfig extends AutoPlugin {
   import TravisEnvironmentVariables._
 
   private val RemoteName = "origin"
-
-  override def projectSettings = Seq(
-    travisGitConfig := {
-      val branch = travisBranch.value
-      val slug = travisRepoSlug.value
-      for (git <- managed(Git.open(baseDirectory.value))) {
-        {
-          val command = git.remoteSetUrl()
-          command.setName(RemoteName)
-          command.setPush(true)
-          githubCredential.value match {
-            case PersonalAccessToken(key) =>
-              command.setUri(new URIish(s"https://$key@github.com/$slug.git"))
-            case SshKey(privateKeyFile) =>
-              command.setUri(new URIish(s"ssh://git@github.com:$slug.git"))
-          }
-          command.call()
-        }
-
-        git.branchCreate().
-          setForce(true).
-          setName(branch).
-          call()
-
-        {
-          val config = git.getRepository.getConfig
-          config.setString(CONFIG_BRANCH_SECTION, branch, CONFIG_KEY_REMOTE, RemoteName)
-          config.setString(CONFIG_BRANCH_SECTION, branch, CONFIG_KEY_MERGE, raw"""$R_HEADS$branch""")
-          config.save()
-        }
-
-        git.checkout().
-          setName(branch).
-          call()
-
-      }
-    }
-  )
+//
+//  override def projectSettings = Seq(
+//    travisGitConfig := {
+//      val branch = travisBranch.value
+//      val slug = travisRepoSlug.value
+//      for (git <- managed(Git.open(baseDirectory.value))) {
+//        {
+//          val command = git.remoteSetUrl()
+//          command.setName(RemoteName)
+//          command.setPush(true)
+//          githubCredential.value match {
+//            case PersonalAccessToken(key) =>
+//              command.setUri(new URIish(s"https://$key@github.com/$slug.git"))
+//            case SshKey(privateKeyFile) =>
+//              command.setUri(new URIish(s"ssh://git@github.com:$slug.git"))
+//          }
+//          command.call()
+//        }
+//
+//        git.branchCreate().
+//          setForce(true).
+//          setName(branch).
+//          call()
+//
+//        {
+//          val config = git.getRepository.getConfig
+//          config.setString(CONFIG_BRANCH_SECTION, branch, CONFIG_KEY_REMOTE, RemoteName)
+//          config.setString(CONFIG_BRANCH_SECTION, branch, CONFIG_KEY_MERGE, raw"""$R_HEADS$branch""")
+//          config.save()
+//        }
+//
+//        git.checkout().
+//          setName(branch).
+//          call()
+//
+//      }
+//    }
+//  )
 
 
 }
