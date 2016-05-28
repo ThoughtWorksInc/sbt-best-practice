@@ -17,9 +17,6 @@ object TravisRelease extends AutoPlugin {
   override def requires = TravisGitConfig && ReleasePlugin
 
   override def projectSettings = Seq(
-    releaseProcess := {
-      ReleaseStep(releaseStepTask(travisGitConfig)) +: releaseProcess.value
-    },
     releaseVcs := {
       Some(new Git(baseDirectory.value) {
 
