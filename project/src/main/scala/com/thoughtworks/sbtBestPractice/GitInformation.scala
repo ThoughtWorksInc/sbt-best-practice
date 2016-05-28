@@ -22,11 +22,15 @@ object GitInformation extends AutoPlugin {
   val gitRepositoryBuilder = SettingKey[RepositoryBuilder]("git-repository-builder", "")
 
   override def projectSettings = Seq(
-    gitRepositoryBuilder := (new RepositoryBuilder).findGitDir(baseDirectory.value),
+    gitRepositoryBuilder := {
+      val builder = (new RepositoryBuilder).findGitDir(baseDirectory.value)
+      builder.setup()
+      builder
+    },
     gitWorkTree := Option(gitRepositoryBuilder.value.getWorkTree),
     gitDir := Option(gitRepositoryBuilder.value.getGitDir),
     homepage := {
-      if (gitDir.value.isDefined ) {
+      if (gitDir.value.isDefined) {
         val git = Git.wrap(gitRepositoryBuilder.value.build)
         try {
           val remoteName = git.getRepository.getConfig.getString(CONFIG_BRANCH_SECTION, git.getRepository.getBranch, CONFIG_KEY_REMOTE)
@@ -46,7 +50,7 @@ object GitInformation extends AutoPlugin {
       }
     },
     scmInfo := {
-      if (gitDir.value.isDefined ) {
+      if (gitDir.value.isDefined) {
         val git = Git.wrap(gitRepositoryBuilder.value.build)
         try {
           val remoteName = git.getRepository.getConfig.getString(CONFIG_BRANCH_SECTION, git.getRepository.getBranch, CONFIG_KEY_REMOTE)
@@ -70,7 +74,7 @@ object GitInformation extends AutoPlugin {
       }
     },
     developers ++= {
-      if (gitDir.value.isDefined ) {
+      if (gitDir.value.isDefined) {
         val git = Git.wrap(gitRepositoryBuilder.value.build)
         try {
           (for {

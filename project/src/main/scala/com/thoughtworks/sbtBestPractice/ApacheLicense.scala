@@ -8,7 +8,7 @@ import sbt.Keys._
   */
 object ApacheLicense extends AutoPlugin {
 
-  private val ApacheLicenseRegex = """\s*Apache License\s*Version 2\.0, January 2004\s*.*""".r
+  private val ApacheLicenseRegex = """(?s)\s*Apache License\s*Version 2\.0, January 2004\s*.*""".r
 
   override def trigger = allRequirements
 
