@@ -13,9 +13,6 @@ object TravisInformation extends AutoPlugin {
   override def trigger = allRequirements
 
   override def buildSettings = Seq(
-    homepage <<= {
-
-    }
     homepage := {
       Travis.travisRepoSlug.?.value.map { slug => new URL("https", "github.com", raw"""/$slug""") }
     },
