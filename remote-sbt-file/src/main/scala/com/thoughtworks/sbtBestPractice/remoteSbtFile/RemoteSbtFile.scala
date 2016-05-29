@@ -13,6 +13,22 @@ object RemoteSbtFile extends AutoPlugin {
 
   object autoImport {
 
+    implicit class RichProject(project: Project) {
+      def addSbtFilesFromGit(gitUri: String, relativeSbtFiles: File*) = {
+        val secretDirectory = FileUtils.createTempDir
+        Git.cloneRepository().
+          setURI(gitUri).
+          setDirectory(secretDirectory).
+          call().
+          close()
+
+        val resolvedFiles = for {
+          relativeSbtFile <- relativeSbtFiles
+        } yield (secretDirectory / relativeSbtFile.toString)
+        project.addSbtFiles(resolvedFiles: _*)
+      }
+    }
+
     def addAllSbtFilesFromGit(gitUri: String) = {
       val secretDirectory = FileUtils.createTempDir
       Git.cloneRepository().
@@ -20,10 +36,10 @@ object RemoteSbtFile extends AutoPlugin {
         setDirectory(secretDirectory).
         call().
         close()
-      DslEntries.autoImport.addSbtFile((secretDirectory ** "*.sbt").get: _*)
+      DslEntries.autoImport.addSbtFiles((secretDirectory ** "*.sbt").get: _*)
     }
 
-    def addSbtFileFromGit(gitUri: String, relativeSbtFiles: File*) = {
+    def addSbtFilesFromGit(gitUri: String, relativeSbtFiles: File*) = {
       val secretDirectory = FileUtils.createTempDir
       Git.cloneRepository().
         setURI(gitUri).
@@ -35,7 +51,7 @@ object RemoteSbtFile extends AutoPlugin {
         relativeSbtFile <- relativeSbtFiles
       } yield (secretDirectory / relativeSbtFile.toString)
 
-      DslEntries.autoImport.addSbtFile(resolvedFiles: _*)
+      DslEntries.autoImport.addSbtFiles(resolvedFiles: _*)
     }
 
   }

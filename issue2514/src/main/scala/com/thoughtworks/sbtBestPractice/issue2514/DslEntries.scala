@@ -30,7 +30,7 @@ object DslEntries extends AutoPlugin {
 
     def dependsOn(deps: ClasspathDep[ProjectReference]*) = configure(_.dependsOn(deps: _*))
 
-    def addSbtFile(files: File*) = configure(_.addSbtFiles(files: _*))
+    def addSbtFiles(files: File*) = configure(_.addSbtFiles(files: _*))
 
   }
 
