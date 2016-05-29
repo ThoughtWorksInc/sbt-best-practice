@@ -1,7 +1,6 @@
 package com.thoughtworks.sbtBestPractice.remoteSbtFile
 
 import com.thoughtworks.sbtBestPractice.issue2514.DslEntries
-import com.twitter.common.io.FileUtils
 import org.eclipse.jgit.api.Git
 import sbt._
 import java.io.File
@@ -15,7 +14,7 @@ object RemoteSbtFile extends AutoPlugin {
 
     implicit class RichProject(project: Project) {
       def addSbtFilesFromGit(gitUri: String, relativeSbtFiles: File*) = {
-        val secretDirectory = FileUtils.createTempDir
+        val secretDirectory = IO.createTemporaryDirectory
         Git.cloneRepository().
           setURI(gitUri).
           setDirectory(secretDirectory).
@@ -30,7 +29,7 @@ object RemoteSbtFile extends AutoPlugin {
     }
 
     def addAllSbtFilesFromGit(gitUri: String) = {
-      val secretDirectory = FileUtils.createTempDir
+      val secretDirectory = IO.createTemporaryDirectory
       Git.cloneRepository().
         setURI(gitUri).
         setDirectory(secretDirectory).
@@ -40,7 +39,7 @@ object RemoteSbtFile extends AutoPlugin {
     }
 
     def addSbtFilesFromGit(gitUri: String, relativeSbtFiles: File*) = {
-      val secretDirectory = FileUtils.createTempDir
+      val secretDirectory = IO.createTemporaryDirectory
       Git.cloneRepository().
         setURI(gitUri).
         setDirectory(secretDirectory).
