@@ -16,7 +16,9 @@ lazy val git = project
 
 lazy val `disable-deploy` = project dependsOn git
 
-dependsOn(`remote-sbt-file`, `detect-license`, travis, sonatype, issue2514, git, `disable-deploy`)
+lazy val `cross-release` = project
+
+dependsOn(`remote-sbt-file`, `detect-license`, travis, sonatype, issue2514, git, `disable-deploy`, `cross-release`)
 
 libraryDependencies += "com.lihaoyi" %% "sourcecode" % "0.1.1"
 
