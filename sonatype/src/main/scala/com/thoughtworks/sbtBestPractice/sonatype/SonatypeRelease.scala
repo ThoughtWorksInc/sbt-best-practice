@@ -11,7 +11,7 @@ import sbtrelease.ReleaseStateTransformations._
 
 object SonatypeRelease extends AutoPlugin {
 
-  override def trigger = allRequirements
+  override def trigger = noTrigger
 
   override def requires = Sonatype && ReleasePlugin && SbtPgp
 
