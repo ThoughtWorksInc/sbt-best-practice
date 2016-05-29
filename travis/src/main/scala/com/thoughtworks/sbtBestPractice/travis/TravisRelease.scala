@@ -34,13 +34,13 @@ object TravisRelease extends AutoPlugin {
 
   override def trigger = allRequirements
 
-  override def requires = TravisEnvironmentVariables && ReleasePlugin && GitInformation
+  override def requires = Travis && ReleasePlugin && GitInformation
 
   override def projectSettings = Seq(
 
     travisGitConfig := {
-      val branch = TravisEnvironmentVariables.travisBranch.value
-      val slug = TravisEnvironmentVariables.travisRepoSlug.value
+      val branch = Travis.travisBranch.value
+      val slug = Travis.travisRepoSlug.value
       for (repository <- managed(GitInformation.gitRepositoryBuilder.value.build()); git <- managed(org.eclipse.jgit.api.Git.wrap(repository))) {
         {
           val command = git.remoteSetUrl()
@@ -74,7 +74,7 @@ object TravisRelease extends AutoPlugin {
       }
     },
     releaseProcess := {
-      if (GitInformation.gitDir.value.isDefined && TravisEnvironmentVariables.travisRepoSlug.?.value.isDefined) {
+      if (GitInformation.gitDir.value.isDefined && Travis.travisRepoSlug.?.value.isDefined) {
         ReleaseStep(releaseStepTask(travisGitConfig)) +: releaseProcess.value
       } else {
         releaseProcess.value
@@ -83,22 +83,22 @@ object TravisRelease extends AutoPlugin {
     releaseVcs := {
       Some(new Git(baseDirectory.value) {
         override def isBehindRemote = {
-          TravisEnvironmentVariables.travisRepoSlug.?.value match {
+          Travis.travisRepoSlug.?.value match {
             case None => super.isBehindRemote
             case Some(_) => false
           }
         }
 
         override def hasUpstream = {
-          TravisEnvironmentVariables.travisRepoSlug.?.value match {
+          Travis.travisRepoSlug.?.value match {
             case None => super.hasUpstream
             case Some(_) => true
           }
         }
 
-        override def currentHash = TravisEnvironmentVariables.travisCommit.?.value.getOrElse((super.currentHash))
+        override def currentHash = Travis.travisCommit.?.value.getOrElse((super.currentHash))
 
-        override def currentBranch = TravisEnvironmentVariables.travisBranch.?.value.getOrElse(super.currentBranch)
+        override def currentBranch = Travis.travisBranch.?.value.getOrElse(super.currentBranch)
 
         override def cmd(args: Any*) = {
           args match {

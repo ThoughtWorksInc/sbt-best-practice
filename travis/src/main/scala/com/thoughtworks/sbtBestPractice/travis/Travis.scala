@@ -3,11 +3,13 @@ package com.thoughtworks.sbtBestPractice.travis
 import sbt._
 
 /**
-  * Configure git from Travis environment variables
+  * Configure sbt from Travis environment variables
+  *
+  * @note This plugin should only be enabled when sbt is running on Travis CI
   *
   * @author 杨博 (Yang Bo) &lt;pop.atry@gmail.com&gt;
   */
-object TravisEnvironmentVariables extends AutoPlugin {
+object Travis extends AutoPlugin {
 
   val travisBranch = settingKey[String]("For builds not triggered by a pull request this is the name of the branch currently being built; whereas for builds triggered by a pull request this is the name of the branch targeted by the pull request (in many cases this will be master).")
   val travisRepoSlug = settingKey[String]("The slug (in form: owner_name/repo_name) of the repository currently being built. (for example, “travis-ci/travis-build”).")

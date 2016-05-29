@@ -8,16 +8,21 @@ import sbt._
   */
 object TravisInformation extends AutoPlugin {
 
-  override def requires = TravisEnvironmentVariables
+  override def requires = Travis
 
   override def trigger = allRequirements
 
   override def buildSettings = Seq(
-    homepage := Some(new URL("https", "github.com", raw"""/${TravisEnvironmentVariables.travisRepoSlug.value}""")),
+    homepage <<= {
+
+    }
+    homepage := {
+      Travis.travisRepoSlug.?.value.map { slug => new URL("https", "github.com", raw"""/$slug""") }
+    },
     scmInfo := Some(ScmInfo(
-      new URL("https", "github.com", raw"""/${TravisEnvironmentVariables.travisRepoSlug.value}"""),
-      raw"""https://github.com/${TravisEnvironmentVariables.travisRepoSlug.value}.git""",
-      Some(raw"""git@github.com:${TravisEnvironmentVariables.travisRepoSlug.value}.git""")
+      new URL("https", "github.com", raw"""/${Travis.travisRepoSlug.value}"""),
+      raw"""https://github.com/${Travis.travisRepoSlug.value}.git""",
+      Some(raw"""git@github.com:${Travis.travisRepoSlug.value}.git""")
     ))
   )
 
