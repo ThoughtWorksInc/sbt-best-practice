@@ -1,5 +1,3 @@
-DslEntries.autoImport.dependsOn(`remote-sbt-file`, `detect-license`, travis, sonatype, issue2514, git, `disable-deploy`)
-
 sbtPlugin in ThisBuild := true
 
 organization in ThisBuild := "com.thoughtworks.sbt-best-practice"
@@ -18,3 +16,4 @@ lazy val git = project
 
 lazy val `disable-deploy` = project dependsOn git
 
+dependsOn(`remote-sbt-file`, `detect-license`, travis, sonatype, issue2514, git, `disable-deploy`)
