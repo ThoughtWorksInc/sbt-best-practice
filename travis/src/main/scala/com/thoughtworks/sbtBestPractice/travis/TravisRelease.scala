@@ -11,6 +11,7 @@ import com.thoughtworks.sbtBestPractice.git.{Git => GitPlugin}
 import sbt.Keys._
 import sbtrelease.{Git => GitVcs, ReleasePlugin}
 import sbtrelease.ReleasePlugin.autoImport._
+import sbtrelease.ReleaseStateTransformations._
 
 object TravisRelease extends AutoPlugin {
 
@@ -73,6 +74,8 @@ object TravisRelease extends AutoPlugin {
 
       }
     },
+    releaseProcess -= runClean,
+    releaseProcess -= runTest,
     releaseProcess := {
       if (GitPlugin.gitDir.value.isDefined && Travis.travisRepoSlug.?.value.isDefined) {
         ReleaseStep(releaseStepTask(travisGitConfig)) +: releaseProcess.value
