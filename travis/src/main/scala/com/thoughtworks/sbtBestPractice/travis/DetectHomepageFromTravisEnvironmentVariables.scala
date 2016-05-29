@@ -6,7 +6,7 @@ import sbt._
 /**
   * Fill project informations from Travis environment variables
   */
-object TravisInformation extends AutoPlugin {
+object DetectHomepageFromTravisEnvironmentVariables extends AutoPlugin {
 
   override def requires = Travis
 

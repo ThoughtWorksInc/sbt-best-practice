@@ -1,6 +1,5 @@
 package com.thoughtworks.sbtBestPractice.git
 
-import org.eclipse.jgit.api.Git
 import org.eclipse.jgit.lib.RepositoryBuilder
 import sbt.Keys._
 import sbt._
@@ -9,7 +8,7 @@ import scala.collection.JavaConverters._
 /**
   * Detect GIT directories from git log
   */
-object GitInformation extends AutoPlugin {
+object Git extends AutoPlugin {
 
   override def trigger = allRequirements
 
@@ -31,7 +30,7 @@ object GitInformation extends AutoPlugin {
       if (gitDir.value.isDefined) {
         val repository = gitRepositoryBuilder.value.build
         try {
-          val git = Git.wrap(repository)
+          val git = org.eclipse.jgit.api.Git.wrap(repository)
           try {
             (for {
               commit <- git.log().call().asScala

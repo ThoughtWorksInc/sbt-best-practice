@@ -7,9 +7,9 @@ import org.eclipse.jgit.lib.Constants._
 import org.eclipse.jgit.transport.URIish
 import resource._
 import sbt._
-import com.thoughtworks.sbtBestPractice.git.GitInformation
+import com.thoughtworks.sbtBestPractice.git.{Git => GitPlugin}
 import sbt.Keys._
-import sbtrelease.{Git, ReleasePlugin}
+import sbtrelease.{Git => GitVcs, ReleasePlugin}
 import sbtrelease.ReleasePlugin.autoImport._
 
 object TravisRelease extends AutoPlugin {
@@ -34,14 +34,14 @@ object TravisRelease extends AutoPlugin {
 
   override def trigger = allRequirements
 
-  override def requires = Travis && ReleasePlugin && GitInformation
+  override def requires = Travis && ReleasePlugin && GitPlugin
 
   override def projectSettings = Seq(
 
     travisGitConfig := {
       val branch = Travis.travisBranch.value
       val slug = Travis.travisRepoSlug.value
-      for (repository <- managed(GitInformation.gitRepositoryBuilder.value.build()); git <- managed(org.eclipse.jgit.api.Git.wrap(repository))) {
+      for (repository <- managed(GitPlugin.gitRepositoryBuilder.value.build()); git <- managed(org.eclipse.jgit.api.Git.wrap(repository))) {
         {
           val command = git.remoteSetUrl()
           command.setName(RemoteName)
@@ -74,14 +74,14 @@ object TravisRelease extends AutoPlugin {
       }
     },
     releaseProcess := {
-      if (GitInformation.gitDir.value.isDefined && Travis.travisRepoSlug.?.value.isDefined) {
+      if (GitPlugin.gitDir.value.isDefined && Travis.travisRepoSlug.?.value.isDefined) {
         ReleaseStep(releaseStepTask(travisGitConfig)) +: releaseProcess.value
       } else {
         releaseProcess.value
       }
     },
     releaseVcs := {
-      Some(new Git(baseDirectory.value) {
+      Some(new GitVcs(baseDirectory.value) {
         override def isBehindRemote = {
           Travis.travisRepoSlug.?.value match {
             case None => super.isBehindRemote

@@ -1,6 +1,6 @@
 package com.thoughtworks.sbtBestPractice.detectLicense
 
-import com.thoughtworks.sbtBestPractice.git.GitInformation
+import com.thoughtworks.sbtBestPractice.git.Git
 import sbt._
 
 object LicenseFile extends AutoPlugin {
@@ -9,11 +9,11 @@ object LicenseFile extends AutoPlugin {
 
   override def trigger = allRequirements
 
-  override def requires = GitInformation
+  override def requires = Git
 
   override def projectSettings = Seq(
     licenseFileContent := {
-      GitInformation.gitWorkTree.value.map { workTree =>
+      Git.gitWorkTree.value.map { workTree =>
         val licenseFile = workTree / "LICENSE"
         IO.read(licenseFile)
       }

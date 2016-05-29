@@ -6,7 +6,7 @@ import sbtrelease.ReleasePlugin
 import sbtrelease.ReleasePlugin._
 import sbtrelease.ReleaseStateTransformations._
 import sbtrelease.ReleasePlugin.autoImport._
-import com.thoughtworks.sbtBestPractice.git.GitInformation
+import com.thoughtworks.sbtBestPractice.git.Git
 import resource._
 
 object DisableDeploy extends AutoPlugin {
@@ -15,7 +15,7 @@ object DisableDeploy extends AutoPlugin {
 
   override def trigger = allRequirements
 
-  override def requires = ReleasePlugin && GitInformation
+  override def requires = ReleasePlugin && Git
 
   override def projectSettings = Seq(
 
@@ -24,7 +24,7 @@ object DisableDeploy extends AutoPlugin {
       val fromFile = baseDirectory.value / "deploy.sbt"
       val toFile = baseDirectory.value / "deploy.sbt.disabled"
       IO.move(fromFile, toFile)
-      for (repository <- managed(GitInformation.gitRepositoryBuilder.value.build()); git <- managed(org.eclipse.jgit.api.Git.wrap(repository))) {
+      for (repository <- managed(Git.gitRepositoryBuilder.value.build()); git <- managed(org.eclipse.jgit.api.Git.wrap(repository))) {
         git.add().addFilepattern(toFile.relativeTo(repository.getWorkTree).get.toString).call()
         git.rm().addFilepattern(fromFile.relativeTo(repository.getWorkTree).get.toString).call()
       }
