@@ -13,9 +13,13 @@ object LicenseFile extends AutoPlugin {
 
   override def projectSettings = Seq(
     licenseFileContent := {
-      Git.gitWorkTree.value.map { workTree =>
+      Git.gitWorkTree.value.flatMap { workTree =>
         val licenseFile = workTree / "LICENSE"
-        IO.read(licenseFile)
+        if (licenseFile.exists()) {
+          Some(IO.read(licenseFile))
+        } else {
+          None
+        }
       }
     }
   )
