@@ -1,4 +1,4 @@
-enablePlugins(TravisEnvironmentVariables, SonatypeRelease)
+enablePlugins(Travis, SonatypeRelease)
 
 lazy val secret = project configure { secret =>
   sys.env.get("SECRET_GIT") match {
