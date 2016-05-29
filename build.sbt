@@ -19,3 +19,5 @@ lazy val `disable-deploy` = project dependsOn git
 dependsOn(`remote-sbt-file`, `detect-license`, travis, sonatype, issue2514, git, `disable-deploy`)
 
 libraryDependencies += "com.lihaoyi" %% "sourcecode" % "0.1.1"
+
+addSbtPlugin("com.thoughtworks.sbt-api-mappings" % "sbt-api-mappings" % "0.2.3")
