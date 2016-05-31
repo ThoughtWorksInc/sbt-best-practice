@@ -16,11 +16,16 @@ object RemoteSbtFile extends AutoPlugin {
   object autoImport {
 
     implicit class RichProject(project: Project) {
-      def addSbtFilesFromGit(gitUri: String, relativeSbtFiles: File*) = {
+      def addSbtFilesFromGit(gitUri: String, relativeSbtFiles: File*): Project = {
+        addSbtFilesFromGit(gitUri, CredentialsProvider.getDefault, relativeSbtFiles: _*)
+      }
+
+      def addSbtFilesFromGit(gitUri: String, credential: CredentialsProvider, relativeSbtFiles: File*): Project = {
         val secretDirectory = IO.createTemporaryDirectory
         Git.cloneRepository().
           setURI(gitUri).
           setDirectory(secretDirectory).
+          setCredentialsProvider(credential).
           call().
           close()
 
