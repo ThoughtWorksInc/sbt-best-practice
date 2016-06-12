@@ -11,9 +11,9 @@ import xerial.sbt.Sonatype
   * regardless [[sbtrelease.ReleasePlugin]] is enabled.
   * @author 杨博 (Yang Bo) &lt;pop.atry@gmail.com&gt;
   */
-object PublishSigned  extends AutoPlugin {
+object PublishSigned extends AutoPlugin {
 
-  override def trigger = noTrigger
+  override def trigger = allRequirements
 
   override def requires = Sonatype && SbtPgp
 
