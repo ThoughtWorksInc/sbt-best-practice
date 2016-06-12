@@ -18,8 +18,7 @@ object SonatypeRelease extends AutoPlugin {
   override def projectSettings = Seq(
     releaseProcess := {
       releaseProcess.value.patch(releaseProcess.value.indexOf(pushChanges), Seq[ReleaseStep](releaseStepCommand(Sonatype.SonatypeCommand.sonatypeRelease)), 0)
-    },
-    releasePublishArtifactsAction := PgpKeys.publishSigned.value
+    }
   )
 
 }
