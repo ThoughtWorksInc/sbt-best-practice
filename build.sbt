@@ -20,7 +20,9 @@ lazy val `cross-release` = project
 
 lazy val `scalac-options` = project
 
-dependsOn(`scalac-options`, `remote-sbt-file`, `detect-license`, travis, sonatype, issue2514, git, `disable-deploy`, `cross-release`)
+lazy val `publish-unidoc` = project dependsOn travis dependsOn `scalac-options`
+
+dependsOn(`scalac-options`, `remote-sbt-file`, `detect-license`, travis, sonatype, issue2514, git, `disable-deploy`, `cross-release`, `publish-unidoc`)
 
 libraryDependencies += "com.lihaoyi" %% "sourcecode" % "0.1.1"
 
