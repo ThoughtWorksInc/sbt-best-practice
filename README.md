@@ -8,5 +8,5 @@ Configure common build settings for a Scala project
 
 ```
 // project/plugins.sbt
-addSbtPlugin("com.thoughtworks.sbt-best-practice" % "sbt-best-practice" % "1.4.0")
+addSbtPlugin("com.thoughtworks.sbt-best-practice" % "sbt-best-practice" % "latest.release")
 ```
