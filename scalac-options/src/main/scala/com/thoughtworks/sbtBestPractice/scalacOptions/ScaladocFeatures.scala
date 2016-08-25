@@ -22,8 +22,7 @@ object ScaladocFeatures extends AutoPlugin {
       } else {
         Seq("-author")
       }
-    },
-    scalacOptions in Compile in doc += "-diagrams"
+    }
   )
 }
 
