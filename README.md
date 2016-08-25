@@ -4,3 +4,9 @@
 
 Configure common build settings for a Scala project
 
+## Usage
+
+```
+// project/plugins.sbt
+addSbtPlugin("com.thoughtworks.sbt-best-practice" % "sbt-best-practice" % "1.4.0")
+```
