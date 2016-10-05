@@ -22,10 +22,12 @@ lazy val `scalac-options` = project
 
 lazy val `publish-unidoc` = project dependsOn travis dependsOn `scalac-options`
 
-dependsOn(`scalac-options`, `remote-sbt-file`, `detect-license`, travis, sonatype, issue2514, git, `disable-deploy`, `cross-release`, `publish-unidoc`)
+new sbt.internals.DslEnablePlugins(Nil) {
+  override val toFunction = { thisProject: Project =>
+    thisProject.dependsOn(`scalac-options`, `remote-sbt-file`, `detect-license`, travis, sonatype, issue2514, git, `disable-deploy`, `cross-release`, `publish-unidoc`)
+  }
+}
 
 libraryDependencies += "com.lihaoyi" %% "sourcecode" % "0.1.1"
 
 addSbtPlugin("com.thoughtworks.sbt-api-mappings" % "sbt-api-mappings" % "0.2.3")
-
-sbtVersion in sbtPlugin in ThisBuild := "0.13.5"
