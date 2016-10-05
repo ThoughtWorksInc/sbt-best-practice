@@ -1,6 +1,5 @@
 package com.thoughtworks.sbtBestPractice.detectLicense
 
-import com.thoughtworks.sbtBestPractice.git.Git
 import sbt.Keys._
 import sbt._
 
