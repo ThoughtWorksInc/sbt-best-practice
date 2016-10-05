@@ -28,8 +28,6 @@ object DslEntries extends AutoPlugin {
 
     def aggregate(refs: ProjectReference*) = configure(_.aggregate(refs: _*))
 
-    def dependsOn(deps: ClasspathDep[ProjectReference]*) = configure(_.dependsOn(deps: _*))
-
     def addSbtFiles(files: File*) = configure(_.addSbtFiles(files: _*))
 
   }
