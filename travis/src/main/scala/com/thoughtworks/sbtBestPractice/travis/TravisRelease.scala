@@ -101,7 +101,7 @@ object TravisRelease extends AutoPlugin {
           }
         }
 
-        override def currentHash = Travis.travisCommit.?.value.getOrElse((super.currentHash))
+        override def currentHash = Travis.travisCommit.?.value.getOrElse(super.currentHash)
 
         override def currentBranch = Travis.travisBranch.?.value.getOrElse(super.currentBranch)
 
