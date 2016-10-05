@@ -16,18 +16,18 @@ object GitDevelopers extends AutoPlugin {
   import Git._
 
   override def projectSettings = Seq(
-    developers ++= {
+    developers := {
       if (gitDir.value.isDefined) {
         val repository = gitRepositoryBuilder.value.build
         try {
           val git = org.eclipse.jgit.api.Git.wrap(repository)
           try {
-            (for {
+            developers.value ++ (for {
               commit <- git.log().call().asScala
             } yield {
               val author = commit.getAuthorIdent
               Developer("", author.getName, author.getEmailAddress, new java.net.URL("mailto", null, author.getEmailAddress))
-            }).toSet.toList
+            }).toSet
           } finally {
             git.close()
           }
@@ -35,7 +35,7 @@ object GitDevelopers extends AutoPlugin {
           repository.close()
         }
       } else {
-        Nil
+        developers.value
       }
     }
   )
