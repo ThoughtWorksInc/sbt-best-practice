@@ -27,3 +27,5 @@ dependsOn(`scalac-options`, `remote-sbt-file`, `detect-license`, travis, sonatyp
 libraryDependencies += "com.lihaoyi" %% "sourcecode" % "0.1.1"
 
 addSbtPlugin("com.thoughtworks.sbt-api-mappings" % "sbt-api-mappings" % "0.2.3")
+
+sbtVersion in sbtPlugin in ThisBuild := "0.13.5"
