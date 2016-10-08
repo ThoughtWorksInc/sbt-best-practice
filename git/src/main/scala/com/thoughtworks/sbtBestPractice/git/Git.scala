@@ -25,7 +25,9 @@ object Git extends AutoPlugin {
   override def projectSettings = Seq(
     gitRepositoryBuilder := {
       val builder = (new RepositoryBuilder).findGitDir(baseDirectory.value)
-      builder.setup()
+      if (builder.getWorkTree != null || builder.getGitDir != null) {
+        builder.setup()
+      }
       builder
     },
     gitWorkTree := Option(gitRepositoryBuilder.value.getWorkTree),
