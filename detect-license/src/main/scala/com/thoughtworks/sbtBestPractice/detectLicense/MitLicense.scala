@@ -8,7 +8,7 @@ import sbt._
   */
 object MitLicense extends AutoPlugin {
 
-  private val MitLicenseRegex = """^\s*MIT License\s+""".r
+  private val MitLicenseRegex = """^\s*(?:The )?MIT License\s+""".r
 
   override def trigger = allRequirements
 
