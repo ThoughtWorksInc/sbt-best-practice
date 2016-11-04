@@ -9,21 +9,12 @@ import sbtunidoc.Plugin.UnidocKeys
 
 object StandaloneUnidoc extends AutoPlugin {
 
-  override def requires: Plugins = JvmPlugin && Travis && ScaladocTitle
+  override def requires: Plugins = JvmPlugin && ScaladocTitle
 
   override def projectSettings = sbtunidoc.Plugin.scalaJavaUnidocSettings ++ Seq(
     doc in Compile := (UnidocKeys.unidoc in Compile).value.head,
     publishArtifact in packageSrc := false,
-    publishArtifact in packageBin := false,
-    scalacOptions in Compile in doc := {
-      val originalScalacOptions = (scalacOptions in Compile in doc).value
-      originalScalacOptions.indexOf("-doc-title") match {
-        case -1 =>
-          originalScalacOptions ++ Seq("-doc-title", Travis.travisRepoSlug.value)
-        case i =>
-          originalScalacOptions.patch(i + 1, Seq(Travis.travisRepoSlug.value), 1)
-      }
-    }
+    publishArtifact in packageBin := false
   )
 
 }
