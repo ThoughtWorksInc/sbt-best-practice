@@ -38,40 +38,38 @@ object TravisRelease extends AutoPlugin {
   override def requires = Travis && ReleasePlugin && GitPlugin
 
   override def projectSettings = Seq(
-
     travisGitConfig := {
-      val branch = Travis.travisBranch.value
-      val slug = Travis.travisRepoSlug.value
-      for (repository <- managed(GitPlugin.gitRepositoryBuilder.value.build()); git <- managed(org.eclipse.jgit.api.Git.wrap(repository))) {
-        {
-          val command = git.remoteSetUrl()
-          command.setName(RemoteName)
-          command.setPush(true)
-          githubCredential.value match {
-            case PersonalAccessToken(key) =>
-              command.setUri(new URIish(s"https://$key@github.com/$slug.git"))
-            case SshKey(privateKeyFile) =>
-              command.setUri(new URIish(s"ssh://git@github.com:$slug.git"))
+      (Travis.travisBranch.?.value, Travis.travisRepoSlug.?.value, githubCredential.?.value) match {
+        case (Some(branch), Some(slug), Some(githubCredentialValue)) =>
+          val branch = Travis.travisBranch.value
+          val slug = Travis.travisRepoSlug.value
+          for (repository <- managed(GitPlugin.gitRepositoryBuilder.value.build());
+               git <- managed(org.eclipse.jgit.api.Git.wrap(repository))) {
+            {
+              val command = git.remoteSetUrl()
+              command.setName(RemoteName)
+              command.setPush(true)
+              githubCredentialValue match {
+                case PersonalAccessToken(key) =>
+                  command.setUri(new URIish(s"https://$key@github.com/$slug.git"))
+                case SshKey(privateKeyFile) =>
+                  command.setUri(new URIish(s"ssh://git@github.com:$slug.git"))
+              }
+              command.call()
+            }
+
+            git.branchCreate().setForce(true).setName(branch).call()
+
+            {
+              val config = git.getRepository.getConfig
+              config.setString(CONFIG_BRANCH_SECTION, branch, CONFIG_KEY_REMOTE, RemoteName)
+              config.setString(CONFIG_BRANCH_SECTION, branch, CONFIG_KEY_MERGE, raw"""$R_HEADS$branch""")
+              config.save()
+            }
+
+            git.checkout().setName(branch).call()
           }
-          command.call()
-        }
-
-        git.branchCreate().
-          setForce(true).
-          setName(branch).
-          call()
-
-        {
-          val config = git.getRepository.getConfig
-          config.setString(CONFIG_BRANCH_SECTION, branch, CONFIG_KEY_REMOTE, RemoteName)
-          config.setString(CONFIG_BRANCH_SECTION, branch, CONFIG_KEY_MERGE, raw"""$R_HEADS$branch""")
-          config.save()
-        }
-
-        git.checkout().
-          setName(branch).
-          call()
-
+        case _ =>
       }
     },
     releaseProcess := {
@@ -107,12 +105,16 @@ object TravisRelease extends AutoPlugin {
 
         override def cmd(args: Any*) = {
           args match {
-            case Seq("push", rest@_*) =>
-              githubCredential.value match {
-                case SshKey(privateKeyFile) =>
-                  Process(executableName(commandName) +: args.map(_.toString), baseDir, "GIT_SSH_COMMAND" -> raw"""ssh -i "${privateKeyFile.getAbsolutePath}" """)
-                case PersonalAccessToken(key) =>
+            case Seq("push", rest @ _ *) =>
+              githubCredential.?.value match {
+                case Some(SshKey(privateKeyFile)) =>
+                  Process(executableName(commandName) +: args.map(_.toString),
+                          baseDir,
+                          "GIT_SSH_COMMAND" -> raw"""ssh -i "${privateKeyFile.getAbsolutePath}" """)
+                case Some(PersonalAccessToken(_)) =>
                   super.cmd("push" +: "--quiet" +: rest: _*)
+                case None =>
+                  super.cmd(args: _*)
               }
             case _ =>
               super.cmd(args: _*)
