@@ -15,11 +15,16 @@ object TravisUnidocTitle extends AutoPlugin {
   override def projectSettings = Seq(
     scalacOptions in Compile in doc := {
       val originalScalacOptions = (scalacOptions in Compile in doc).value
-      originalScalacOptions.indexOf("-doc-title") match {
-        case -1 =>
-          originalScalacOptions ++ Seq("-doc-title", Travis.travisRepoSlug.value)
-        case i =>
-          originalScalacOptions.updated(i + 1, Travis.travisRepoSlug.value)
+      Travis.travisRepoSlug.?.value match {
+        case Some(slug) =>
+          originalScalacOptions.indexOf("-doc-title") match {
+            case -1 =>
+              originalScalacOptions ++ Seq("-doc-title", slug)
+            case i =>
+              originalScalacOptions.updated(i + 1, slug)
+          }
+        case None =>
+          originalScalacOptions
       }
     }
   )
