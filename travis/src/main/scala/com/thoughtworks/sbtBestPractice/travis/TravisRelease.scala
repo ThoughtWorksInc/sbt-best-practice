@@ -40,7 +40,7 @@ object TravisRelease extends AutoPlugin {
   override def projectSettings = Seq(
     travisGitConfig := {
       (Travis.travisBranch.?.value, Travis.travisRepoSlug.?.value) match {
-        case (Some(branch), Some(slug), Some(githubCredentialValue)) =>
+        case (Some(branch), Some(slug)) =>
           for (repository <- managed(GitPlugin.gitRepositoryBuilder.value.build());
                git <- managed(org.eclipse.jgit.api.Git.wrap(repository))) {
             {
