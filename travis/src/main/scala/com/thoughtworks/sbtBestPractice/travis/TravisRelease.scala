@@ -39,21 +39,21 @@ object TravisRelease extends AutoPlugin {
 
   override def projectSettings = Seq(
     travisGitConfig := {
-      (Travis.travisBranch.?.value, Travis.travisRepoSlug.?.value, githubCredential.?.value) match {
+      (Travis.travisBranch.?.value, Travis.travisRepoSlug.?.value) match {
         case (Some(branch), Some(slug), Some(githubCredentialValue)) =>
-          val branch = Travis.travisBranch.value
-          val slug = Travis.travisRepoSlug.value
           for (repository <- managed(GitPlugin.gitRepositoryBuilder.value.build());
                git <- managed(org.eclipse.jgit.api.Git.wrap(repository))) {
             {
               val command = git.remoteSetUrl()
               command.setName(RemoteName)
               command.setPush(true)
-              githubCredentialValue match {
-                case PersonalAccessToken(key) =>
+              githubCredential.?.value match {
+                case Some(PersonalAccessToken(key)) =>
                   command.setUri(new URIish(s"https://$key@github.com/$slug.git"))
-                case SshKey(privateKeyFile) =>
+                case Some(SshKey(privateKeyFile)) =>
                   command.setUri(new URIish(s"ssh://git@github.com:$slug.git"))
+                case _ =>
+                  throw new MessageOnlyException("githubCredential is not set")
               }
               command.call()
             }
@@ -70,6 +70,7 @@ object TravisRelease extends AutoPlugin {
             git.checkout().setName(branch).call()
           }
         case _ =>
+          throw new MessageOnlyException("travisBranch or travisRepoSlug is not set")
       }
     },
     releaseProcess := {
