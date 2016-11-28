@@ -18,22 +18,21 @@ object DisableDeploy extends AutoPlugin {
   override def requires = ReleasePlugin && Git
 
   override def projectSettings = Seq(
-
     disableDeploy := {
       val log = (streams in disableDeploy).value.log
       val fromFile = baseDirectory.value / "deploy.sbt"
       val toFile = baseDirectory.value / "deploy.sbt.disabled"
       IO.move(fromFile, toFile)
-      for (repository <- managed(Git.gitRepositoryBuilder.value.build()); git <- managed(org.eclipse.jgit.api.Git.wrap(repository))) {
+      for (repository <- managed(Git.gitRepositoryBuilder.value.build());
+           git <- managed(org.eclipse.jgit.api.Git.wrap(repository))) {
         git.add().addFilepattern(toFile.relativeTo(repository.getWorkTree).get.toString).call()
         git.rm().addFilepattern(fromFile.relativeTo(repository.getWorkTree).get.toString).call()
       }
     },
-
     releaseProcess := {
-      releaseProcess.value.patch(releaseProcess.value.indexOf(commitReleaseVersion), Seq[ReleaseStep](releaseStepTask(disableDeploy)), 0)
+      releaseProcess.value
+        .patch(releaseProcess.value.indexOf(commitReleaseVersion), Seq[ReleaseStep](releaseStepTask(disableDeploy)), 0)
     }
-
   )
 
 }

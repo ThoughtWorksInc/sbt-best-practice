@@ -26,7 +26,10 @@ object GitDevelopers extends AutoPlugin {
               commit <- git.log().call().asScala
             } yield {
               val author = commit.getAuthorIdent
-              Developer("", author.getName, author.getEmailAddress, new java.net.URL("mailto", null, author.getEmailAddress))
+              Developer("",
+                        author.getName,
+                        author.getEmailAddress,
+                        new java.net.URL("mailto", null, author.getEmailAddress))
             }).toSet
           } finally {
             git.close()

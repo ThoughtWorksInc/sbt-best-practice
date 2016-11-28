@@ -26,4 +26,3 @@ object ScaladocFeatures extends AutoPlugin {
     }
   )
 }
-

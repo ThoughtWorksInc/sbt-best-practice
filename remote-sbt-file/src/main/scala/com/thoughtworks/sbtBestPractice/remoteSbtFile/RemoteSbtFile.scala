@@ -22,12 +22,13 @@ object RemoteSbtFile extends AutoPlugin {
 
       def addSbtFilesFromGit(gitUri: String, credential: CredentialsProvider, relativeSbtFiles: File*): Project = {
         val secretDirectory = IO.createTemporaryDirectory
-        Git.cloneRepository().
-          setURI(gitUri).
-          setDirectory(secretDirectory).
-          setCredentialsProvider(credential).
-          call().
-          close()
+        Git
+          .cloneRepository()
+          .setURI(gitUri)
+          .setDirectory(secretDirectory)
+          .setCredentialsProvider(credential)
+          .call()
+          .close()
 
         val resolvedFiles = for {
           relativeSbtFile <- relativeSbtFiles
@@ -42,12 +43,13 @@ object RemoteSbtFile extends AutoPlugin {
 
     def addAllSbtFilesFromGit(gitUri: String, credential: CredentialsProvider): ProjectManipulation = {
       val secretDirectory = IO.createTemporaryDirectory
-      Git.cloneRepository().
-        setURI(gitUri).
-        setDirectory(secretDirectory).
-        setCredentialsProvider(credential).
-        call().
-        close()
+      Git
+        .cloneRepository()
+        .setURI(gitUri)
+        .setDirectory(secretDirectory)
+        .setCredentialsProvider(credential)
+        .call()
+        .close()
       DslEntries.autoImport.addSbtFiles((secretDirectory ** "*.sbt").get: _*)
     }
 
@@ -55,13 +57,11 @@ object RemoteSbtFile extends AutoPlugin {
       addSbtFilesFromGit(gitUri, CredentialsProvider.getDefault, relativeSbtFiles: _*)
     }
 
-    def addSbtFilesFromGit(gitUri: String, credential: CredentialsProvider, relativeSbtFiles: File*): ProjectManipulation = {
+    def addSbtFilesFromGit(gitUri: String,
+                           credential: CredentialsProvider,
+                           relativeSbtFiles: File*): ProjectManipulation = {
       val secretDirectory = IO.createTemporaryDirectory
-      Git.cloneRepository().
-        setURI(gitUri).
-        setDirectory(secretDirectory).
-        call().
-        close()
+      Git.cloneRepository().setURI(gitUri).setDirectory(secretDirectory).call().close()
 
       val resolvedFiles = for {
         relativeSbtFile <- relativeSbtFiles

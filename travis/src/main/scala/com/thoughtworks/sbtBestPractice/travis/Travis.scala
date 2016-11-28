@@ -11,8 +11,10 @@ import sbt._
   */
 object Travis extends AutoPlugin {
 
-  val travisBranch = settingKey[String]("For builds not triggered by a pull request this is the name of the branch currently being built; whereas for builds triggered by a pull request this is the name of the branch targeted by the pull request (in many cases this will be master).")
-  val travisRepoSlug = settingKey[String]("The slug (in form: owner_name/repo_name) of the repository currently being built. (for example, “travis-ci/travis-build”).")
+  val travisBranch = settingKey[String](
+    "For builds not triggered by a pull request this is the name of the branch currently being built; whereas for builds triggered by a pull request this is the name of the branch targeted by the pull request (in many cases this will be master).")
+  val travisRepoSlug = settingKey[String](
+    "The slug (in form: owner_name/repo_name) of the repository currently being built. (for example, “travis-ci/travis-build”).")
   val travisCommit = settingKey[String]("The commit that the current build is testing.")
 
   private val Variables = Seq(
