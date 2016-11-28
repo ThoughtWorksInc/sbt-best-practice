@@ -26,7 +26,15 @@ object DslEntries extends AutoPlugin {
       }
     }
 
+    @deprecated(message = "Use [[addAggregate]] instead.", since = "2.1.0")
     def aggregate(refs: ProjectReference*) = configure(_.aggregate(refs: _*))
+
+    def addAggregate(refs: ProjectReference*) = configure(_.aggregate(refs: _*))
+
+    def removeAggregate(refs: ProjectReference*) = configure { oldProject: Project =>
+      val oldAggregate: Seq[ProjectReference] = oldProject.aggregate
+      oldProject.copy(aggregate = oldAggregate.filterNot(refs.toSet))
+    }
 
     def addSbtFiles(files: File*) = configure(_.addSbtFiles(files: _*))
 
