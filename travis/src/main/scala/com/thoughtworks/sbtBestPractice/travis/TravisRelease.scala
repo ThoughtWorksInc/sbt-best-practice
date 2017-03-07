@@ -75,7 +75,7 @@ object TravisRelease extends AutoPlugin {
     },
     releaseProcess := {
       val filteredReleaseProcess = releaseProcess.value.filter {
-        case `runClean` | `runTest` => false
+        case `runClean` => false
         case _ => true
       }
       if (GitPlugin.gitDir.value.isDefined && Travis.travisRepoSlug.?.value.isDefined) {
