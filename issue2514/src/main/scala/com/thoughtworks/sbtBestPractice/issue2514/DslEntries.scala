@@ -4,8 +4,7 @@ import sbt._
 import sbt.internals._
 
 /**
-  * See [[https://github.com/sbt/sbt/issues/2514]]
-  *
+  * @see [[https://github.com/sbt/sbt/issues/2514]]
   * @author 杨博 (Yang Bo) &lt;pop.atry@gmail.com&gt;
   */
 object DslEntries extends AutoPlugin {
