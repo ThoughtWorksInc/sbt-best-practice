@@ -12,6 +12,8 @@ lazy val sonatype = project
 
 lazy val issue2514 = project
 
+lazy val issue2552 = project
+
 lazy val git = project
 
 lazy val `disable-deploy` = project dependsOn git
@@ -30,6 +32,7 @@ new sbt.internals.DslEnablePlugins(Nil) {
                           travis,
                           sonatype,
                           issue2514,
+                          issue2552,
                           git,
                           `disable-deploy`,
                           `cross-release`,
