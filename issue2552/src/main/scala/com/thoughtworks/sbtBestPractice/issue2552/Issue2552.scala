@@ -1,7 +1,8 @@
 package com.thoughtworks.sbtBestPractice.issue2552
 
 import sbt.Keys._
-import sbt.{AutoPlugin, Def, SimpleFileFilter}
+import sbt._
+import sbt.plugins.JvmPlugin
 
 /**
   * @see [[https://github.com/sbt/sbt/issues/2552]]
