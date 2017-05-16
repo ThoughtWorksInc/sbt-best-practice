@@ -18,7 +18,7 @@ object GitDevelopers extends AutoPlugin {
   override def projectSettings = Seq(
     developers := {
       if (gitDir.value.isDefined) {
-        val repository = gitRepositoryBuilder.value.build
+        val repository = gitRepositoryBuilder.value.build()
         try {
           val git = org.eclipse.jgit.api.Git.wrap(repository)
           try {
