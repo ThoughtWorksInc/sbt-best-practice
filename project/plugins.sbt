@@ -1,1 +1,1 @@
-addSbtPlugin("com.thoughtworks.sbt-best-practice" % "sbt-best-practice" % "2.0.6")
+addSbtPlugin("com.thoughtworks.sbt-best-practice" % "sbt-best-practice" % "2.3.0")
