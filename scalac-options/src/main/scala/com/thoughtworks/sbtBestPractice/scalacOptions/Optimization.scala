@@ -18,7 +18,7 @@ object Optimization extends AutoPlugin {
     scalacOptions ++= {
       import scala.math.Ordering.Implicits._
       if (VersionNumber(scalaVersion.value).numbers < Seq(2L, 12L)) {
-        Seq("-optimize")
+        Seq("-optimize", "-Yinline-warnings")
       } else {
         Seq("-opt:l:project")
       }
