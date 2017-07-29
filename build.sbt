@@ -42,7 +42,7 @@ new sbt.internals.DslEnablePlugins(Nil) {
 
 libraryDependencies += "com.lihaoyi" %% "sourcecode" % "0.1.1"
 
-addSbtPlugin("com.thoughtworks.sbt-api-mappings" % "sbt-api-mappings" % "0.2.3")
+addSbtPlugin("com.thoughtworks.sbt-api-mappings" % "sbt-api-mappings" % "1.1.0")
 
 lazy val unidoc = project
   .enablePlugins(TravisUnidocTitle)
