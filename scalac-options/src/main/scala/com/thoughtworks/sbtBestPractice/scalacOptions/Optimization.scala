@@ -17,10 +17,13 @@ object Optimization extends AutoPlugin {
   override def buildSettings = Seq(
     scalacOptions ++= {
       import scala.math.Ordering.Implicits._
-      if (VersionNumber(scalaVersion.value).numbers < Seq(2L, 12L)) {
+      val versionNumers = VersionNumber(scalaVersion.value).numbers
+      if (versionNumers < Seq(2L, 12L)) {
         Seq("-optimize", "-Yinline-warnings")
-      } else {
+      } else if (versionNumers < Seq(2L, 12L, 3L)) {
         Seq("-opt:l:project")
+      } else {
+        Seq("-opt:l:inline", "-opt-inline-from:<sources>")
       }
     }
   )
