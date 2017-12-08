@@ -1,3 +1,1 @@
-addSbtPlugin("com.thoughtworks.sbt-best-practice" % "sbt-best-practice" % "2.6.1")
-
-libraryDependencies += "commons-io" % "commons-io" % "2.5"
+addSbtPlugin("com.thoughtworks.sbt-best-practice" % "sbt-best-practice" % "3.0.0-M0")

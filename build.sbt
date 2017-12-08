@@ -24,18 +24,14 @@ lazy val `scalac-options` = project
 
 lazy val `publish-unidoc` = project dependsOn travis dependsOn `scalac-options`
 
-new sbt.internals.DslEnablePlugins(Nil) {
-  override val toFunction = { thisProject: Project =>
-    thisProject.dependsOn(`scalac-options`,
-                          `detect-license`,
-                          travis,
-                          sonatype,
-                          git,
-                          `disable-deploy`,
-                          `cross-release`,
-                          `publish-unidoc`)
-  }
-}
+dependsOn(`scalac-options`,
+          `detect-license`,
+          travis,
+          sonatype,
+          git,
+          `disable-deploy`,
+          `cross-release`,
+          `publish-unidoc`)
 
 libraryDependencies += "com.lihaoyi" %% "sourcecode" % "0.1.4"
 
@@ -46,5 +42,5 @@ addSbtPlugin("com.thoughtworks.sbt-api-mappings" % "sbt-api-mappings" % "2.0.0")
 lazy val unidoc = project
   .enablePlugins(TravisUnidocTitle)
   .settings(
-    UnidocKeys.unidocProjectFilter in ScalaUnidoc in UnidocKeys.unidoc := inAnyProject
+    unidocProjectFilter in ScalaUnidoc in BaseUnidocPlugin.autoImport.unidoc := inAnyProject
   )
