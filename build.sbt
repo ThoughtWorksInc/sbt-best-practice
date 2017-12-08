@@ -1,11 +1,5 @@
 sbtPlugin in ThisBuild := true
 
-scalaVersion in ThisBuild := "2.12.4"
-
-sbtBinaryVersion in update in ThisBuild := "1.0"
-
-sbtVersion in pluginCrossBuild in ThisBuild := "1.0.0-RC3"
-
 organization in ThisBuild := "com.thoughtworks.sbt-best-practice"
 
 lazy val `detect-license` = project dependsOn git
