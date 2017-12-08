@@ -1,7 +1,7 @@
 package com.thoughtworks.sbtBestPractice.sonatype
 
 import com.typesafe.sbt.SbtPgp
-import com.typesafe.sbt.pgp.PgpKeys
+import sbt.Keys._
 import sbt._
 import sbtrelease.ReleasePlugin
 import sbtrelease.ReleasePlugin.autoImport._
@@ -15,6 +15,12 @@ object SonatypeRelease extends AutoPlugin {
   override def requires = Sonatype && ReleasePlugin && SbtPgp
 
   override def projectSettings = Seq(
+    publishTo := Some(
+      if (isSnapshot.value)
+        Opts.resolver.sonatypeSnapshots
+      else
+        Opts.resolver.sonatypeStaging
+    ),
     releaseProcess := {
       releaseProcess.value.patch(releaseProcess.value.indexOf(pushChanges),
                                  Seq[ReleaseStep](releaseStepCommand(Sonatype.SonatypeCommand.sonatypeRelease)),

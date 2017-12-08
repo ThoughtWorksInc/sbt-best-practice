@@ -18,6 +18,13 @@ lazy val `scalac-options` = project
 
 lazy val `publish-unidoc` = project dependsOn travis dependsOn `scalac-options`
 
+publishTo in ThisBuild := Some(
+  if (isSnapshot.value)
+    Opts.resolver.sonatypeSnapshots
+  else
+    Opts.resolver.sonatypeStaging
+)
+
 dependsOn(`scalac-options`,
           `detect-license`,
           travis,
