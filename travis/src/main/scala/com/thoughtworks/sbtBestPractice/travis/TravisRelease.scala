@@ -13,6 +13,8 @@ import sbtrelease.{Git => GitVcs, ReleasePlugin}
 import sbtrelease.ReleasePlugin.autoImport._
 import sbtrelease.ReleaseStateTransformations._
 
+import scala.sys.process.Process
+
 object TravisRelease extends AutoPlugin {
 
   object autoImport {
@@ -41,13 +43,14 @@ object TravisRelease extends AutoPlugin {
     travisGitConfig := {
       (Travis.travisBranch.?.value, Travis.travisRepoSlug.?.value) match {
         case (Some(branch), Some(slug)) =>
+          val credential = githubCredential.?.value
           for (repository <- managed(GitPlugin.gitRepositoryBuilder.value.build());
                git <- managed(org.eclipse.jgit.api.Git.wrap(repository))) {
             {
               val command = git.remoteSetUrl()
               command.setName(RemoteName)
               command.setPush(true)
-              githubCredential.?.value match {
+              credential match {
                 case Some(PersonalAccessToken(key)) =>
                   command.setUri(new URIish(s"https://$key@github.com/$slug.git"))
                 case Some(SshKey(privateKeyFile)) =>

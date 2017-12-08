@@ -4,12 +4,12 @@ import sbt.{Def, _}
 import Keys._
 import sbt.Defaults.{packageDocMappings, packageTaskSettings}
 import sbt.plugins.JvmPlugin
-import sbtunidoc.Plugin.UnidocKeys._
+import sbtunidoc.UnidocKeys
 
 /**
   * @author 杨博 (Yang Bo) &lt;pop.atry@gmail.com&gt;
   */
-object PackageUnidoc extends AutoPlugin {
+object PackageUnidoc extends AutoPlugin with UnidocKeys {
 
   override def requires: Plugins = JvmPlugin
 
@@ -31,7 +31,7 @@ object PackageUnidoc extends AutoPlugin {
         packageDoc,
         Def.taskDyn {
           unidocProject.value match {
-            case None => packageDocMappings
+            case None    => packageDocMappings
             case Some(p) => (unidoc in Compile in p).map(_.flatMap(Path.allSubpaths))
           }
         }
