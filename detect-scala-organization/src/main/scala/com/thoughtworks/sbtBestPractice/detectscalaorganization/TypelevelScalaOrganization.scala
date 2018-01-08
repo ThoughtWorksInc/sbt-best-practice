@@ -1,4 +1,4 @@
-package com.thoughtworks.sbtBestPractice.scalaorganization
+package com.thoughtworks.sbtBestPractice.detectscalaorganization
 
 import sbt.plugins.JvmPlugin
 import sbt._, Keys._
