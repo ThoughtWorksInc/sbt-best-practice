@@ -18,6 +18,8 @@ lazy val `scalac-options` = project
 
 lazy val `publish-unidoc` = project dependsOn travis dependsOn `scalac-options`
 
+lazy val `scala-organization` = project
+
 dependsOn(`scalac-options`,
           `detect-license`,
           travis,
@@ -25,7 +27,7 @@ dependsOn(`scalac-options`,
           git,
           `disable-deploy`,
           `cross-release`,
-          `publish-unidoc`)
+          `publish-unidoc`,`scala-organization`)
 
 libraryDependencies += "com.lihaoyi" %% "sourcecode" % "0.1.4"
 
