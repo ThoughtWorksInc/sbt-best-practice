@@ -35,6 +35,6 @@ object Travis extends AutoPlugin {
     }
   }
 
-  override def trigger = noTrigger
+  override def trigger = allRequirements
 
 }
