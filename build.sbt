@@ -6,7 +6,7 @@ lazy val `detect-license` = project dependsOn git
 
 lazy val travis = project dependsOn git
 
-lazy val sonatype = project
+lazy val sonatype = project dependsOn `scalac-options`
 
 lazy val git = project
 
