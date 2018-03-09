@@ -16,7 +16,8 @@ object ScalacWarnings extends AutoPlugin {
   override def projectSettings = Seq(
     scalacOptions += "-feature",
     scalacOptions += "-deprecation",
-    scalacOptions += "-unchecked"
+    scalacOptions += "-unchecked",
+    scalacOptions += "-Ywarn-infer-any"
   )
 
 }
