@@ -32,8 +32,6 @@ dependsOn(`scalac-options`,
 
 libraryDependencies += "com.lihaoyi" %% "sourcecode" % "0.1.4"
 
-libraryDependencies += "commons-io" % "commons-io" % "2.5"
-
 addSbtPlugin("com.thoughtworks.sbt-api-mappings" % "sbt-api-mappings" % "2.0.1")
 
 lazy val unidoc = project
