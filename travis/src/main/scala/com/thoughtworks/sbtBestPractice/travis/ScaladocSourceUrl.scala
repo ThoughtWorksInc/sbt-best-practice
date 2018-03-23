@@ -1,16 +1,15 @@
-package com.thoughtworks.sbtBestPractice.publishUnidoc
+package com.thoughtworks.sbtBestPractice.travis
 
-import com.thoughtworks.sbtBestPractice.travis.Travis
 import com.thoughtworks.sbtBestPractice.git.{Git => GitPlugin}
+import org.eclipse.jgit.lib.Constants
 import sbt.Keys._
 import sbt._
-import org.eclipse.jgit.lib.Constants
 
 /**
   * @author 杨博 (Yang Bo) &lt;pop.atry@gmail.com&gt;
   */
-object TravisUnidocSourceUrl extends AutoPlugin {
-  override def requires: Plugins = Travis && StandaloneUnidoc && GitPlugin
+object ScaladocSourceUrl extends AutoPlugin {
+  override def requires: Plugins = Travis && GitPlugin
 
   override def trigger: PluginTrigger = allRequirements
 
