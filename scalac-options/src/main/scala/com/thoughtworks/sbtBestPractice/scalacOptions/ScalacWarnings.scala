@@ -17,7 +17,14 @@ object ScalacWarnings extends AutoPlugin {
     scalacOptions += "-feature",
     scalacOptions += "-deprecation",
     scalacOptions += "-unchecked",
-    scalacOptions += "-Ywarn-infer-any"
+    scalacOptions ++= {
+      import Ordering.Implicits._
+      if (VersionNumber(scalaVersion.value).numbers >= Seq(2L, 11L)) {
+        Some("-Ywarn-infer-any")
+      } else {
+        None
+      }
+    }
   )
 
 }
