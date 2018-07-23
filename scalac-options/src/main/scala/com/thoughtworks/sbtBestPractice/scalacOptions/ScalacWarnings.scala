@@ -15,7 +15,7 @@ object ScalacWarnings extends AutoPlugin {
 
   override def projectSettings = Seq(
     scalacOptions += "-feature",
-    scalacOptions += "-deprecation",
+    scalacOptions in Compile += "-deprecation",
     scalacOptions += "-unchecked",
     scalacOptions ++= {
       import Ordering.Implicits._
