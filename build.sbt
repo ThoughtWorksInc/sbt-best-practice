@@ -30,7 +30,7 @@ dependsOn(`scalac-options`,
           `publish-unidoc`,
           `detect-scala-organization`)
 
-libraryDependencies += "com.lihaoyi" %% "sourcecode" % "0.1.4"
+libraryDependencies += "com.lihaoyi" %% "sourcecode" % "0.1.5"
 
 addSbtPlugin("com.thoughtworks.sbt-api-mappings" % "sbt-api-mappings" % "2.0.1")
 
