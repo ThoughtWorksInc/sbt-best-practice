@@ -32,7 +32,7 @@ dependsOn(`scalac-options`,
 
 libraryDependencies += "com.lihaoyi" %% "sourcecode" % "0.1.5"
 
-addSbtPlugin("com.thoughtworks.sbt-api-mappings" % "sbt-api-mappings" % "2.0.1")
+addSbtPlugin("com.thoughtworks.sbt-api-mappings" % "sbt-api-mappings" % "3.0.0")
 
 lazy val unidoc = project
   .enablePlugins(TravisUnidocTitle)
