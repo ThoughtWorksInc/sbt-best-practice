@@ -4,7 +4,7 @@ addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.11")
 
 addSbtPlugin("org.scala-js" % "sbt-scalajs" % "0.6.26")
 
-libraryDependencies += "org.yaml" % "snakeyaml" % "1.23"
+libraryDependencies += "org.yaml" % "snakeyaml" % "1.24"
 
 libraryDependencies += "com.thoughtworks.dsl" %% "keywords-continue" % "1.0.0-RC22"
 
