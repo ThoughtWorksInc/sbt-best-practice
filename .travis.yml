@@ -31,3 +31,4 @@ deploy:
   skip_cleanup: true
   provider: script
   script: sbt ++$TRAVIS_SCALA_VERSION releaseEarly
+
