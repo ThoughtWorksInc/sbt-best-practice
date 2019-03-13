@@ -9,13 +9,10 @@ import resource._
 import sbt._
 import com.thoughtworks.sbtBestPractice.git.{Git => GitPlugin}
 import sbt.Keys._
-import sbtrelease.{Git => GitVcs, ReleasePlugin}
-import sbtrelease.ReleasePlugin.autoImport._
-import sbtrelease.ReleaseStateTransformations._
 
 import scala.sys.process.Process
 
-object TravisRelease extends AutoPlugin {
+object TravisGithub extends AutoPlugin {
 
   object autoImport {
 
@@ -27,17 +24,17 @@ object TravisRelease extends AutoPlugin {
 
     val githubCredential = SettingKey[GitCredential]("github-credential", "Credential for git push")
 
+    val travisGitConfig = TaskKey[Unit]("travis-git-config", "Configure git from Travis environment variables")
+
   }
 
   import autoImport._
 
   private val RemoteName = "origin"
 
-  val travisGitConfig = TaskKey[Unit]("travis-git-config", "configure git from Travis environment variables")
-
   override def trigger = allRequirements
 
-  override def requires = Travis && ReleasePlugin && GitPlugin
+  override def requires = Travis && GitPlugin
 
   override def projectSettings = Seq(
     travisGitConfig := {
@@ -76,56 +73,6 @@ object TravisRelease extends AutoPlugin {
           throw new MessageOnlyException("travisBranch or travisRepoSlug is not set")
       }
     },
-    releaseProcess := {
-      val filteredReleaseProcess = releaseProcess.value.filter {
-        case `runClean` => false
-        case _ => true
-      }
-      if (GitPlugin.gitDir.value.isDefined && Travis.travisRepoSlug.?.value.isDefined) {
-        ReleaseStep(releaseStepTask(travisGitConfig)) +: filteredReleaseProcess
-      } else {
-        filteredReleaseProcess
-      }
-    },
-    releaseVcs := {
-      Some(new GitVcs(baseDirectory.value) {
-        override def isBehindRemote = {
-          Travis.travisRepoSlug.?.value match {
-            case None => super.isBehindRemote
-            case Some(_) => false
-          }
-        }
-
-        override def hasUpstream = {
-          Travis.travisRepoSlug.?.value match {
-            case None => super.hasUpstream
-            case Some(_) => true
-          }
-        }
-
-        override def currentHash = Travis.travisCommit.?.value.getOrElse(super.currentHash)
-
-        override def currentBranch = Travis.travisBranch.?.value.getOrElse(super.currentBranch)
-
-        override def cmd(args: Any*) = {
-          args match {
-            case Seq("push", rest @ _ *) =>
-              githubCredential.?.value match {
-                case Some(SshKey(privateKeyFile)) =>
-                  Process(executableName(commandName) +: args.map(_.toString),
-                          baseDir,
-                          "GIT_SSH_COMMAND" -> raw"""ssh -i "${privateKeyFile.getAbsolutePath}" """)
-                case Some(PersonalAccessToken(_)) =>
-                  super.cmd("push" +: "--quiet" +: rest: _*)
-                case None =>
-                  super.cmd(args: _*)
-              }
-            case _ =>
-              super.cmd(args: _*)
-          }
-        }
-      })
-    }
   )
 
 }
