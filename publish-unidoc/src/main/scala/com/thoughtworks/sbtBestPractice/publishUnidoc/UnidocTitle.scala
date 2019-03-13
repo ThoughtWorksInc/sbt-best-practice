@@ -1,14 +1,16 @@
 package com.thoughtworks.sbtBestPractice.publishUnidoc
-
-import com.thoughtworks.sbtBestPractice.travis.Travis
-import sbt.Keys._
+import sbt.plugins.JvmPlugin
 import sbt._
+import Keys._
+import com.thoughtworks.sbtBestPractice.scalacOptions.ScaladocTitle
+import com.thoughtworks.sbtBestPractice.travis.Travis
+import sbtunidoc.ScalaUnidocPlugin
 
 /**
   * @author 杨博 (Yang Bo) &lt;pop.atry@gmail.com&gt;
   */
-object TravisUnidocTitle extends AutoPlugin {
-  override def requires: Plugins = Travis && StandaloneUnidoc
+object UnidocTitle extends AutoPlugin {
+  override def requires: Plugins = Travis && JvmPlugin && ScalaUnidocPlugin && ScaladocTitle
 
   override def trigger: PluginTrigger = allRequirements
 
