@@ -1,5 +1,7 @@
 libraryDependencies += "com.jsuereth" %% "scala-arm" % "2.0"
 
+addSbtPlugin("com.eed3si9n" % "sbt-unidoc" % "0.4.2")
+
 addSbtPlugin("org.scala-js" % "sbt-scalajs" % "0.6.26")
 
 libraryDependencies += "org.yaml" % "snakeyaml" % "1.24"

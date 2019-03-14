@@ -1,22 +1,21 @@
-package com.thoughtworks.sbtBestPractice.publishUnidoc
+package com.thoughtworks.sbtBestPractice.travis
+
 import sbt.plugins.JvmPlugin
 import sbt._
 import Keys._
-import com.thoughtworks.sbtBestPractice.scalacOptions.ScaladocTitle
-import com.thoughtworks.sbtBestPractice.travis.Travis
-import sbtunidoc.ScalaUnidocPlugin
+import sbtunidoc.{ScalaUnidocPlugin, UnidocKeys}
 
 /**
   * @author 杨博 (Yang Bo) &lt;pop.atry@gmail.com&gt;
   */
-object UnidocTitle extends AutoPlugin {
-  override def requires: Plugins = Travis && JvmPlugin && ScalaUnidocPlugin && ScaladocTitle
+object TravisUnidoc extends AutoPlugin with UnidocKeys {
+  override def requires: Plugins = Travis && JvmPlugin && ScalaUnidocPlugin
 
   override def trigger: PluginTrigger = allRequirements
 
   override def projectSettings = Seq(
-    scalacOptions in Compile in doc := {
-      val originalScalacOptions = (scalacOptions in Compile in doc).value
+    scalacOptions in Compile in unidoc := {
+      val originalScalacOptions = (scalacOptions in Compile in unidoc).value
       Travis.travisRepoSlug.?.value match {
         case Some(slug) =>
           originalScalacOptions.indexOf("-doc-title") match {

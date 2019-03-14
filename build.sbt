@@ -10,7 +10,7 @@ lazy val git = project
 
 lazy val `scalac-options` = project
 
-lazy val `publish-unidoc` = project dependsOn travis dependsOn `scalac-options`
+lazy val `publish-unidoc` = project
 
 lazy val `detect-scala-organization` = project
 
