@@ -1,14 +1,18 @@
 package com.thoughtworks.sbtBestPractice.workaroundforsbtsonatypeissue79
 import sbt.Keys._
 import sbt._
+import xerial.sbt.Sonatype
 import xerial.sbt.Sonatype.SonatypeKeys._
 
 /**
   * @author 杨博 (Yang Bo)
   */
 object WorkaroundForSbtSonatypeIssue79 extends AutoPlugin {
+
   override def trigger = allRequirements
-  override def requires = super.requires
+
+  override def requires = Sonatype
+
   override def projectSettings: Seq[Def.Setting[_]] = Seq(
     sonatypeDefaultResolver := {
       val sonatypeRepo = "https://oss.sonatype.org/"
@@ -26,4 +30,5 @@ object WorkaroundForSbtSonatypeIssue79 extends AutoPlugin {
       })
     }
   )
+
 }
