@@ -29,19 +29,3 @@ libraryDependencies += "com.lihaoyi" %% "sourcecode" % "0.1.5"
 addSbtPlugin("com.thoughtworks.sbt-api-mappings" % "sbt-api-mappings" % "3.0.0")
 
 enablePlugins(ScalaUnidocPlugin)
-
-sonatypeDefaultResolver := {
-  val sonatypeRepo = "https://oss.sonatype.org/"
-  val profileM     = sonatypeStagingRepositoryProfile.?.value
-
-  val staged = profileM.map { stagingRepoProfile =>
-    "releases" at sonatypeRepo +
-      "service/local/staging/deployByRepositoryId/" +
-      stagingRepoProfile.repositoryId
-  }
-  staged.getOrElse(if (isSnapshot.value) {
-    Opts.resolver.sonatypeSnapshots
-  } else {
-    Opts.resolver.sonatypeStaging
-  })
-}
