@@ -1,4 +1,4 @@
-addSbtPlugin("com.thoughtworks.sbt-best-practice" % "sbt-best-practice" % "5.0.0+9-9a5b75a6")
+addSbtPlugin("com.thoughtworks.sbt-best-practice" % "sbt-best-practice" % "5.0.0+17-b4b581de")
 
 addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "2.4")
 
