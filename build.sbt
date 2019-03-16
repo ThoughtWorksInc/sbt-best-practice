@@ -14,15 +14,12 @@ lazy val `publish-unidoc` = project
 
 lazy val `detect-scala-organization` = project
 
-lazy val `workaround-for-sbt-sonatype-issue-79` = project
-
 dependsOn(`scalac-options`,
           `detect-license`,
           travis,
           git,
           `publish-unidoc`,
-          `detect-scala-organization`,
-          `workaround-for-sbt-sonatype-issue-79`)
+          `detect-scala-organization`)
 
 libraryDependencies += "com.lihaoyi" %% "sourcecode" % "0.1.5"
 
