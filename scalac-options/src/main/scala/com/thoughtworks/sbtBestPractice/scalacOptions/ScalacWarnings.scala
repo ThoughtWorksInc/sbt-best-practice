@@ -19,10 +19,13 @@ object ScalacWarnings extends AutoPlugin {
     scalacOptions += "-unchecked",
     scalacOptions ++= {
       import Ordering.Implicits._
-      if (VersionNumber(scalaVersion.value).numbers >= Seq(2L, 11L)) {
-        Some("-Ywarn-infer-any")
-      } else {
-        None
+      VersionNumber(scalaVersion.value).numbers match {
+        case numbers if numbers >= Seq(2L, 13L) =>
+          Some("-Xlint:infer-any")
+        case numbers if numbers >= Seq(2L, 11L) =>
+          Some("-Ywarn-infer-any")
+        case _ =>
+          None
       }
     }
   )
