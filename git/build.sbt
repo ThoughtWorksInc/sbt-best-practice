@@ -1,1 +1,1 @@
-libraryDependencies += "org.eclipse.jgit" % "org.eclipse.jgit" % "5.3.0.201903130848-r"
+libraryDependencies += "org.eclipse.jgit" % "org.eclipse.jgit" % "5.3.1.201904271842-r"
