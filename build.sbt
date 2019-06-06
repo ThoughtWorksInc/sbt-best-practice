@@ -18,6 +18,8 @@ lazy val `subdirectory-organization` = project
 
 lazy val mima = project
 
+lazy val `skip-duplicate-java-publish` = project
+
 dependsOn(
   `scalac-options`,
   `detect-license`,
@@ -26,6 +28,7 @@ dependsOn(
   `publish-unidoc`,
   `detect-scala-organization`,
   `subdirectory-organization`,
+  `skip-duplicate-java-publish`
 )
 
 libraryDependencies += "com.lihaoyi" %% "sourcecode" % "0.1.6"
