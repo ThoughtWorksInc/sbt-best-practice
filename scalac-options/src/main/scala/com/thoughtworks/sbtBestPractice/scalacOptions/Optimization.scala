@@ -27,10 +27,10 @@ object Optimization extends AutoPlugin {
     scalacOptions ++= {
       if (optimization.value) {
         import scala.math.Ordering.Implicits._
-        val versionNumers = VersionNumber(scalaVersion.value).numbers
-        if (versionNumers < Seq(2L, 12L)) {
+        val versionNumbers = VersionNumber(scalaVersion.value).numbers
+        if (versionNumbers < Seq(2L, 12L)) {
           Seq("-optimize", "-Yinline-warnings")
-        } else if (versionNumers < Seq(2L, 12L, 3L)) {
+        } else if (versionNumbers < Seq(2L, 12L, 3L)) {
           Seq("-opt:l:project")
         } else {
           Seq("-opt:l:inline", "-opt-inline-from:<sources>")
