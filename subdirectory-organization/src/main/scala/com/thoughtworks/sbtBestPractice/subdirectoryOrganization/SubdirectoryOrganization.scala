@@ -1,7 +1,8 @@
 package com.thoughtworks.sbtBestPractice.subdirectoryOrganization
 
-import sbt.Keys.{baseDirectory, organization}
+import sbt.Keys._
 import sbt._
+import scala.collection.JavaConverters._
 
 /**
   * @author 杨博 (Yang Bo)
@@ -16,11 +17,18 @@ object SubdirectoryOrganization extends AutoPlugin {
         case None =>
           organization.value
         case Some(relativeBaseDirectory) =>
-          relativeBaseDirectory.getParent match {
-            case null =>
+          val pathElements = relativeBaseDirectory.toPath.asScala.toSeq
+          pathElements.lastIndexWhere(_.toString == name.value) match {
+            case -1 =>
               organization.value
-            case parent =>
-              parent.split('/').map(Project.normalizeModuleID).mkString(organization.value, ".", "")
+            case pathDepth =>
+              val parentPathElements = pathElements.view(0, pathDepth)
+              (organization.value match {
+                case "" =>
+                  parentPathElements
+                case oldOrganization =>
+                  oldOrganization +: parentPathElements
+              }).mkString(".")
           }
       }
     }
