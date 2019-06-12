@@ -1,5 +1,6 @@
-package com.thoughtworks.sbtBestPractice
-import sbt.Keys._
+package com.thoughtworks.sbtBestPractice.subdirectoryOrganization
+
+import sbt.Keys.{baseDirectory, organization}
 import sbt._
 
 /**
@@ -19,7 +20,7 @@ object SubdirectoryOrganization extends AutoPlugin {
             case null =>
               organization.value
             case parent =>
-              s"${organization.value}.${Project.normalizeModuleID(parent.replace('/', '.'))}"
+              parent.split('/').map(Project.normalizeModuleID).mkString(organization.value, ".", "")
           }
       }
     }
