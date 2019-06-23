@@ -6,12 +6,12 @@ addSbtPlugin("org.scala-js" % "sbt-scalajs" % "0.6.28")
 
 libraryDependencies += "org.yaml" % "snakeyaml" % "1.24"
 
-libraryDependencies += "com.thoughtworks.dsl" %% "keywords-continue" % "1.3.2"
+libraryDependencies += "com.thoughtworks.dsl" %% "keywords-continue" % "1.4.0"
 
-libraryDependencies += "com.thoughtworks.dsl" %% "keywords-each" % "1.3.2"
+libraryDependencies += "com.thoughtworks.dsl" %% "keywords-each" % "1.4.0"
 
-libraryDependencies += "com.thoughtworks.dsl" %% "keywords-return" % "1.3.2"
+libraryDependencies += "com.thoughtworks.dsl" %% "keywords-return" % "1.4.0"
 
-addCompilerPlugin("com.thoughtworks.dsl" %% "compilerplugins-bangnotation" % "1.3.2")
+addCompilerPlugin("com.thoughtworks.dsl" %% "compilerplugins-bangnotation" % "1.4.0")
 
-addCompilerPlugin("com.thoughtworks.dsl" %% "compilerplugins-reseteverywhere" % "1.3.2")
+addCompilerPlugin("com.thoughtworks.dsl" %% "compilerplugins-reseteverywhere" % "1.4.0")
