@@ -4,7 +4,7 @@ addSbtPlugin("com.eed3si9n" % "sbt-unidoc" % "0.4.2")
 
 addSbtPlugin("org.scala-js" % "sbt-scalajs" % "0.6.28")
 
-libraryDependencies += "org.yaml" % "snakeyaml" % "1.24"
+libraryDependencies += "org.yaml" % "snakeyaml" % "1.25"
 
 libraryDependencies += "com.thoughtworks.dsl" %% "keywords-continue" % "1.5.0"
 
