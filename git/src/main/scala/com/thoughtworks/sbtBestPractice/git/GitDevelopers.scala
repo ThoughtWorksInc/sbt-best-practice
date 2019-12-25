@@ -15,7 +15,7 @@ object GitDevelopers extends AutoPlugin {
 
   import Git._
 
-  override def projectSettings = Seq(
+  private def settings = Seq(
     developers := {
       if (gitDir.value.isDefined) {
         val repository = gitRepositoryBuilder.value.build()
@@ -42,5 +42,9 @@ object GitDevelopers extends AutoPlugin {
       }
     }
   )
+
+  override def buildSettings = settings
+
+  override def projectSettings = settings
 
 }

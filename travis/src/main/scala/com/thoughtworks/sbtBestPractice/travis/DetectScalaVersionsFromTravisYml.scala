@@ -7,6 +7,7 @@ import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.nodes._
 
 import scala.collection.JavaConverters._
+import sbt.Keys.scalaVersion
 import sbt.Keys.crossScalaVersions
 import sbt.plugins.JvmPlugin
 import sbt.{Node => _, _}
@@ -15,7 +16,6 @@ import sbt.{Node => _, _}
   * @author 杨博 (Yang Bo)
   */
 object DetectScalaVersionsFromTravisYml extends AutoPlugin {
-
   override def requires = JvmPlugin && Git
   override def trigger = allRequirements
 
@@ -42,7 +42,8 @@ object DetectScalaVersionsFromTravisYml extends AutoPlugin {
                                     !Return(valueNode.getValue)
                                   case _ =>
                                     throw new MessageOnlyException(
-                                      "The value of `matrix/include/scala` field in .travis.yml should be a scalar.")
+                                      "The value of `matrix/include/scala` field in .travis.yml should be a scalar."
+                                    )
                                 }
                               case _ =>
                                 !Continue
@@ -69,11 +70,13 @@ object DetectScalaVersionsFromTravisYml extends AutoPlugin {
                     !Return(valueNode.getValue)
                   case _ =>
                     throw new MessageOnlyException(
-                      "The value of `scala` field in .travis.yml should be a scalar or a sequence of scalars.")
+                      "The value of `scala` field in .travis.yml should be a scalar or a sequence of scalars."
+                    )
                 }
               case _ =>
                 throw new MessageOnlyException(
-                  "The value of `scala` field in .travis.yml  should be a scalar or a sequence of scalars.")
+                  "The value of `scala` field in .travis.yml  should be a scalar or a sequence of scalars."
+                )
             }
           case _ =>
             !Continue
@@ -83,7 +86,31 @@ object DetectScalaVersionsFromTravisYml extends AutoPlugin {
     }
   }
 
-  override def projectSettings = Seq(
+  private def scalaVersionSetting = {
+    scalaVersion := {
+      Git.gitWorkTree.value match {
+        case None =>
+          scalaVersion.value
+        case Some(gitWorkTree) =>
+          val travisYmlPath = (gitWorkTree / ".travis.yml").toPath
+          if (Files.exists(travisYmlPath)) {
+            val versions = extractScalaVersions {
+              val reader = Files.newBufferedReader(travisYmlPath, scala.io.Codec.UTF8.charSet)
+              try {
+                new Yaml().compose(reader)
+              } finally {
+                reader.close()
+              }
+            }
+            versions.headOption.getOrElse(scalaVersion.value)
+          } else {
+            scalaVersion.value
+          }
+      }
+    }
+  }
+
+  private def crossScalaVersionsSetting = (
     crossScalaVersions := {
       Git.gitWorkTree.value match {
         case None =>
@@ -104,8 +131,10 @@ object DetectScalaVersionsFromTravisYml extends AutoPlugin {
             crossScalaVersions.value
           }
       }
-
     }
   )
 
+  override def projectSettings = crossScalaVersionsSetting
+
+  override def buildSettings = Seq(crossScalaVersionsSetting, scalaVersionSetting)
 }
