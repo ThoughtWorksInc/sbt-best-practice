@@ -22,7 +22,7 @@ object Git extends AutoPlugin {
 
   val gitRepositoryBuilder = SettingKey[RepositoryBuilder]("git-repository-builder", "")
 
-  override def projectSettings = Seq(
+  private def settings = Seq(
     gitRepositoryBuilder := {
       val builder = (new RepositoryBuilder).findGitDir(baseDirectory.value)
       if (builder.getWorkTree != null || builder.getGitDir != null) {
@@ -33,5 +33,9 @@ object Git extends AutoPlugin {
     gitWorkTree := Option(gitRepositoryBuilder.value.getWorkTree),
     gitDir := Option(gitRepositoryBuilder.value.getGitDir)
   )
+
+  override def buildSettings = settings
+
+  override def projectSettings = settings
 
 }
