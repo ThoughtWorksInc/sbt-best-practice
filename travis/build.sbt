@@ -3,7 +3,7 @@ libraryDependencies += "com.jsuereth" %% "scala-arm" % "2.0"
 addSbtPlugin("com.eed3si9n" % "sbt-unidoc" % "0.4.3")
 
 libraryDependencies += Defaults.sbtPluginExtra(
-  "org.scala-js" % "sbt-scalajs" % "1.0.0",
+  "org.scala-js" % "sbt-scalajs" % "1.0.1",
   (sbtBinaryVersion in pluginCrossBuild).value,
   (scalaBinaryVersion in update).value
 ) % Optional
