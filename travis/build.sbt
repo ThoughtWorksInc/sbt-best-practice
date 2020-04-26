@@ -10,12 +10,12 @@ libraryDependencies += Defaults.sbtPluginExtra(
 
 libraryDependencies += "org.yaml" % "snakeyaml" % "1.26"
 
-libraryDependencies += "com.thoughtworks.dsl" %% "keywords-continue" % "1.5.2"
+libraryDependencies += "com.thoughtworks.dsl" %% "keywords-continue" % "1.5.3"
 
-libraryDependencies += "com.thoughtworks.dsl" %% "keywords-each" % "1.5.2"
+libraryDependencies += "com.thoughtworks.dsl" %% "keywords-each" % "1.5.3"
 
-libraryDependencies += "com.thoughtworks.dsl" %% "keywords-return" % "1.5.2"
+libraryDependencies += "com.thoughtworks.dsl" %% "keywords-return" % "1.5.3"
 
-addCompilerPlugin("com.thoughtworks.dsl" %% "compilerplugins-bangnotation" % "1.5.2")
+addCompilerPlugin("com.thoughtworks.dsl" %% "compilerplugins-bangnotation" % "1.5.3")
 
-addCompilerPlugin("com.thoughtworks.dsl" %% "compilerplugins-reseteverywhere" % "1.5.2")
+addCompilerPlugin("com.thoughtworks.dsl" %% "compilerplugins-reseteverywhere" % "1.5.3")
