@@ -31,7 +31,7 @@ dependsOn(
   `skip-duplicate-java-publish`
 )
 
-libraryDependencies += "com.lihaoyi" %% "sourcecode" % "0.2.1"
+libraryDependencies += "com.lihaoyi" %% "sourcecode" % "0.2.7"
 
 addSbtPlugin("com.thoughtworks.sbt-api-mappings" % "sbt-api-mappings" % "3.0.0")
 
