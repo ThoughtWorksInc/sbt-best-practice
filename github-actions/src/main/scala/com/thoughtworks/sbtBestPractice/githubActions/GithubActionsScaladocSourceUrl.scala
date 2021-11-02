@@ -8,7 +8,7 @@ import sbt._
 /**
   * @author 杨博 (Yang Bo) &lt;pop.atry@gmail.com&gt;
   */
-object ScaladocSourceUrlFromGithubActionsEnvironmentVariables extends AutoPlugin {
+object GithubActionsScaladocSourceUrl extends AutoPlugin {
   override def requires: Plugins = GithubActionsEnvironmentVariables && GitPlugin
 
   override def trigger: PluginTrigger = allRequirements
