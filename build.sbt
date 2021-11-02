@@ -6,6 +6,8 @@ lazy val `detect-license` = project dependsOn git
 
 lazy val travis = project dependsOn git
 
+lazy val `github-actions` = project dependsOn git
+
 lazy val git = project
 
 lazy val `scalac-options` = project
@@ -24,6 +26,7 @@ dependsOn(
   `scalac-options`,
   `detect-license`,
   travis,
+  `github-actions`,
   git,
   `publish-unidoc`,
   `detect-scala-organization`,
