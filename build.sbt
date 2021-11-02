@@ -36,3 +36,20 @@ libraryDependencies += "com.lihaoyi" %% "sourcecode" % "0.2.1"
 addSbtPlugin("com.thoughtworks.sbt-api-mappings" % "sbt-api-mappings" % "3.0.0")
 
 enablePlugins(ScalaUnidocPlugin)
+
+sys.env.get("GITHUB_REPOSITORY") match {
+  case None =>
+    Seq.empty
+  case Some(slug) =>
+    Seq(
+      ThisBuild / homepage := Some(new URL("https", "github.com", raw"""/$slug""")),
+      ThisBuild / scmInfo :=
+        Some(
+          ScmInfo(
+            new URL("https", "github.com", raw"""/$slug"""),
+            raw"""https://github.com/$slug.git""",
+            Some(raw"""git@github.com:$slug.git""")
+          )
+        )
+    )
+}
