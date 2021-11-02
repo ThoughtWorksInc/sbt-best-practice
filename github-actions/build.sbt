@@ -13,3 +13,5 @@ libraryDependencies += Defaults.sbtPluginExtra(
   (sbtBinaryVersion in pluginCrossBuild).value,
   (scalaBinaryVersion in update).value
 ) % Optional
+
+addSbtPlugin("com.eed3si9n" % "sbt-unidoc" % "0.4.3")
