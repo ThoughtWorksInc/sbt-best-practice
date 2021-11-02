@@ -14,16 +14,36 @@ object DetectHomepageFromTravisEnvironmentVariables extends AutoPlugin {
 
   override def buildSettings = Seq(
     homepage := {
-      Travis.travisRepoSlug.?.value.map { slug =>
-        new URL("https", "github.com", raw"""/$slug""")
+      homepage.value match {
+        case None =>
+          Travis.travisRepoSlug.?.value match {
+            case None =>
+              None
+            case Some(slug) =>
+              Some(new URL("https", "github.com", raw"""/$slug"""))
+          }
+        case someHomepage @ Some(_) =>
+          someHomepage
       }
     },
-    scmInfo := Travis.travisRepoSlug.?.value.map { slug =>
-      ScmInfo(
-        new URL("https", "github.com", raw"""/$slug"""),
-        raw"""https://github.com/$slug.git""",
-        Some(raw"""git@github.com:$slug.git""")
-      )
+    scmInfo := {
+      scmInfo.value match {
+        case None =>
+          Travis.travisRepoSlug.?.value match {
+            case None =>
+              None
+            case Some(slug) =>
+              Some(
+                ScmInfo(
+                  new URL("https", "github.com", raw"""/$slug"""),
+                  raw"""https://github.com/$slug.git""",
+                  Some(raw"""git@github.com:$slug.git""")
+                )
+              )
+          }
+        case someScmInfo @ Some(_) =>
+          someScmInfo
+      }
     }
   )
 
