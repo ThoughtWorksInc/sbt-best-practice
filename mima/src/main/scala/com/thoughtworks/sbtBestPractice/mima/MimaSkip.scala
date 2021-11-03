@@ -4,8 +4,8 @@ import com.typesafe.tools.mima.plugin.MimaPlugin
 import sbt.Keys._
 import sbt._
 
-/**
-  * @author 杨博 (Yang Bo)
+/** @author
+  *   杨博 (Yang Bo)
   */
 object MimaSkip extends AutoPlugin {
 
@@ -25,7 +25,7 @@ object MimaSkip extends AutoPlugin {
         } else {
           Def.task(default.value)
         }
-      }.value,
+      }.value
     )
 
 }

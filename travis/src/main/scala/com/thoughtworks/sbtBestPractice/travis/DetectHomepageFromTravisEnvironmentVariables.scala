@@ -3,8 +3,7 @@ package com.thoughtworks.sbtBestPractice.travis
 import sbt.Keys._
 import sbt._
 
-/**
-  * Fill project informations from Travis environment variables
+/** Fill project informations from Travis environment variables
   */
 object DetectHomepageFromTravisEnvironmentVariables extends AutoPlugin {
 

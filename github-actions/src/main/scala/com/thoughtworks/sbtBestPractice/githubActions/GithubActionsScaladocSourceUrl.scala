@@ -5,8 +5,8 @@ import org.eclipse.jgit.lib.Constants
 import sbt.Keys._
 import sbt._
 
-/**
-  * @author 杨博 (Yang Bo) &lt;pop.atry@gmail.com&gt;
+/** @author
+  *   杨博 (Yang Bo) &lt;pop.atry@gmail.com&gt;
   */
 object GithubActionsScaladocSourceUrl extends AutoPlugin {
   override def requires: Plugins = GithubActionsEnvironmentVariables && GitPlugin

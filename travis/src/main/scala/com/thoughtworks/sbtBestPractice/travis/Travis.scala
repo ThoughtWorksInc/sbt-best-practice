@@ -2,12 +2,13 @@ package com.thoughtworks.sbtBestPractice.travis
 
 import sbt._
 
-/**
-  * Configure sbt from Travis environment variables
+/** Configure sbt from Travis environment variables
   *
-  * @note This plugin should only be enabled when sbt is running on Travis CI
+  * @note
+  *   This plugin should only be enabled when sbt is running on Travis CI
   *
-  * @author 杨博 (Yang Bo) &lt;pop.atry@gmail.com&gt;
+  * @author
+  *   杨博 (Yang Bo) &lt;pop.atry@gmail.com&gt;
   */
 object Travis extends AutoPlugin {
 
@@ -26,14 +27,13 @@ object Travis extends AutoPlugin {
   )
 
   override def globalSettings = {
-    Variables.flatMap {
-      case (variableName, key) =>
-        sys.env.get(variableName) match {
-          case None =>
-            Seq.empty
-          case Some(value) =>
-            Seq(key := value)
-        }
+    Variables.flatMap { case (variableName, key) =>
+      sys.env.get(variableName) match {
+        case None =>
+          Seq.empty
+        case Some(value) =>
+          Seq(key := value)
+      }
     }
   }
 

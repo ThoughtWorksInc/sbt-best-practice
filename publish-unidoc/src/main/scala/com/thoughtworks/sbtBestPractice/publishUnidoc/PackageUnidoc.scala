@@ -6,8 +6,8 @@ import sbt.Defaults.{packageDocMappings, packageTaskSettings}
 import sbt.plugins.JvmPlugin
 import sbtunidoc.UnidocKeys
 
-/**
-  * @author 杨博 (Yang Bo) &lt;pop.atry@gmail.com&gt;
+/** @author
+  *   杨博 (Yang Bo) &lt;pop.atry@gmail.com&gt;
   */
 object PackageUnidoc extends AutoPlugin with UnidocKeys {
 
@@ -17,7 +17,8 @@ object PackageUnidoc extends AutoPlugin with UnidocKeys {
 
   object autoImport {
     val unidocProject = settingKey[Option[ProjectRef]](
-      "The project that defines a unidoc task. If this `unidocProject` setting is not None, packageDoc will use files generated from unidoc instead of per project doc")
+      "The project that defines a unidoc task. If this `unidocProject` setting is not None, packageDoc will use files generated from unidoc instead of per project doc"
+    )
   }
   import autoImport._
 
@@ -35,7 +36,8 @@ object PackageUnidoc extends AutoPlugin with UnidocKeys {
             case Some(p) => (unidoc in Compile in p).map(_.flatMap(Path.allSubpaths))
           }
         }
-      ))
+      )
+    )
   }
 
 }

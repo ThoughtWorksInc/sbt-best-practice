@@ -5,8 +5,8 @@ import sbt.{Def, _}
 import sbt.Keys._
 import sbt.plugins.JvmPlugin
 
-/**
-  * @author 杨博 (Yang Bo)
+/** @author
+  *   杨博 (Yang Bo)
   */
 object Optimization extends AutoPlugin {
 

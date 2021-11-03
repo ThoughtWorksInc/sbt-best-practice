@@ -4,8 +4,8 @@ import sbt.plugins.JvmPlugin
 import sbt._
 import Keys._
 
-/**
-  * @author 杨博 (Yang Bo) &lt;pop.atry@gmail.com&gt;
+/** @author
+  *   杨博 (Yang Bo) &lt;pop.atry@gmail.com&gt;
   */
 object GithubActionsDocTitle extends AutoPlugin {
   override def requires: Plugins = GithubActionsEnvironmentVariables && JvmPlugin

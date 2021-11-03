@@ -4,8 +4,8 @@ import sbt.Keys.scalacOptions
 import sbt._
 import sbt.plugins.JvmPlugin
 
-/**
-  * @author 杨博 (Yang Bo)
+/** @author
+  *   杨博 (Yang Bo)
   */
 object CheckInit extends AutoPlugin {
 

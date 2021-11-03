@@ -4,8 +4,8 @@ import sbt._
 import sbt.Keys._
 import sbt.plugins.JvmPlugin
 
-/**
-  * @author 杨博 (Yang Bo) &lt;pop.atry@gmail.com&gt;
+/** @author
+  *   杨博 (Yang Bo) &lt;pop.atry@gmail.com&gt;
   */
 object ScaladocFeatures extends AutoPlugin {
 

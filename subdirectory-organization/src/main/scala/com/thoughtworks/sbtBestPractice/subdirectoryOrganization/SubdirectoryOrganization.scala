@@ -4,8 +4,8 @@ import sbt.Keys._
 import sbt._
 import scala.collection.JavaConverters._
 
-/**
-  * @author 杨博 (Yang Bo)
+/** @author
+  *   杨博 (Yang Bo)
   */
 object SubdirectoryOrganization extends AutoPlugin {
 

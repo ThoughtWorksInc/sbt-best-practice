@@ -3,8 +3,7 @@ package com.thoughtworks.sbtBestPractice.githubActions
 import sbt.Keys._
 import sbt._
 
-/**
-  * Fill project information from Github Actions environment variables
+/** Fill project information from Github Actions environment variables
   */
 object GithubActionsHomepage extends AutoPlugin {
 

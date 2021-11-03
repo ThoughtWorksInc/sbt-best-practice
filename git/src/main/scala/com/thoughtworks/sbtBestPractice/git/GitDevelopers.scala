@@ -4,8 +4,7 @@ import sbt.Keys._
 import sbt._
 import scala.collection.JavaConverters._
 
-/**
-  * Fill developers from git log
+/** Fill developers from git log
   */
 object GitDevelopers extends AutoPlugin {
 
@@ -26,10 +25,12 @@ object GitDevelopers extends AutoPlugin {
               commit <- git.log().call().asScala
             } yield {
               val author = commit.getAuthorIdent
-              Developer("",
-                        author.getName,
-                        author.getEmailAddress,
-                        new java.net.URL("mailto", null, author.getEmailAddress))
+              Developer(
+                "",
+                author.getName,
+                author.getEmailAddress,
+                new java.net.URL("mailto", null, author.getEmailAddress)
+              )
             }).toSet
           } finally {
             git.close()

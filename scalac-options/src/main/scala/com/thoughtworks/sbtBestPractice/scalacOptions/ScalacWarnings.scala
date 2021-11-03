@@ -4,8 +4,7 @@ import sbt.Keys._
 import sbt._
 import sbt.plugins.JvmPlugin
 
-/**
-  * Enable scalac warnings
+/** Enable scalac warnings
   */
 object ScalacWarnings extends AutoPlugin {
 

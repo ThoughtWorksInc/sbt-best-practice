@@ -4,8 +4,8 @@ import sbt._
 import Keys._
 import sbt.plugins.JvmPlugin
 
-/**
-  * @author 杨博 (Yang Bo)
+/** @author
+  *   杨博 (Yang Bo)
   */
 object ClasspathCache extends AutoPlugin {
   override def trigger = allRequirements

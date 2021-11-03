@@ -15,8 +15,8 @@ import sbt.{Node => _, _}
 import sbt.nio.file.FileTreeView
 import com.thoughtworks.Extractor._
 
-/**
-  * @author 杨博 (Yang Bo)
+/** @author
+  *   杨博 (Yang Bo)
   */
 object GithubActionsScalaVersions extends AutoPlugin {
   override def requires = JvmPlugin && Git
@@ -27,9 +27,8 @@ object GithubActionsScalaVersions extends AutoPlugin {
   )
 
   private implicit final class YamlPathOps(private val nodes: Seq[Node]) extends AnyVal {
-    private def keyValue: PartialFunction[NodeTuple, (Node, Node)] = {
-      case tuple =>
-        (tuple.getKeyNode(), tuple.getValueNode())
+    private def keyValue: PartialFunction[NodeTuple, (Node, Node)] = { case tuple =>
+      (tuple.getKeyNode(), tuple.getValueNode())
     }
 
     def childNodes(key: String): Seq[Node] = {
@@ -47,9 +46,8 @@ object GithubActionsScalaVersions extends AutoPlugin {
     def childNodes: Seq[Node] = {
       nodes.flatMap {
         case mappingNode: MappingNode =>
-          mappingNode.getValue().asScala.collect {
-            case keyValue.extract(_, value) =>
-              value
+          mappingNode.getValue().asScala.collect { case keyValue.extract(_, value) =>
+            value
           }
         case sequence: SequenceNode =>
           sequence.getValue().asScala
@@ -82,9 +80,8 @@ object GithubActionsScalaVersions extends AutoPlugin {
                     .childNodes("matrix")
                     .childNodes("scala")
                     .childNodes
-                    .collect {
-                      case scalarNode: ScalarNode =>
-                        scalarNode.getValue()
+                    .collect { case scalarNode: ScalarNode =>
+                      scalarNode.getValue()
                     }
                 } finally {
                   reader.close()
