@@ -7,8 +7,7 @@ import sbt.plugins.CorePlugin
 
 import scala.collection.JavaConverters._
 
-/**
-  * Detect GIT directories from git log
+/** Detect GIT directories from git log
   */
 object Git extends AutoPlugin {
 

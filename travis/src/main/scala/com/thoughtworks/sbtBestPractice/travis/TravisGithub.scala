@@ -41,8 +41,10 @@ object TravisGithub extends AutoPlugin {
       (Travis.travisBranch.?.value, Travis.travisRepoSlug.?.value) match {
         case (Some(branch), Some(slug)) =>
           val credential = githubCredential.?.value
-          for (repository <- managed(GitPlugin.gitRepositoryBuilder.value.build());
-               git <- managed(org.eclipse.jgit.api.Git.wrap(repository))) {
+          for (
+            repository <- managed(GitPlugin.gitRepositoryBuilder.value.build());
+            git <- managed(org.eclipse.jgit.api.Git.wrap(repository))
+          ) {
             {
               val command = git.remoteSetUrl()
               command.setName(RemoteName)
@@ -72,7 +74,7 @@ object TravisGithub extends AutoPlugin {
         case _ =>
           throw new MessageOnlyException("travisBranch or travisRepoSlug is not set")
       }
-    },
+    }
   )
 
 }

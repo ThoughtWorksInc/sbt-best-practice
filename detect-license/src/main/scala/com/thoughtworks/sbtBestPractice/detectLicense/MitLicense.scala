@@ -3,8 +3,8 @@ package com.thoughtworks.sbtBestPractice.detectLicense
 import sbt.Keys._
 import sbt._
 
-/**
-  * @author 杨博 (Yang Bo) &lt;pop.atry@gmail.com&gt;
+/** @author
+  *   杨博 (Yang Bo) &lt;pop.atry@gmail.com&gt;
   */
 object MitLicense extends AutoPlugin {
 

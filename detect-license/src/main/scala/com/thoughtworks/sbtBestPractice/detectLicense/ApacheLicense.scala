@@ -3,8 +3,7 @@ package com.thoughtworks.sbtBestPractice.detectLicense
 import sbt.Keys._
 import sbt._
 
-/**
-  * Determine if this project is licensed under Apache License 2.0
+/** Determine if this project is licensed under Apache License 2.0
   */
 object ApacheLicense extends AutoPlugin {
 

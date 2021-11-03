@@ -1,2 +1,1 @@
 resolvers += Resolver.sonatypeRepo("staging")
-

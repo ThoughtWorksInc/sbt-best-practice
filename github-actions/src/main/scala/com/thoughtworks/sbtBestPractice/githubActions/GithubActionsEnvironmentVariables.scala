@@ -3,12 +3,13 @@ package com.thoughtworks.sbtBestPractice.githubActions
 import sbt._
 import com.thoughtworks.dsl.keywords.Yield
 
-/**
-  * Configure sbt settings of environment variables from Github Actions
+/** Configure sbt settings of environment variables from Github Actions
   *
-  * @note This plugin should only be enabled when sbt is running on Github Actions
+  * @note
+  *   This plugin should only be enabled when sbt is running on Github Actions
   *
-  * @author 杨博 (Yang Bo) &lt;pop.atry@gmail.com&gt;
+  * @author
+  *   杨博 (Yang Bo) &lt;pop.atry@gmail.com&gt;
   */
 object GithubActionsEnvironmentVariables extends AutoPlugin {
 

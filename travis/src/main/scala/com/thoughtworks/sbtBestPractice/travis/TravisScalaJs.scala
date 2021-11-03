@@ -4,8 +4,8 @@ import sbt._
 import org.scalajs.sbtplugin.ScalaJSPlugin
 import scala.language.reflectiveCalls
 
-/**
-  * @author 杨博 (Yang Bo)
+/** @author
+  *   杨博 (Yang Bo)
   */
 object TravisScalaJs extends AutoPlugin {
   private def reflectiveLinkerSetting[

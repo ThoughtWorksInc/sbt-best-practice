@@ -12,8 +12,8 @@ import sbt.Keys.crossScalaVersions
 import sbt.plugins.JvmPlugin
 import sbt.{Node => _, _}
 
-/**
-  * @author 杨博 (Yang Bo)
+/** @author
+  *   杨博 (Yang Bo)
   */
 object DetectScalaVersionsFromTravisYml extends AutoPlugin {
   override def requires = JvmPlugin && Git

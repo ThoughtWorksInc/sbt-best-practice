@@ -4,8 +4,8 @@ import com.typesafe.tools.mima.plugin.MimaPlugin
 import sbt._
 import sbt.Keys._
 
-/**
-  * @author 杨博 (Yang Bo)
+/** @author
+  *   杨博 (Yang Bo)
   */
 object MimaTest extends AutoPlugin {
 
@@ -19,7 +19,7 @@ object MimaTest extends AutoPlugin {
     Test / test := {
       mimaReportBinaryIssues.value
       (Test / test).value
-    },
+    }
   )
 
 }
