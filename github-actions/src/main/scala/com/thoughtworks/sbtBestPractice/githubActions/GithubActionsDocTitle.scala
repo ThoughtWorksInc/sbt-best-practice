@@ -3,13 +3,12 @@ package com.thoughtworks.sbtBestPractice.githubActions
 import sbt.plugins.JvmPlugin
 import sbt._
 import Keys._
-import sbtunidoc.{ScalaUnidocPlugin, UnidocKeys}
 
 /**
   * @author 杨博 (Yang Bo) &lt;pop.atry@gmail.com&gt;
   */
-object GithubActionsUnidoc extends AutoPlugin with UnidocKeys {
-  override def requires: Plugins = GithubActionsEnvironmentVariables && JvmPlugin && ScalaUnidocPlugin
+object GithubActionsDocTitle extends AutoPlugin {
+  override def requires: Plugins = GithubActionsEnvironmentVariables && JvmPlugin
 
   override def trigger: PluginTrigger = allRequirements
 
