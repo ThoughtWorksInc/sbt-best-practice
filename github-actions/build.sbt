@@ -1,6 +1,6 @@
 libraryDependencies += "org.yaml" % "snakeyaml" % "1.26"
 
-libraryDependencies += "com.thoughtworks.dsl" %% "keywords-yield" % "1.5.3"
+libraryDependencies += "com.thoughtworks.dsl" %% "keywords-yield" % "1.5.4"
 
 libraryDependencies += "com.thoughtworks.extractor" %% "extractor" % "2.1.3"
 
