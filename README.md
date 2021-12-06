@@ -1,6 +1,6 @@
 # sbt-best-practice
 
-[![Build Status](https://travis-ci.org/ThoughtWorksInc/sbt-best-practice.svg?branch=master)](https://travis-ci.org/ThoughtWorksInc/sbt-best-practice)
+[![Scala CI](https://github.com/ThoughtWorksInc/sbt-best-practice/actions/workflows/scala.yml/badge.svg)](https://github.com/ThoughtWorksInc/sbt-best-practice/actions/workflows/scala.yml)
 
 Configure common build settings for a Scala project
 
