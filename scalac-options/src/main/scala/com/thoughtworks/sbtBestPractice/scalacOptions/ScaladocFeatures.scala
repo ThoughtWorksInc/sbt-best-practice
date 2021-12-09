@@ -14,6 +14,7 @@ object ScaladocFeatures extends AutoPlugin {
   override def trigger = allRequirements
 
   override val projectSettings = Seq(
+    Compile / doc / scalacOptions ++= Seq("-doc-root-content", (baseDirectory.value / "README.md").toString()),
     scalacOptions in Compile in doc += "-groups",
     scalacOptions in Compile in doc += "-diagrams",
     scalacOptions in Compile in doc += "-implicits",
