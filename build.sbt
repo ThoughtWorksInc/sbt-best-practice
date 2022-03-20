@@ -39,6 +39,6 @@ dependsOn(
 
 libraryDependencies += "com.lihaoyi" %% "sourcecode" % "0.2.8"
 
-addSbtPlugin("com.thoughtworks.sbt-api-mappings" % "sbt-api-mappings" % "3.0.0")
+addSbtPlugin("com.thoughtworks.sbt-api-mappings" % "sbt-api-mappings" % "3.0.2")
 
 enablePlugins(ScalaUnidocPlugin)
