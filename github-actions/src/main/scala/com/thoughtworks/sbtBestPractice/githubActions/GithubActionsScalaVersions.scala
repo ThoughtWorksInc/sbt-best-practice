@@ -83,6 +83,7 @@ object GithubActionsScalaVersions extends AutoPlugin {
                     .childNodes
                   val includeScalaNodes = matrix
                     .childNodes("include")
+                    .childNodes
                     .childNodes("scala")
                   (scalaNodes ++ includeScalaNodes).collect { case scalarNode: ScalarNode =>
                     scalarNode.getValue()
