@@ -72,17 +72,21 @@ object GithubActionsScalaVersions extends AutoPlugin {
               case (workflowYmlPath, _) =>
                 val reader = Files.newBufferedReader(workflowYmlPath, scala.io.Codec.UTF8.charSet)
                 try {
-                  new Yaml()
+                  val matrix = new Yaml()
                     .compose(reader)
                     .childNodes("jobs")
                     .childNodes
                     .childNodes("strategy")
                     .childNodes("matrix")
+                  val scalaNodes = matrix
                     .childNodes("scala")
                     .childNodes
-                    .collect { case scalarNode: ScalarNode =>
-                      scalarNode.getValue()
-                    }
+                  val includeScalaNodes = matrix
+                    .childNodes("include")
+                    .childNodes("scala")
+                  (scalaNodes ++ includeScalaNodes).collect { case scalarNode: ScalarNode =>
+                    scalarNode.getValue()
+                  }
                 } finally {
                   reader.close()
                 }
