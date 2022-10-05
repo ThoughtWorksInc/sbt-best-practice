@@ -87,7 +87,7 @@ object GithubActionsScalaVersions extends AutoPlugin {
                     .childNodes("scala")
                   (scalaNodes ++ includeScalaNodes).collect { case scalarNode: ScalarNode =>
                     scalarNode.getValue()
-                  }
+                  }.distinct
                 } finally {
                   reader.close()
                 }
