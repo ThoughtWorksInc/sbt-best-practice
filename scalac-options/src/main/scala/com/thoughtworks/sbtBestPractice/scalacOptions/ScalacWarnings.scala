@@ -19,6 +19,8 @@ object ScalacWarnings extends AutoPlugin {
     scalacOptions ++= {
       import Ordering.Implicits._
       VersionNumber(scalaVersion.value).numbers match {
+        case numbers if numbers >= Seq(3L) =>
+          None
         case numbers if numbers >= Seq(2L, 13L) =>
           Some("-Xlint:infer-any")
         case numbers if numbers >= Seq(2L, 11L) =>
