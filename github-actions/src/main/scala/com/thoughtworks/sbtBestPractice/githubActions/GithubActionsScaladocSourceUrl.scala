@@ -33,25 +33,6 @@ object GithubActionsScaladocSourceUrl extends AutoPlugin {
         originalScalacOptions
       }
     },
-    Compile / doc / scalacOptions ++= {
-      if (scalaBinaryVersion.value == "3") {
-        for {
-          repositoryBuilder <- GitPlugin.gitRepositoryBuilder.?.value
-          workTree <- GitPlugin.gitWorkTree.value
-          slug <- GithubActionsEnvironmentVariables.githubRepository.?.value
-        } yield {
-          val repository = repositoryBuilder.build()
-          try {
-            val hash = repository.resolve(Constants.HEAD).name
-            raw"-source-links:$workTree=github://$slug/$hash"
-          } finally {
-            repository.close()
-          }
-        }
-      } else {
-        None
-      }
-    },
     scalacOptions in Compile in doc := {
       val originalScalacOptions = (scalacOptions in Compile in doc).value
       (GitPlugin.gitRepositoryBuilder.?.value, GithubActionsEnvironmentVariables.githubRepository.?.value) match {
@@ -69,7 +50,7 @@ object GithubActionsScaladocSourceUrl extends AutoPlugin {
               }
             } else {
               val pathPrefix = GitPlugin.gitWorkTree.value.fold("")(_.toString())
-              originalScalacOptions :+ raw"-source-links:$pathPrefix:github://$slug/$hash"
+              originalScalacOptions :+ raw"-source-links:$pathPrefix=github://$slug/$hash"
             }
           } finally {
             repository.close()
