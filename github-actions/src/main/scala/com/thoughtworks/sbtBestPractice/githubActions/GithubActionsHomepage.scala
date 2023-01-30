@@ -35,8 +35,8 @@ object GithubActionsHomepage extends AutoPlugin {
               Some(
                 ScmInfo(
                   new URL("https", "github.com", raw"""/$slug"""),
-                  raw"""https://github.com/$slug.git""",
-                  Some(raw"""git@github.com:$slug.git""")
+                  raw"""scm:git:https://github.com/$slug.git""",
+                  Some(raw"""scm:git:ssh://git@github.com/$slug.git""")
                 )
               )
           }
