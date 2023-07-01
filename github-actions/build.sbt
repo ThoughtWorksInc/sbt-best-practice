@@ -1,4 +1,4 @@
-libraryDependencies += "org.yaml" % "snakeyaml" % "1.26"
+libraryDependencies += "org.yaml" % "snakeyaml" % "1.33"
 
 libraryDependencies += "com.thoughtworks.dsl" %% "keywords-yield" % "1.5.5"
 
