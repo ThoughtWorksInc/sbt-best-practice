@@ -16,7 +16,9 @@ object GithubActionsEnvironmentVariables extends AutoPlugin {
   val githubRef = settingKey[String](
     "The branch or tag ref that triggered the workflow. For example, refs/heads/feature-branch-1. If neither a branch or tag is available for the event type, the variable will not exist."
   )
-  val githubRepository = settingKey[String]("The owner and repository name. For example, octocat/Hello-World.")
+  val githubRepository = settingKey[String](
+    "The owner and repository name. For example, octocat/Hello-World."
+  )
   val githubSha = settingKey[String](
     "The commit SHA that triggered the workflow. For example, ffac537e6cbbf934b08745a378932722df287a53."
   )

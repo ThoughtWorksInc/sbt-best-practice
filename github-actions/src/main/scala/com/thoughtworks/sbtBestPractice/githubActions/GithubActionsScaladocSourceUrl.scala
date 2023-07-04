@@ -10,7 +10,8 @@ import Ordering.Implicits._
   *   杨博 (Yang Bo) &lt;pop.atry@gmail.com&gt;
   */
 object GithubActionsScaladocSourceUrl extends AutoPlugin {
-  override def requires: Plugins = GithubActionsEnvironmentVariables && GitPlugin
+  override def requires: Plugins =
+    GithubActionsEnvironmentVariables && GitPlugin
 
   override def trigger: PluginTrigger = allRequirements
 
@@ -22,7 +23,10 @@ object GithubActionsScaladocSourceUrl extends AutoPlugin {
           case Some(rootDirectory) =>
             originalScalacOptions.indexOf("-sourcepath") match {
               case -1 =>
-                originalScalacOptions ++ Seq("-sourcepath", rootDirectory.toString)
+                originalScalacOptions ++ Seq(
+                  "-sourcepath",
+                  rootDirectory.toString
+                )
               case i =>
                 originalScalacOptions.updated(i + 1, rootDirectory.toString)
             }
@@ -35,13 +39,17 @@ object GithubActionsScaladocSourceUrl extends AutoPlugin {
     },
     scalacOptions in Compile in doc := {
       val originalScalacOptions = (scalacOptions in Compile in doc).value
-      (GitPlugin.gitRepositoryBuilder.?.value, GithubActionsEnvironmentVariables.githubRepository.?.value) match {
+      (
+        GitPlugin.gitRepositoryBuilder.?.value,
+        GithubActionsEnvironmentVariables.githubRepository.?.value
+      ) match {
         case (Some(repositoryBuilder), Some(slug)) =>
           val repository = repositoryBuilder.build()
           try {
             val hash = repository.resolve(Constants.HEAD).name
             if (VersionNumber(scalaVersion.value).numbers < Seq(3L)) {
-              val sourceUrl = raw"https://github.com/$slug/blob/${hash}€{FILE_PATH}.scala"
+              val sourceUrl =
+                raw"https://github.com/$slug/blob/${hash}€{FILE_PATH}.scala"
               originalScalacOptions.indexOf("-doc-source-url") match {
                 case -1 =>
                   originalScalacOptions ++ Seq("-doc-source-url", sourceUrl)
@@ -49,7 +57,8 @@ object GithubActionsScaladocSourceUrl extends AutoPlugin {
                   originalScalacOptions.updated(i + 1, sourceUrl)
               }
             } else {
-              val pathPrefix = GitPlugin.gitWorkTree.value.fold("")(_.toString())
+              val pathPrefix =
+                GitPlugin.gitWorkTree.value.fold("")(_.toString())
               originalScalacOptions :+ raw"-source-links:$pathPrefix=github://$slug/$hash"
             }
           } finally {

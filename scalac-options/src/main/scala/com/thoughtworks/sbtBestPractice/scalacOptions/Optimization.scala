@@ -15,7 +15,8 @@ object Optimization extends AutoPlugin {
   override def trigger: PluginTrigger = allRequirements
 
   object autoImport {
-    val optimization = settingKey[Boolean]("Whether to enable scalac flags for optimization")
+    val optimization =
+      settingKey[Boolean]("Whether to enable scalac flags for optimization")
   }
   import autoImport._
 

@@ -22,9 +22,13 @@ object TravisGithub extends AutoPlugin {
 
     final case class SshKey(privateKeyFile: File) extends GitCredential
 
-    val githubCredential = SettingKey[GitCredential]("github-credential", "Credential for git push")
+    val githubCredential =
+      SettingKey[GitCredential]("github-credential", "Credential for git push")
 
-    val travisGitConfig = TaskKey[Unit]("travis-git-config", "Configure git from Travis environment variables")
+    val travisGitConfig = TaskKey[Unit](
+      "travis-git-config",
+      "Configure git from Travis environment variables"
+    )
 
   }
 
@@ -51,7 +55,9 @@ object TravisGithub extends AutoPlugin {
               command.setPush(true)
               credential match {
                 case Some(PersonalAccessToken(key)) =>
-                  command.setUri(new URIish(s"https://$key@github.com/$slug.git"))
+                  command.setUri(
+                    new URIish(s"https://$key@github.com/$slug.git")
+                  )
                 case Some(SshKey(privateKeyFile)) =>
                   command.setUri(new URIish(s"ssh://git@github.com:$slug.git"))
                 case _ =>
@@ -64,15 +70,27 @@ object TravisGithub extends AutoPlugin {
 
             {
               val config = git.getRepository.getConfig
-              config.setString(CONFIG_BRANCH_SECTION, branch, CONFIG_KEY_REMOTE, RemoteName)
-              config.setString(CONFIG_BRANCH_SECTION, branch, CONFIG_KEY_MERGE, raw"""$R_HEADS$branch""")
+              config.setString(
+                CONFIG_BRANCH_SECTION,
+                branch,
+                CONFIG_KEY_REMOTE,
+                RemoteName
+              )
+              config.setString(
+                CONFIG_BRANCH_SECTION,
+                branch,
+                CONFIG_KEY_MERGE,
+                raw"""$R_HEADS$branch"""
+              )
               config.save()
             }
 
             git.checkout().setName(branch).call()
           }
         case _ =>
-          throw new MessageOnlyException("travisBranch or travisRepoSlug is not set")
+          throw new MessageOnlyException(
+            "travisBranch or travisRepoSlug is not set"
+          )
       }
     }
   )

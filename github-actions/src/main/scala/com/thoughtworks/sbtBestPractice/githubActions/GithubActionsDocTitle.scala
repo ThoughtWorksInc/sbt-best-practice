@@ -8,7 +8,8 @@ import Keys._
   *   杨博 (Yang Bo) &lt;pop.atry@gmail.com&gt;
   */
 object GithubActionsDocTitle extends AutoPlugin {
-  override def requires: Plugins = GithubActionsEnvironmentVariables && JvmPlugin
+  override def requires: Plugins =
+    GithubActionsEnvironmentVariables && JvmPlugin
 
   override def trigger: PluginTrigger = allRequirements
 
