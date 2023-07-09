@@ -5,8 +5,8 @@ import sbt.{AutoPlugin, Def}
 
 /** Skip duplicate publish.
   *
-  * If cross paths are disabled, then publish will be skipped, unless current scala version is the same as the first
-  * cross scala version.
+  * If cross paths are disabled, then publish will be skipped, unless current
+  * scala version is the same as the first cross scala version.
   *
   * @author
   *   杨博 (Yang Bo)

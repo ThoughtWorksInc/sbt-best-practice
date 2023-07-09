@@ -20,7 +20,10 @@ object ScaladocSourceUrl extends AutoPlugin {
         case Some(rootDirectory) =>
           originalScalacOptions.indexOf("-sourcepath") match {
             case -1 =>
-              originalScalacOptions ++ Seq("-sourcepath", rootDirectory.toString)
+              originalScalacOptions ++ Seq(
+                "-sourcepath",
+                rootDirectory.toString
+              )
             case i =>
               originalScalacOptions.updated(i + 1, rootDirectory.toString)
           }
@@ -30,12 +33,16 @@ object ScaladocSourceUrl extends AutoPlugin {
     },
     scalacOptions in Compile in doc := {
       val originalScalacOptions = (scalacOptions in Compile in doc).value
-      (GitPlugin.gitRepositoryBuilder.?.value, Travis.travisRepoSlug.?.value) match {
+      (
+        GitPlugin.gitRepositoryBuilder.?.value,
+        Travis.travisRepoSlug.?.value
+      ) match {
         case (Some(repositoryBuilder), Some(slug)) =>
           val repository = repositoryBuilder.build()
           try {
             val hash = repository.resolve(Constants.HEAD).name
-            val sourceUrl = raw"https://github.com/$slug/blob/${hash}€{FILE_PATH}.scala"
+            val sourceUrl =
+              raw"https://github.com/$slug/blob/${hash}€{FILE_PATH}.scala"
             originalScalacOptions.indexOf("-doc-source-url") match {
               case -1 =>
                 originalScalacOptions ++ Seq("-doc-source-url", sourceUrl)
