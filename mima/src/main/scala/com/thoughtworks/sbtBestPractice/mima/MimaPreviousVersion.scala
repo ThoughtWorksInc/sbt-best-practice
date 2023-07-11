@@ -20,8 +20,11 @@ object MimaPreviousVersion extends AutoPlugin {
   override def projectSettings: Seq[Def.Setting[_]] =
     Seq(
       mimaPreviousArtifacts ++= {
-        val currentModuleID = projectID.value.withExplicitArtifacts(Vector.empty)
-        previousStableVersion.value.map(currentModuleID.withRevision).toSet: Set[ModuleID]
+        val currentModuleID =
+          projectID.value.withExplicitArtifacts(Vector.empty)
+        previousStableVersion.value
+          .map(currentModuleID.withRevision)
+          .toSet: Set[ModuleID]
       }
     )
 

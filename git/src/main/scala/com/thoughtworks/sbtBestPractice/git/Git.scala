@@ -15,11 +15,16 @@ object Git extends AutoPlugin {
 
   override def trigger = allRequirements
 
-  val gitDir = SettingKey[Option[File]]("git-dir", ".git directory for current project")
+  val gitDir =
+    SettingKey[Option[File]]("git-dir", ".git directory for current project")
 
-  val gitWorkTree = SettingKey[Option[File]]("git-work-tree", "Root work tree of current project")
+  val gitWorkTree = SettingKey[Option[File]](
+    "git-work-tree",
+    "Root work tree of current project"
+  )
 
-  val gitRepositoryBuilder = SettingKey[RepositoryBuilder]("git-repository-builder", "")
+  val gitRepositoryBuilder =
+    SettingKey[RepositoryBuilder]("git-repository-builder", "")
 
   private def settings = Seq(
     gitRepositoryBuilder := {
