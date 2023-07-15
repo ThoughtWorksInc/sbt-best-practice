@@ -18,7 +18,8 @@ object Travis extends AutoPlugin {
   val travisRepoSlug = settingKey[String](
     "The slug (in form: owner_name/repo_name) of the repository currently being built. (for example, “travis-ci/travis-build”)."
   )
-  val travisCommit = settingKey[String]("The commit that the current build is testing.")
+  val travisCommit =
+    settingKey[String]("The commit that the current build is testing.")
 
   private val Variables = Seq(
     "TRAVIS_BRANCH" -> travisBranch,

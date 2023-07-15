@@ -5,7 +5,10 @@ import sbt._
 
 object LicenseFile extends AutoPlugin {
 
-  val licenseFileContent = SettingKey[Option[String]]("license-file-content", "The content of LICENSE file")
+  val licenseFileContent = SettingKey[Option[String]](
+    "license-file-content",
+    "The content of LICENSE file"
+  )
 
   override def trigger = allRequirements
 

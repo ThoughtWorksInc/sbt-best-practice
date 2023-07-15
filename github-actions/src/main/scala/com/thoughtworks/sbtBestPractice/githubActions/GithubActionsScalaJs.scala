@@ -14,7 +14,9 @@ object GithubActionsScalaJs extends AutoPlugin {
       }
   ](key: SettingKey[StandardConfig]): Def.Setting[StandardConfig] = {
     key := {
-      key.value.withBatchMode(GithubActionsEnvironmentVariables.githubRepository.?.value.isDefined)
+      key.value.withBatchMode(
+        GithubActionsEnvironmentVariables.githubRepository.?.value.isDefined
+      )
     }
   }
 

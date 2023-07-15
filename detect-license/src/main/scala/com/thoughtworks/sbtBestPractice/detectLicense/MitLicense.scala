@@ -17,7 +17,8 @@ object MitLicense extends AutoPlugin {
   override def projectSettings = Seq(
     licenses ++= {
       LicenseFile.licenseFileContent.value match {
-        case Some(content) if MitLicenseRegex.findFirstMatchIn(content).isDefined =>
+        case Some(content)
+            if MitLicenseRegex.findFirstMatchIn(content).isDefined =>
           Seq("MIT" -> url("http://opensource.org/licenses/MIT"))
         case _ =>
           Seq.empty

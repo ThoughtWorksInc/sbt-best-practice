@@ -17,7 +17,10 @@ object ClasspathCache extends AutoPlugin {
       val versionNumbers = VersionNumber(scalaVersion.value).numbers
       import scala.Ordering.Implicits._
       if (versionNumbers >= Seq(2L, 12L, 5L) && versionNumbers < Seq(3L)) {
-        Seq("-Ycache-plugin-class-loader:last-modified", "-Ycache-macro-class-loader:last-modified")
+        Seq(
+          "-Ycache-plugin-class-loader:last-modified",
+          "-Ycache-macro-class-loader:last-modified"
+        )
       } else {
         Nil
       }
