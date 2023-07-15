@@ -26,16 +26,19 @@ object GithubActionsScalaVersions extends AutoPlugin {
     "The Scala versions extracted from the build matrices of Github Actions"
   )
 
-  private implicit final class YamlPathOps(private val nodes: Seq[Node]) extends AnyVal {
-    private def keyValue: PartialFunction[NodeTuple, (Node, Node)] = { case tuple =>
-      (tuple.getKeyNode(), tuple.getValueNode())
+  private implicit final class YamlPathOps(private val nodes: Seq[Node])
+      extends AnyVal {
+    private def keyValue: PartialFunction[NodeTuple, (Node, Node)] = {
+      case tuple =>
+        (tuple.getKeyNode(), tuple.getValueNode())
     }
 
     def childNodes(key: String): Seq[Node] = {
       nodes.flatMap {
         case mappingNode: MappingNode =>
           mappingNode.getValue().asScala.collect {
-            case keyValue.extract(keyNode: ScalarNode, value) if keyNode.getValue() == key =>
+            case keyValue.extract(keyNode: ScalarNode, value)
+                if keyNode.getValue() == key =>
               value
           }
         case _ =>
@@ -46,8 +49,9 @@ object GithubActionsScalaVersions extends AutoPlugin {
     def childNodes: Seq[Node] = {
       nodes.flatMap {
         case mappingNode: MappingNode =>
-          mappingNode.getValue().asScala.collect { case keyValue.extract(_, value) =>
-            value
+          mappingNode.getValue().asScala.collect {
+            case keyValue.extract(_, value) =>
+              value
           }
         case sequence: SequenceNode =>
           sequence.getValue().asScala
@@ -58,9 +62,13 @@ object GithubActionsScalaVersions extends AutoPlugin {
 
   }
 
-  private implicit def yamlPathOps(node: Node): YamlPathOps = new YamlPathOps(Seq(node))
+  private implicit def yamlPathOps(node: Node): YamlPathOps = new YamlPathOps(
+    Seq(node)
+  )
 
-  override def projectSettings = Seq(crossScalaVersions := githubActionsMatrixScalaVersions.value)
+  override def projectSettings = Seq(
+    crossScalaVersions := githubActionsMatrixScalaVersions.value
+  )
   override def buildSettings =
     Seq(
       githubActionsMatrixScalaVersions ++= {
@@ -68,9 +76,13 @@ object GithubActionsScalaVersions extends AutoPlugin {
           case None =>
             Seq.empty
           case Some(gitWorkTree) =>
-            FileTreeView.default.list(gitWorkTree.toGlob / ".github/workflows/*.{yml,yaml}").flatMap {
-              case (workflowYmlPath, _) =>
-                val reader = Files.newBufferedReader(workflowYmlPath, scala.io.Codec.UTF8.charSet)
+            FileTreeView.default
+              .list(gitWorkTree.toGlob / ".github/workflows/*.{yml,yaml}")
+              .flatMap { case (workflowYmlPath, _) =>
+                val reader = Files.newBufferedReader(
+                  workflowYmlPath,
+                  scala.io.Codec.UTF8.charSet
+                )
                 try {
                   val matrix = new Yaml()
                     .compose(reader)
@@ -85,18 +97,22 @@ object GithubActionsScalaVersions extends AutoPlugin {
                     .childNodes("include")
                     .childNodes
                     .childNodes("scala")
-                  (scalaNodes ++ includeScalaNodes).collect { case scalarNode: ScalarNode =>
-                    scalarNode.getValue()
+                  (scalaNodes ++ includeScalaNodes).collect {
+                    case scalarNode: ScalarNode =>
+                      scalarNode.getValue()
                   }.distinct
                 } finally {
                   reader.close()
                 }
-            }
+              }
         }
       },
-      scalaVersion := githubActionsMatrixScalaVersions.value.headOption.getOrElse(scalaVersion.value),
+      scalaVersion := githubActionsMatrixScalaVersions.value.headOption
+        .getOrElse(scalaVersion.value),
       crossScalaVersions := githubActionsMatrixScalaVersions.value
     )
 
-  override def globalSettings = Seq(githubActionsMatrixScalaVersions := Seq.empty)
+  override def globalSettings = Seq(
+    githubActionsMatrixScalaVersions := Seq.empty
+  )
 }

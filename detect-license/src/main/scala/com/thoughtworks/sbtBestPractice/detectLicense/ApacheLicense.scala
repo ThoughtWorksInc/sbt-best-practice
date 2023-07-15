@@ -7,7 +7,8 @@ import sbt._
   */
 object ApacheLicense extends AutoPlugin {
 
-  private val ApacheLicenseRegex = """^\s*Apache License\s*Version 2\.0, January 2004""".r
+  private val ApacheLicenseRegex =
+    """^\s*Apache License\s*Version 2\.0, January 2004""".r
 
   override def trigger = allRequirements
 
@@ -16,7 +17,8 @@ object ApacheLicense extends AutoPlugin {
   override def projectSettings = Seq(
     licenses ++= {
       LicenseFile.licenseFileContent.value match {
-        case Some(content) if ApacheLicenseRegex.findFirstMatchIn(content).isDefined =>
+        case Some(content)
+            if ApacheLicenseRegex.findFirstMatchIn(content).isDefined =>
           Seq("Apache" -> url("http://www.apache.org/licenses/"))
         case _ =>
           Seq.empty

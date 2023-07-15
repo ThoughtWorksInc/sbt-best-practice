@@ -36,7 +36,8 @@ object DetectScalaVersionsFromTravisYml extends AutoPlugin {
                           case elementNode: MappingNode =>
                             val pair = !Each(elementNode.getValue.asScala)
                             pair.getKeyNode match {
-                              case keyNode: ScalarNode if keyNode.getValue == "scala" =>
+                              case keyNode: ScalarNode
+                                  if keyNode.getValue == "scala" =>
                                 pair.getValueNode match {
                                   case valueNode: ScalarNode =>
                                     !Return(valueNode.getValue)
@@ -95,7 +96,10 @@ object DetectScalaVersionsFromTravisYml extends AutoPlugin {
           val travisYmlPath = (gitWorkTree / ".travis.yml").toPath
           if (Files.exists(travisYmlPath)) {
             val versions = extractScalaVersions {
-              val reader = Files.newBufferedReader(travisYmlPath, scala.io.Codec.UTF8.charSet)
+              val reader = Files.newBufferedReader(
+                travisYmlPath,
+                scala.io.Codec.UTF8.charSet
+              )
               try {
                 new Yaml().compose(reader)
               } finally {
@@ -120,7 +124,10 @@ object DetectScalaVersionsFromTravisYml extends AutoPlugin {
 
           if (Files.exists(travisYmlPath)) {
             extractScalaVersions {
-              val reader = Files.newBufferedReader(travisYmlPath, scala.io.Codec.UTF8.charSet)
+              val reader = Files.newBufferedReader(
+                travisYmlPath,
+                scala.io.Codec.UTF8.charSet
+              )
               try {
                 new Yaml().compose(reader)
               } finally {
@@ -136,5 +143,6 @@ object DetectScalaVersionsFromTravisYml extends AutoPlugin {
 
   override def projectSettings = crossScalaVersionsSetting
 
-  override def buildSettings = Seq(crossScalaVersionsSetting, scalaVersionSetting)
+  override def buildSettings =
+    Seq(crossScalaVersionsSetting, scalaVersionSetting)
 }
