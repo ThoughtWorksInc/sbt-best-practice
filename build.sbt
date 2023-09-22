@@ -37,7 +37,7 @@ dependsOn(
   `version-scheme`
 )
 
-libraryDependencies += "com.lihaoyi" %% "sourcecode" % "0.3.0"
+libraryDependencies += "com.lihaoyi" %% "sourcecode" % "0.3.1"
 
 addSbtPlugin("com.thoughtworks.sbt-api-mappings" % "sbt-api-mappings" % "3.0.2")
 
