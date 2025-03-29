@@ -24,6 +24,8 @@ lazy val `skip-duplicate-java-publish` = project
 
 lazy val `version-scheme` = project
 
+lazy val `webpack-version` = project
+
 dependsOn(
   `scalac-options`,
   `detect-license`,
@@ -34,7 +36,8 @@ dependsOn(
   `detect-scala-organization`,
   `subdirectory-organization`,
   `skip-duplicate-java-publish`,
-  `version-scheme`
+  `version-scheme`,
+  `webpack-version`
 )
 
 libraryDependencies += "com.lihaoyi" %% "sourcecode" % "0.3.0"
