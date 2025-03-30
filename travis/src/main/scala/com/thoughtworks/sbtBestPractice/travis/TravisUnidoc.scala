@@ -5,7 +5,8 @@ import sbt._
 import Keys._
 import sbtunidoc.{ScalaUnidocPlugin, UnidocKeys}
 
-/** 杨博 (Yang Bo) <pop.atry@gmail.com>
+/** @author
+  *   杨博 (Yang Bo) &lt;pop.atry@gmail.com&gt;
   */
 object TravisUnidoc extends AutoPlugin with UnidocKeys {
   override def requires: Plugins = Travis && JvmPlugin && ScalaUnidocPlugin
