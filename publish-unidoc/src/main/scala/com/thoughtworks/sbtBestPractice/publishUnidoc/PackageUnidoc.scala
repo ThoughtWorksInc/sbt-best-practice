@@ -34,7 +34,7 @@ object PackageUnidoc extends AutoPlugin with UnidocKeys {
           unidocProject.value match {
             case None => packageDocMappings
             case Some(p) =>
-              (unidoc in Compile in p).map(_.flatMap(Path.allSubpaths))
+              (p / Compile / unidoc).map(_.flatMap(Path.allSubpaths))
           }
         }
       )

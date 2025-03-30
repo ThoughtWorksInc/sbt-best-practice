@@ -16,8 +16,8 @@ object GithubActionsScaladocSourceUrl extends AutoPlugin {
   override def trigger: PluginTrigger = allRequirements
 
   override def projectSettings = Seq(
-    scalacOptions in Compile in doc := {
-      val originalScalacOptions = (scalacOptions in Compile in doc).value
+    Compile / doc / scalacOptions := {
+      val originalScalacOptions = (Compile / doc / scalacOptions).value
       if (VersionNumber(scalaVersion.value).numbers < Seq(3L)) {
         GitPlugin.gitWorkTree.value match {
           case Some(rootDirectory) =>
@@ -37,8 +37,8 @@ object GithubActionsScaladocSourceUrl extends AutoPlugin {
         originalScalacOptions
       }
     },
-    scalacOptions in Compile in doc := {
-      val originalScalacOptions = (scalacOptions in Compile in doc).value
+    Compile / doc / scalacOptions := {
+      val originalScalacOptions = (Compile / doc / scalacOptions).value
       (
         GitPlugin.gitRepositoryBuilder.?.value,
         GithubActionsEnvironmentVariables.githubRepository.?.value
