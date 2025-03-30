@@ -1,1 +1,1 @@
-libraryDependencies += "org.eclipse.jgit" % "org.eclipse.jgit" % "6.6.1.202309021850-r"
+libraryDependencies += "org.eclipse.jgit" % "org.eclipse.jgit" % "6.10.0.202406032230-r"
