@@ -15,7 +15,7 @@ object LicenseFile extends AutoPlugin {
   override def requires = Git
 
   override def projectSettings = Seq(
-    ThisBuild / licenseFileContent := {
+    licenseFileContent := {
       Git.gitWorkTree.value.flatMap { workTree =>
         val licenseFile = workTree / "LICENSE"
         if (licenseFile.exists()) {
