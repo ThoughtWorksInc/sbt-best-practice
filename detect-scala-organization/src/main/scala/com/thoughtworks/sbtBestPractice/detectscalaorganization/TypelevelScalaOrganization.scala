@@ -9,8 +9,8 @@ object TypelevelScalaOrganization extends AutoPlugin {
   override def requires = JvmPlugin
 
   override def projectSettings: Seq[Def.Setting[_]] = Seq(
-    scalaOrganization in updateSbtClassifiers := {
-      (scalaOrganization in Global).value
+    updateSbtClassifiers / scalaOrganization := {
+      (Global / scalaOrganization).value
     },
     scalaOrganization := {
       val unchanged = scalaOrganization.value

@@ -5,8 +5,7 @@ import sbt._
 import Keys._
 import sbtunidoc.{ScalaUnidocPlugin, UnidocKeys}
 
-/** @author
-  *   杨博 (Yang Bo) &lt;pop.atry@gmail.com&gt;
+/** 杨博 (Yang Bo) <pop.atry@gmail.com>
   */
 object TravisUnidoc extends AutoPlugin with UnidocKeys {
   override def requires: Plugins = Travis && JvmPlugin && ScalaUnidocPlugin
@@ -14,8 +13,8 @@ object TravisUnidoc extends AutoPlugin with UnidocKeys {
   override def trigger: PluginTrigger = allRequirements
 
   override def projectSettings = Seq(
-    scalacOptions in Compile in doc := {
-      val originalScalacOptions = (scalacOptions in Compile in doc).value
+    Compile / doc / scalacOptions := {
+      val originalScalacOptions = (Compile / doc / scalacOptions).value
       Travis.travisRepoSlug.?.value match {
         case Some(slug) =>
           originalScalacOptions.indexOf("-doc-title") match {

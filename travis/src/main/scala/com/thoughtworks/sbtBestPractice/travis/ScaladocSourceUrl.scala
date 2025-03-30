@@ -5,8 +5,7 @@ import org.eclipse.jgit.lib.Constants
 import sbt.Keys._
 import sbt._
 
-/** @author
-  *   杨博 (Yang Bo) &lt;pop.atry@gmail.com&gt;
+/** 杨博 (Yang Bo) <pop.atry@gmail.com>
   */
 object ScaladocSourceUrl extends AutoPlugin {
   override def requires: Plugins = Travis && GitPlugin
@@ -14,8 +13,8 @@ object ScaladocSourceUrl extends AutoPlugin {
   override def trigger: PluginTrigger = allRequirements
 
   override def projectSettings = Seq(
-    scalacOptions in Compile in doc := {
-      val originalScalacOptions = (scalacOptions in Compile in doc).value
+    Compile / doc / scalacOptions := {
+      val originalScalacOptions = (Compile / doc / scalacOptions).value
       GitPlugin.gitWorkTree.value match {
         case Some(rootDirectory) =>
           originalScalacOptions.indexOf("-sourcepath") match {
@@ -31,8 +30,8 @@ object ScaladocSourceUrl extends AutoPlugin {
           originalScalacOptions
       }
     },
-    scalacOptions in Compile in doc := {
-      val originalScalacOptions = (scalacOptions in Compile in doc).value
+    Compile / doc / scalacOptions := {
+      val originalScalacOptions = (Compile / doc / scalacOptions).value
       (
         GitPlugin.gitRepositoryBuilder.?.value,
         Travis.travisRepoSlug.?.value

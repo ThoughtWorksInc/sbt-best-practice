@@ -14,8 +14,8 @@ object GithubActionsDocTitle extends AutoPlugin {
   override def trigger: PluginTrigger = allRequirements
 
   override def projectSettings = Seq(
-    scalacOptions in Compile in doc := {
-      val originalScalacOptions = (scalacOptions in Compile in doc).value
+    Compile / doc / scalacOptions := {
+      val originalScalacOptions = (Compile / doc / scalacOptions).value
       GithubActionsEnvironmentVariables.githubRepository.?.value match {
         case Some(slug) =>
           originalScalacOptions.indexOf("-doc-title") match {
