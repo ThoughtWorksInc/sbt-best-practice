@@ -41,7 +41,7 @@ libraryDependencies += "com.lihaoyi" %% "sourcecode" % "0.3.0"
 
 addSbtPlugin("com.thoughtworks.sbt-api-mappings" % "sbt-api-mappings" % "3.0.2")
 
-addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "3.9.21")
+addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "3.12.2")
 
 addSbtPlugin("com.github.sbt" % "sbt-dynver" % "5.1.0")
 
