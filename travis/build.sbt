@@ -8,7 +8,7 @@ libraryDependencies += Defaults.sbtPluginExtra(
   (scalaBinaryVersion in update).value
 ) % Optional
 
-libraryDependencies += "org.yaml" % "snakeyaml" % "2.0"
+libraryDependencies += "org.yaml" % "snakeyaml" % "2.4"
 
 libraryDependencies += "com.thoughtworks.dsl" %% "keywords-continue" % "1.5.5"
 
