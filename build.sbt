@@ -52,6 +52,6 @@ addSbtPlugin("com.github.sbt" % "sbt-pgp" % "2.3.1")
 
 addSbtPlugin("org.lyranthe.sbt" % "partial-unification" % "1.1.2")
 
-addSbtPlugin("com.thoughtworks.example" % "sbt-example" % "9.3.0")
+addSbtPlugin("com.thoughtworks.example" % "sbt-example" % "9.3.1")
 
 enablePlugins(ScalaUnidocPlugin)
