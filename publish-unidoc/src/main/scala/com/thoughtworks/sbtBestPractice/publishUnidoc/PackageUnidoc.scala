@@ -32,7 +32,7 @@ object PackageUnidoc extends AutoPlugin with UnidocKeys {
         packageDoc,
         Def.taskDyn {
           unidocProject.value match {
-            case None => packageDocMappings
+            case None    => packageDocMappings
             case Some(p) =>
               (p / Compile / unidoc).map(_.flatMap(Path.allSubpaths))
           }
