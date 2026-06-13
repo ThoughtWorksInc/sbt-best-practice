@@ -1,30 +1,30 @@
-addSbtPlugin("com.thoughtworks.sbt-best-practice" % "scalac-options" % "8.4.0")
+addSbtPlugin("com.thoughtworks.sbt-best-practice" % "scalac-options" % "9.0.0")
 
-addSbtPlugin("com.thoughtworks.sbt-best-practice" % "detect-license" % "8.4.0")
+addSbtPlugin("com.thoughtworks.sbt-best-practice" % "detect-license" % "9.0.0")
 
-addSbtPlugin("com.thoughtworks.sbt-best-practice" % "travis" % "8.4.0")
+addSbtPlugin("com.thoughtworks.sbt-best-practice" % "travis" % "9.0.0")
 
-addSbtPlugin("com.thoughtworks.sbt-best-practice" % "github-actions" % "8.4.0")
+addSbtPlugin("com.thoughtworks.sbt-best-practice" % "github-actions" % "9.0.0")
 
-addSbtPlugin("com.thoughtworks.sbt-best-practice" % "git" % "8.4.0")
+addSbtPlugin("com.thoughtworks.sbt-best-practice" % "git" % "9.0.0")
 
-addSbtPlugin("com.thoughtworks.sbt-best-practice" % "publish-unidoc" % "8.4.0")
+addSbtPlugin("com.thoughtworks.sbt-best-practice" % "publish-unidoc" % "9.0.0")
 
 addSbtPlugin(
-  "com.thoughtworks.sbt-best-practice" % "detect-scala-organization" % "8.4.0"
+  "com.thoughtworks.sbt-best-practice" % "detect-scala-organization" % "9.0.0"
 )
 
 addSbtPlugin(
-  "com.thoughtworks.sbt-best-practice" % "subdirectory-organization" % "8.4.0"
+  "com.thoughtworks.sbt-best-practice" % "subdirectory-organization" % "9.0.0"
 )
 
 addSbtPlugin(
-  "com.thoughtworks.sbt-best-practice" % "skip-duplicate-java-publish" % "8.4.0"
+  "com.thoughtworks.sbt-best-practice" % "skip-duplicate-java-publish" % "9.0.0"
 )
 
-addSbtPlugin("com.thoughtworks.sbt-best-practice" % "version-scheme" % "8.4.0")
+addSbtPlugin("com.thoughtworks.sbt-best-practice" % "version-scheme" % "9.0.0")
 
-addSbtPlugin("com.thoughtworks.sbt-best-practice" % "webpack-version" % "8.4.0")
+addSbtPlugin("com.thoughtworks.sbt-best-practice" % "webpack-version" % "9.0.0")
 
 libraryDependencies += "com.lihaoyi" %% "sourcecode" % "0.4.4"
 
