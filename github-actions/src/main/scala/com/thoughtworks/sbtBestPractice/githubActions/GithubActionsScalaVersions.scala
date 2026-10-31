@@ -8,7 +8,6 @@ import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.nodes._
 
 import scala.collection.JavaConverters._
-import sbt.Keys.baseDirectory
 import sbt.Keys.scalaVersion
 import sbt.Keys.crossScalaVersions
 import sbt.plugins.JvmPlugin
@@ -25,10 +24,6 @@ object GithubActionsScalaVersions extends AutoPlugin {
 
   val githubActionsMatrixScalaVersions = settingKey[Seq[String]](
     "The Scala versions extracted from the build matrices of Github Actions"
-  )
-
-  val gitSubrepoWorkTree = settingKey[Option[File]](
-    "The nearest directory holding a .gitrepo file (a git-subrepo), searched from baseDirectory up to Git.gitWorkTree; Git.gitWorkTree when there is none"
   )
 
   private implicit final class YamlPathOps(private val nodes: Seq[Node])
@@ -76,16 +71,8 @@ object GithubActionsScalaVersions extends AutoPlugin {
   )
   override def buildSettings =
     Seq(
-      gitSubrepoWorkTree := Git.gitWorkTree.value.map { gitWorkTree =>
-        val workTree = gitWorkTree.getCanonicalFile
-        Iterator
-          .iterate(baseDirectory.value.getCanonicalFile)(_.getParentFile)
-          .takeWhile(directory => directory != null && directory != workTree)
-          .find(directory => (directory / ".gitrepo").isFile)
-          .getOrElse(workTree)
-      },
       githubActionsMatrixScalaVersions ++= {
-        gitSubrepoWorkTree.value match {
+        Git.gitSubrepoWorkTree.value match {
           case None =>
             Seq.empty
           case Some(gitWorkTree) =>

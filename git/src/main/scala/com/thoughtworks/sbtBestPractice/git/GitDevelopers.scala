@@ -21,8 +21,24 @@ object GitDevelopers extends AutoPlugin {
         try {
           val git = org.eclipse.jgit.api.Git.wrap(repository)
           try {
+            val logCommand =
+              (gitWorkTree.value, gitSubrepoWorkTree.value) match {
+                case (Some(workTree), Some(subrepoWorkTree))
+                    if subrepoWorkTree != workTree.getCanonicalFile =>
+                  git
+                    .log()
+                    .addPath(
+                      workTree.getCanonicalFile.toPath
+                        .relativize(subrepoWorkTree.toPath)
+                        .iterator
+                        .asScala
+                        .mkString("/")
+                    )
+                case _ =>
+                  git.log()
+              }
             developers.value ++ (for {
-              commit <- git.log().call().asScala
+              commit <- logCommand.call().asScala
             } yield {
               val author = commit.getAuthorIdent
               Developer(
