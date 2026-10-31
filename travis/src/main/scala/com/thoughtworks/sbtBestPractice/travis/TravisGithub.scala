@@ -51,15 +51,19 @@ object TravisGithub extends AutoPlugin {
           ) {
             {
               val command = git.remoteSetUrl()
-              command.setName(RemoteName)
-              command.setPush(true)
+              command.setRemoteName(RemoteName)
+              command.setUriType(
+                org.eclipse.jgit.api.RemoteSetUrlCommand.UriType.PUSH
+              )
               credential match {
                 case Some(PersonalAccessToken(key)) =>
-                  command.setUri(
+                  command.setRemoteUri(
                     new URIish(s"https://$key@github.com/$slug.git")
                   )
                 case Some(SshKey(privateKeyFile)) =>
-                  command.setUri(new URIish(s"ssh://git@github.com:$slug.git"))
+                  command.setRemoteUri(
+                    new URIish(s"ssh://git@github.com:$slug.git")
+                  )
                 case _ =>
                   throw new MessageOnlyException("githubCredential is not set")
               }
