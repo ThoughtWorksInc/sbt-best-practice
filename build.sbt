@@ -53,5 +53,3 @@ addSbtPlugin("org.lyranthe.sbt" % "partial-unification" % "1.1.2")
 addSbtPlugin("com.thoughtworks.example" % "sbt-example" % "9.3.1")
 
 enablePlugins(ScalaUnidocPlugin)
-
-ThisBuild / publishTo := localStaging.value
