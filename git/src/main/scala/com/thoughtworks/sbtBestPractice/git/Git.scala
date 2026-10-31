@@ -23,6 +23,11 @@ object Git extends AutoPlugin {
     "Root work tree of current project"
   )
 
+  val gitSubrepoWorkTree = SettingKey[Option[File]](
+    "git-subrepo-work-tree",
+    "The nearest directory holding a .gitrepo file (a git-subrepo), searched from baseDirectory up to gitWorkTree; gitWorkTree when there is none"
+  )
+
   val gitRepositoryBuilder =
     SettingKey[RepositoryBuilder]("git-repository-builder", "")
 
@@ -35,6 +40,14 @@ object Git extends AutoPlugin {
       builder
     },
     gitWorkTree := Option(gitRepositoryBuilder.value.getWorkTree),
+    gitSubrepoWorkTree := gitWorkTree.value.map(_.getCanonicalFile).map {
+      workTree =>
+        Iterator
+          .iterate(baseDirectory.value.getCanonicalFile)(_.getParentFile)
+          .takeWhile(directory => directory != null && directory != workTree)
+          .find(directory => (directory / ".gitrepo").isFile)
+          .getOrElse(workTree)
+    },
     gitDir := Option(gitRepositoryBuilder.value.getGitDir)
   )
 
