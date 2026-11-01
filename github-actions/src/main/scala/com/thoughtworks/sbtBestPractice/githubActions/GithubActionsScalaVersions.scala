@@ -1,8 +1,6 @@
 package com.thoughtworks.sbtBestPractice.travis
 import java.nio.file.Files
 import scala.language.implicitConversions
-import com.thoughtworks.dsl.Dsl.reset
-import com.thoughtworks.dsl.keywords._
 import com.thoughtworks.sbtBestPractice.git.Git
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.nodes._
@@ -13,7 +11,6 @@ import sbt.Keys.crossScalaVersions
 import sbt.plugins.JvmPlugin
 import sbt.{Node => _, _}
 import sbt.nio.file.FileTreeView
-import com.thoughtworks.Extractor._
 
 /** @author
   *   杨博 (Yang Bo)
@@ -28,17 +25,14 @@ object GithubActionsScalaVersions extends AutoPlugin {
 
   private implicit final class YamlPathOps(private val nodes: Seq[Node])
       extends AnyVal {
-    private def keyValue: PartialFunction[NodeTuple, (Node, Node)] = {
-      case tuple =>
-        (tuple.getKeyNode(), tuple.getValueNode())
-    }
+    private def keyValue(tuple: NodeTuple): (Node, Node) =
+      (tuple.getKeyNode(), tuple.getValueNode())
 
     def childNodes(key: String): Seq[Node] = {
       nodes.flatMap {
         case mappingNode: MappingNode =>
-          mappingNode.getValue().asScala.collect {
-            case keyValue.extract(keyNode: ScalarNode, value)
-                if keyNode.getValue() == key =>
+          mappingNode.getValue().asScala.map(keyValue).collect {
+            case (keyNode: ScalarNode, value) if keyNode.getValue() == key =>
               value
           }
         case _ =>
@@ -49,8 +43,8 @@ object GithubActionsScalaVersions extends AutoPlugin {
     def childNodes: Seq[Node] = {
       nodes.flatMap {
         case mappingNode: MappingNode =>
-          mappingNode.getValue().asScala.collect {
-            case keyValue.extract(_, value) =>
+          mappingNode.getValue().asScala.map(keyValue).map {
+            case (_, value) =>
               value
           }
         case sequence: SequenceNode =>

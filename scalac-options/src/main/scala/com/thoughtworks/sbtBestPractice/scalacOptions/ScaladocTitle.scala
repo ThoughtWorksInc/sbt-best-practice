@@ -14,10 +14,10 @@ object ScaladocTitle extends AutoPlugin {
   override def trigger = allRequirements
 
   override val projectSettings = Seq(
-    scalacOptions in Compile in doc ++= {
+    Compile / doc / scalacOptions ++= {
       Seq("-doc-title", name.value)
     },
-    scalacOptions in Compile in doc ++= {
+    Compile / doc / scalacOptions ++= {
       Seq("-doc-version", version.value)
     }
   )

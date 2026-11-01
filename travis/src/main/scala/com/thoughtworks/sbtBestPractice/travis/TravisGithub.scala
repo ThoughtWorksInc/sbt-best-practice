@@ -5,8 +5,8 @@ import java.io.File
 import org.eclipse.jgit.lib.ConfigConstants._
 import org.eclipse.jgit.lib.Constants._
 import org.eclipse.jgit.transport.URIish
-import resource._
 import sbt._
+import sbtcompat.PluginCompat._
 import com.thoughtworks.sbtBestPractice.git.{Git => GitPlugin}
 import sbt.Keys._
 
@@ -41,14 +41,17 @@ object TravisGithub extends AutoPlugin {
   override def requires = Travis && GitPlugin
 
   override def projectSettings = Seq(
-    travisGitConfig := {
+    // Uncached: the task changes the repository's git configuration, a side
+    // effect sbt 2's cache must not skip.
+    travisGitConfig := Def.uncached {
       (Travis.travisBranch.?.value, Travis.travisRepoSlug.?.value) match {
         case (Some(branch), Some(slug)) =>
           val credential = githubCredential.?.value
-          for (
-            repository <- managed(GitPlugin.gitRepositoryBuilder.value.build());
-            git <- managed(org.eclipse.jgit.api.Git.wrap(repository))
-          ) {
+          val repositoryBuilder = GitPlugin.gitRepositoryBuilder.value
+          val repository = repositoryBuilder.build()
+          try {
+            val git = org.eclipse.jgit.api.Git.wrap(repository)
+            try {
             {
               val command = git.remoteSetUrl()
               command.setRemoteName(RemoteName)
@@ -90,6 +93,11 @@ object TravisGithub extends AutoPlugin {
             }
 
             git.checkout().setName(branch).call()
+            } finally {
+              git.close()
+            }
+          } finally {
+            repository.close()
           }
         case _ =>
           throw new MessageOnlyException(
