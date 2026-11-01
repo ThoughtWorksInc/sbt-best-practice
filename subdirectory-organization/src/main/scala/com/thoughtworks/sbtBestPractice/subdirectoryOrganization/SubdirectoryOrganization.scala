@@ -22,7 +22,7 @@ object SubdirectoryOrganization extends AutoPlugin {
             case -1 =>
               organization.value
             case pathDepth =>
-              val parentPathElements = pathElements.view(0, pathDepth)
+              val parentPathElements = pathElements.slice(0, pathDepth)
               (organization.value match {
                 case "" =>
                   parentPathElements

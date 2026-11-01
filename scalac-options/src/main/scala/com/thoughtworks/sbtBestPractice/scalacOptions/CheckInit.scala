@@ -14,7 +14,7 @@ object CheckInit extends AutoPlugin {
   override def trigger = allRequirements
 
   override def projectSettings = Seq(
-    scalacOptions in Test += "-Xcheckinit"
+    Test / scalacOptions += "-Xcheckinit"
   )
 
 }

@@ -45,7 +45,7 @@ object GitDevelopers extends AutoPlugin {
                 "",
                 author.getName,
                 author.getEmailAddress,
-                new java.net.URL("mailto", null, author.getEmailAddress)
+                Compatibility.mailtoUrl(author.getEmailAddress)
               )
             }).toSet
           } finally {
