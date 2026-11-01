@@ -18,7 +18,8 @@ private[mima] object Compatibility:
       mimaReportBinaryIssues.value
       (Test / test).evaluated
     },
-    Test / testFull := {
+    // Uncached, as sbt 2.x's own testFull is: running the tests is the point.
+    Test / testFull := Def.uncached {
       mimaReportBinaryIssues.value
       (Test / testFull).value
     }
