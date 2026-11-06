@@ -1,7 +1,6 @@
 package com.thoughtworks.sbtBestPractice.travis
 import java.nio.file.Files
 
-import com.thoughtworks.dsl.keywords._
 import com.thoughtworks.sbtBestPractice.git.Git
 import org.yaml.snakeyaml.Yaml
 import org.yaml.snakeyaml.nodes._
@@ -22,68 +21,73 @@ object DetectScalaVersionsFromTravisYml extends AutoPlugin {
   private def extractScalaVersions(travisYmlRoot: Node): Seq[String] = {
     travisYmlRoot match {
       case root: MappingNode =>
-        val pair = !Each(root.getValue.asScala)
-        pair.getKeyNode match {
-          case keyNode: ScalarNode if keyNode.getValue == "matrix" =>
-            pair.getValueNode match {
-              case matrixNode: MappingNode =>
-                val pair = !Each(matrixNode.getValue.asScala)
-                pair.getKeyNode match {
-                  case keyNode: ScalarNode if keyNode.getValue == "include" =>
-                    pair.getValueNode match {
-                      case sequenceNode: SequenceNode =>
-                        !Each(sequenceNode.getValue.asScala) match {
-                          case elementNode: MappingNode =>
-                            val pair = !Each(elementNode.getValue.asScala)
-                            pair.getKeyNode match {
-                              case keyNode: ScalarNode
-                                  if keyNode.getValue == "scala" =>
-                                pair.getValueNode match {
-                                  case valueNode: ScalarNode =>
-                                    !Return(valueNode.getValue)
-                                  case _ =>
-                                    throw new MessageOnlyException(
-                                      "The value of `matrix/include/scala` field in .travis.yml should be a scalar."
-                                    )
+        root.getValue.asScala.toSeq.flatMap { pair =>
+          pair.getKeyNode match {
+            case keyNode: ScalarNode if keyNode.getValue == "matrix" =>
+              pair.getValueNode match {
+                case matrixNode: MappingNode =>
+                  matrixNode.getValue.asScala.toSeq.flatMap { pair =>
+                    pair.getKeyNode match {
+                      case keyNode: ScalarNode
+                          if keyNode.getValue == "include" =>
+                        pair.getValueNode match {
+                          case sequenceNode: SequenceNode =>
+                            sequenceNode.getValue.asScala.toSeq.flatMap {
+                              case elementNode: MappingNode =>
+                                elementNode.getValue.asScala.toSeq.flatMap {
+                                  pair =>
+                                    pair.getKeyNode match {
+                                      case keyNode: ScalarNode
+                                          if keyNode.getValue == "scala" =>
+                                        pair.getValueNode match {
+                                          case valueNode: ScalarNode =>
+                                            Seq(valueNode.getValue)
+                                          case _ =>
+                                            throw new MessageOnlyException(
+                                              "The value of `matrix/include/scala` field in .travis.yml should be a scalar."
+                                            )
+                                        }
+                                      case _ =>
+                                        Seq.empty
+                                    }
                                 }
                               case _ =>
-                                !Continue
+                                Seq.empty
                             }
                           case _ =>
-                            !Continue
+                            Seq.empty
                         }
                       case _ =>
-                        !Continue
+                        Seq.empty
                     }
-                  case _ =>
-                    !Continue
-                }
-              case _ =>
-                !Continue
-            }
-          case keyNode: ScalarNode if keyNode.getValue == "scala" =>
-            pair.getValueNode match {
-              case valueNode: ScalarNode =>
-                !Return(valueNode.getValue)
-              case sequenceNode: SequenceNode =>
-                !Each(sequenceNode.getValue.asScala) match {
-                  case valueNode: ScalarNode =>
-                    !Return(valueNode.getValue)
-                  case _ =>
-                    throw new MessageOnlyException(
-                      "The value of `scala` field in .travis.yml should be a scalar or a sequence of scalars."
-                    )
-                }
-              case _ =>
-                throw new MessageOnlyException(
-                  "The value of `scala` field in .travis.yml  should be a scalar or a sequence of scalars."
-                )
-            }
-          case _ =>
-            !Continue
+                  }
+                case _ =>
+                  Seq.empty
+              }
+            case keyNode: ScalarNode if keyNode.getValue == "scala" =>
+              pair.getValueNode match {
+                case valueNode: ScalarNode =>
+                  Seq(valueNode.getValue)
+                case sequenceNode: SequenceNode =>
+                  sequenceNode.getValue.asScala.toSeq.map {
+                    case valueNode: ScalarNode =>
+                      valueNode.getValue
+                    case _ =>
+                      throw new MessageOnlyException(
+                        "The value of `scala` field in .travis.yml should be a scalar or a sequence of scalars."
+                      )
+                  }
+                case _ =>
+                  throw new MessageOnlyException(
+                    "The value of `scala` field in .travis.yml  should be a scalar or a sequence of scalars."
+                  )
+              }
+            case _ =>
+              Seq.empty
+          }
         }
       case _ =>
-        !Continue
+        Seq.empty
     }
   }
 

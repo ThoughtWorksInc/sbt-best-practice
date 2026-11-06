@@ -4,6 +4,7 @@ import com.thoughtworks.sbtBestPractice.git.{Git => GitPlugin}
 import org.eclipse.jgit.lib.Constants
 import sbt.Keys._
 import sbt._
+import sbtcompat.PluginCompat._
 import Ordering.Implicits._
 
 /** @author
@@ -37,7 +38,9 @@ object GithubActionsScaladocSourceUrl extends AutoPlugin {
         originalScalacOptions
       }
     },
-    Compile / doc / scalacOptions := {
+    // Uncached: the task reads the repository's HEAD, which is no input sbt
+    // 2's cache could key on (and RepositoryBuilder has no HashWriter).
+    Compile / doc / scalacOptions := Def.uncached {
       val originalScalacOptions = (Compile / doc / scalacOptions).value
       (
         GitPlugin.gitRepositoryBuilder.?.value,

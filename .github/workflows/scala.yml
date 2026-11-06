@@ -15,17 +15,22 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        # Scala 2.12 builds the sbt 1.x plugin, Scala 3 builds the sbt 2.x
+        # plugin. sbt-best-practice derives crossScalaVersions from this list.
         scala:
           - 2.12.20
+          - 3.8.4
+        java:
+          - 17
 
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0 # Need the git history for sbt-dynver to determine the version
-      - name: Set up JDK 11
+      - name: Set up JDK ${{ matrix.java }}
         uses: actions/setup-java@v3
         with:
-          java-version: "11"
+          java-version: ${{ matrix.java }}
           distribution: temurin
       - uses: sbt/setup-sbt@v1
       - name: Cache SBT
@@ -37,13 +42,14 @@ jobs:
             ~/.sbt/
             ~/.coursier/
           key: |
-            ${{runner.os}}-${{matrix.scala}}-${{hashFiles('**/*.sbt')}}-${{matrix.sbt-args}}
-            ${{runner.os}}-${{matrix.scala}}-${{hashFiles('**/*.sbt')}}-
-            ${{runner.os}}-${{matrix.scala}}-
+            ${{runner.os}}-${{matrix.scala}}-${{matrix.java}}-${{hashFiles('**/*.sbt')}}-${{matrix.sbt-args}}
+            ${{runner.os}}-${{matrix.scala}}-${{matrix.java}}-${{hashFiles('**/*.sbt')}}-
+            ${{runner.os}}-${{matrix.scala}}-${{matrix.java}}-
       - name: Run tests
         run: sbt ${{matrix.sbt-args}} ++${{ matrix.scala }} test
+      # Publish each Scala version once, on JDK 17.
       - name: Publish to Maven Central Repository
         env:
           GITHUB_PERSONAL_ACCESS_TOKEN: ${{secrets.PERSONAL_ACCESS_TOKEN}}
-        if: ${{ env.GITHUB_PERSONAL_ACCESS_TOKEN != '' && github.event_name != 'pull_request' }}
+        if: ${{ env.GITHUB_PERSONAL_ACCESS_TOKEN != '' && github.event_name != 'pull_request' && matrix.java == 17 }}
         run: sbt ${{matrix.sbt-args}} ++${{ matrix.scala }} publishSigned sonaRelease

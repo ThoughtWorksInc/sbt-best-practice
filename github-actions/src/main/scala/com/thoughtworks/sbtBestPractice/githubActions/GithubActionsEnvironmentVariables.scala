@@ -1,7 +1,6 @@
 package com.thoughtworks.sbtBestPractice.githubActions
 
 import sbt._
-import com.thoughtworks.dsl.keywords.Yield
 
 /** Configure sbt settings of environment variables from Github Actions
   *
@@ -22,23 +21,10 @@ object GithubActionsEnvironmentVariables extends AutoPlugin {
   val githubSha = settingKey[String](
     "The commit SHA that triggered the workflow. For example, ffac537e6cbbf934b08745a378932722df287a53."
   )
-  override def globalSettings: Stream[Setting[_]] = {
-    sys.env.get("GITHUB_REF") match {
-      case Some(value) =>
-        !Yield(githubRef := value)
-      case None =>
-    }
-    sys.env.get("GITHUB_REPOSITORY") match {
-      case Some(value) =>
-        !Yield(githubRepository := value)
-      case None =>
-    }
-    sys.env.get("GITHUB_SHA") match {
-      case Some(value) =>
-        !Yield(githubRef := value)
-      case None =>
-    }
-    Stream.empty
+  override def globalSettings: Seq[Setting[_]] = {
+    sys.env.get("GITHUB_REF").toSeq.map(value => githubRef := value) ++
+      sys.env.get("GITHUB_REPOSITORY").toSeq.map(value => githubRepository := value) ++
+      sys.env.get("GITHUB_SHA").toSeq.map(value => githubRef := value)
   }
 
   override def trigger = {

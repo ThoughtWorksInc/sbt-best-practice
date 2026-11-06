@@ -2,6 +2,7 @@ package com.thoughtworks.sbtBestPractice.travis
 
 import sbt.Keys._
 import sbt._
+import com.thoughtworks.sbtBestPractice.git.Compatibility
 
 /** Fill project informations from Travis environment variables
   */
@@ -19,7 +20,7 @@ object DetectHomepageFromTravisEnvironmentVariables extends AutoPlugin {
             case None =>
               None
             case Some(slug) =>
-              Some(new URL("https", "github.com", raw"""/$slug"""))
+              Some(Compatibility.httpsUrl("github.com", raw"""/$slug"""))
           }
         case someHomepage @ Some(_) =>
           someHomepage
@@ -34,7 +35,7 @@ object DetectHomepageFromTravisEnvironmentVariables extends AutoPlugin {
             case Some(slug) =>
               Some(
                 ScmInfo(
-                  new URL("https", "github.com", raw"""/$slug"""),
+                  Compatibility.httpsUrl("github.com", raw"""/$slug"""),
                   raw"""https://github.com/$slug.git""",
                   Some(raw"""git@github.com:$slug.git""")
                 )

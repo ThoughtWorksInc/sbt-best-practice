@@ -1,19 +1,12 @@
 libraryDependencies += "org.yaml" % "snakeyaml" % "1.33"
 
-libraryDependencies += "com.thoughtworks.dsl" %% "keywords-yield" % "1.5.5"
-
-libraryDependencies += "com.thoughtworks.extractor" %% "extractor" % "2.1.3"
-
-addCompilerPlugin(
-  "com.thoughtworks.dsl" %% "compilerplugins-bangnotation" % "1.5.2"
-)
-
-addCompilerPlugin(
-  "com.thoughtworks.dsl" %% "compilerplugins-reseteverywhere" % "1.5.2"
-)
+addSbtPlugin("com.github.sbt" % "sbt2-compat" % "0.2.0")
 
 libraryDependencies += Defaults.sbtPluginExtra(
-  "org.scala-js" % "sbt-scalajs" % "1.0.1",
-  (sbtBinaryVersion in pluginCrossBuild).value,
-  (scalaBinaryVersion in update).value
+  "org.scala-js" % "sbt-scalajs" % (scalaBinaryVersion.value match {
+    case "2.12" => "1.0.1"
+    case _      => "1.22.0" // the first release for sbt 2.x
+  }),
+  (pluginCrossBuild / sbtBinaryVersion).value,
+  (update / scalaBinaryVersion).value
 ) % Optional

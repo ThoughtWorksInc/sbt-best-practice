@@ -19,7 +19,7 @@ object ApacheLicense extends AutoPlugin {
       LicenseFile.licenseFileContent.value match {
         case Some(content)
             if ApacheLicenseRegex.findFirstMatchIn(content).isDefined =>
-          Seq("Apache" -> url("http://www.apache.org/licenses/"))
+          Seq(Compatibility.license("Apache", "http://www.apache.org/licenses/"))
         case _ =>
           Seq.empty
       }

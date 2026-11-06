@@ -11,7 +11,7 @@ object UnidocProject extends AutoPlugin {
   override def requires: Plugins = BaseUnidocPlugin
 
   override def projectSettings = Seq(
-    PackageUnidoc.autoImport.unidocProject in ThisBuild := Some(
+    ThisBuild / PackageUnidoc.autoImport.unidocProject := Some(
       thisProjectRef.value
     )
   )
