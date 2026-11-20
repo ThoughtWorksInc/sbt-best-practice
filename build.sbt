@@ -58,7 +58,7 @@ addSbtPlugin("com.thoughtworks.sbt-api-mappings" % "sbt-api-mappings" % "3.1.0")
 
 addSbtPlugin("com.github.sbt" % "sbt-dynver" % "5.1.1")
 
-addSbtPlugin("com.github.sbt" % "sbt-pgp" % "2.3.2")
+addSbtPlugin("com.github.sbt" % "sbt-pgp" % "2.4.0")
 
 // partial-unification and sbt-example have no release for sbt 2.x, so the
 // sbt 2.x build of this plugin does not bring them.
