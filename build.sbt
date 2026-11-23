@@ -52,7 +52,7 @@ dependsOn(
   `webpack-version`
 )
 
-libraryDependencies += "com.lihaoyi" %% "sourcecode" % "0.4.4"
+libraryDependencies += "com.lihaoyi" %% "sourcecode" % "0.4.5"
 
 addSbtPlugin("com.thoughtworks.sbt-api-mappings" % "sbt-api-mappings" % "3.1.0")
 
