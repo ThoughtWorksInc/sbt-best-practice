@@ -65,10 +65,8 @@ addSbtPlugin("com.github.sbt" % "sbt-pgp" % "2.4.0")
 libraryDependencies ++= {
   if (scalaBinaryVersion.value == "2.12")
     Seq(
-      "org.lyranthe.sbt" % "partial-unification" % "1.1.2"
-    ).map(
       Defaults.sbtPluginExtra(
-        _,
+        "org.lyranthe.sbt" % "partial-unification" % "1.1.2",
         (pluginCrossBuild / sbtBinaryVersion).value,
         (update / scalaBinaryVersion).value
       )
