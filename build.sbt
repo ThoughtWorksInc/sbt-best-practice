@@ -60,16 +60,13 @@ addSbtPlugin("com.github.sbt" % "sbt-dynver" % "5.1.1")
 
 addSbtPlugin("com.github.sbt" % "sbt-pgp" % "2.4.0")
 
-// partial-unification and sbt-example have no release for sbt 2.x, so the
-// sbt 2.x build of this plugin does not bring them.
+// partial-unification has no release for sbt 2.x, so only the sbt 1.x build
+// brings it.
 libraryDependencies ++= {
   if (scalaBinaryVersion.value == "2.12")
     Seq(
-      "org.lyranthe.sbt" % "partial-unification" % "1.1.2",
-      "com.thoughtworks.example" % "sbt-example" % "9.3.1"
-    ).map(
       Defaults.sbtPluginExtra(
-        _,
+        "org.lyranthe.sbt" % "partial-unification" % "1.1.2",
         (pluginCrossBuild / sbtBinaryVersion).value,
         (update / scalaBinaryVersion).value
       )
@@ -77,5 +74,7 @@ libraryDependencies ++= {
   else
     Seq.empty
 }
+
+addSbtPlugin("com.thoughtworks.example" % "sbt-example" % "9.3.1")
 
 enablePlugins(ScalaUnidocPlugin)
