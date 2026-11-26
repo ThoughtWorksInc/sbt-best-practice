@@ -10,7 +10,7 @@ organization in ThisBuild := "com.thoughtworks.sbt-best-practice"
 ThisBuild / pluginCrossBuild / sbtVersion := {
   scalaBinaryVersion.value match {
     case "2.12" => sbtVersion.value // sbt 1.x, from project/build.properties
-    case _      => "2.0.0" // sbt 2.x
+    case _      => "2.1.0" // sbt 2.x
   }
 }
 
@@ -56,11 +56,7 @@ libraryDependencies += "com.lihaoyi" %% "sourcecode" % "0.4.6"
 
 addSbtPlugin("com.thoughtworks.sbt-api-mappings" % "sbt-api-mappings" % "3.1.0")
 
-libraryDependencies += Defaults.sbtPluginExtra(
-  "com.github.sbt" % "sbt-dynver" % (if (scalaBinaryVersion.value == "2.12") "5.2.0" else "5.1.1"),
-  (pluginCrossBuild / sbtBinaryVersion).value,
-  (update / scalaBinaryVersion).value
-)
+addSbtPlugin("com.github.sbt" % "sbt-dynver" % "5.2.0")
 
 addSbtPlugin("com.github.sbt" % "sbt-pgp" % "2.4.0")
 
