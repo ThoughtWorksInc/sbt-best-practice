@@ -75,10 +75,6 @@ libraryDependencies ++= {
     Seq.empty
 }
 
-libraryDependencies += Defaults.sbtPluginExtra(
-  "com.thoughtworks.example" % "sbt-example" % "9.3.1",
-  (pluginCrossBuild / sbtBinaryVersion).value,
-  (update / scalaBinaryVersion).value
-)
+addSbtPlugin("com.thoughtworks.example" % "sbt-example" % "9.3.1")
 
 enablePlugins(ScalaUnidocPlugin)
