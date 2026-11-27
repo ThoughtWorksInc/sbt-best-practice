@@ -73,6 +73,6 @@ libraryDependencies ++= {
     Seq.empty
 }
 
-addSbtPlugin("com.thoughtworks.example" % "sbt-example" % "9.3.1+36-34a8abac")
+addSbtPlugin("com.thoughtworks.example" % "sbt-example" % "9.4.0")
 
 enablePlugins(ScalaUnidocPlugin)
