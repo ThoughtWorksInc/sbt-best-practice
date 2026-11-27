@@ -52,7 +52,7 @@ dependsOn(
   `webpack-version`
 )
 
-addSbtPlugin("com.thoughtworks.sbt-api-mappings" % "sbt-api-mappings" % "3.1.0")
+addSbtPlugin("com.thoughtworks.sbt-api-mappings" % "sbt-api-mappings" % "3.1.1")
 
 addSbtPlugin("com.github.sbt" % "sbt-dynver" % "5.2.0")
 
